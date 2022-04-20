@@ -977,13 +977,13 @@
 <span class="kw">impl</span> <span class="ident">SyntaxError</span> {
     <span class="doccomment">/// Returns the index where the error occurred in the input string.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="self">self</span>) -&gt; <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">index</span>
     }
 
     <span class="doccomment">/// Returns the detailed cause of the error.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="self">self</span>) -&gt; <span class="ident">SyntaxErrorKind</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">SyntaxErrorKind</span> {
         <span class="self">self</span>.<span class="ident">kind</span>
     }
 }
@@ -1326,7 +1326,7 @@
         }
     }
 
-    <span class="doccomment">/// Consumes the `Uri` and yields the `String` storage.</span>
+    <span class="doccomment">/// Consumes this `Uri` and yields the underlying `String` storage.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_string</span>(<span class="self">self</span>) -&gt; <span class="ident">String</span> {
         <span class="comment">// SAFETY: Creating a `String` from the original raw parts is fine.</span>
