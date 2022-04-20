@@ -120,6 +120,32 @@
 <span id="115">115</span>
 <span id="116">116</span>
 <span id="117">117</span>
+<span id="118">118</span>
+<span id="119">119</span>
+<span id="120">120</span>
+<span id="121">121</span>
+<span id="122">122</span>
+<span id="123">123</span>
+<span id="124">124</span>
+<span id="125">125</span>
+<span id="126">126</span>
+<span id="127">127</span>
+<span id="128">128</span>
+<span id="129">129</span>
+<span id="130">130</span>
+<span id="131">131</span>
+<span id="132">132</span>
+<span id="133">133</span>
+<span id="134">134</span>
+<span id="135">135</span>
+<span id="136">136</span>
+<span id="137">137</span>
+<span id="138">138</span>
+<span id="139">139</span>
+<span id="140">140</span>
+<span id="141">141</span>
+<span id="142">142</span>
+<span id="143">143</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident">std::fmt</span>;
 
@@ -150,6 +176,18 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="ident">fmt::Display::fmt</span>(<span class="self">self</span>.<span class="ident">as_str</span>(), <span class="ident">f</span>)
+    }
+}
+
+<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
+        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;Uri&quot;</span>)
+            .<span class="ident">field</span>(<span class="string">&quot;scheme&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">scheme</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">as_str</span>()))
+            .<span class="ident">field</span>(<span class="string">&quot;authority&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">authority</span>())
+            .<span class="ident">field</span>(<span class="string">&quot;path&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>().<span class="ident">as_str</span>())
+            .<span class="ident">field</span>(<span class="string">&quot;query&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">query</span>())
+            .<span class="ident">field</span>(<span class="string">&quot;fragment&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fragment</span>())
+            .<span class="ident">finish</span>()
     }
 }
 
@@ -196,9 +234,23 @@
     }
 }
 
+<span class="kw">impl</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
+        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;Authority&quot;</span>)
+            .<span class="ident">field</span>(<span class="string">&quot;userinfo&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">userinfo</span>())
+            .<span class="ident">field</span>(<span class="string">&quot;host&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">host_raw</span>())
+            .<span class="ident">field</span>(<span class="string">&quot;port&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">port_raw</span>())
+            .<span class="ident">finish</span>()
+    }
+}
+
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span><span class="op">&gt;</span> <span class="ident">fmt::Debug</span> <span class="kw">for</span> <span class="ident">AuthorityMut</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;AuthorityMut&quot;</span>)
+        <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;AuthorityMut&quot;</span>)
+            .<span class="ident">field</span>(<span class="string">&quot;userinfo&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">userinfo</span>())
+            .<span class="ident">field</span>(<span class="string">&quot;host&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">host_raw</span>())
+            .<span class="ident">field</span>(<span class="string">&quot;port&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">port_raw</span>())
+            .<span class="ident">finish</span>()
     }
 }
 
@@ -230,7 +282,7 @@
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="kw">match</span> <span class="kw-2">*</span><span class="self">self</span> {
             <span class="ident">Host::Ipv4</span>(<span class="ident">addr</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{addr}&quot;</span>),
-            <span class="ident">Host::Ipv6</span> { <span class="ident">addr</span> } =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;[{addr}]&quot;</span>),
+            <span class="ident">Host::Ipv6</span>(<span class="ident">addr</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;[{addr}]&quot;</span>),
             <span class="ident">Host::RegName</span>(<span class="ident">reg_name</span>) =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{reg_name}&quot;</span>),
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
             <span class="ident">Host::IpvFuture</span> { <span class="ident">ver</span>, <span class="ident">addr</span> } =&gt; <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;[v{ver}.{addr}]&quot;</span>),
@@ -238,5 +290,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (311e2683e 2022-04-18)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (4ca19e09d 2022-04-19)" ></div>
 </body></html>

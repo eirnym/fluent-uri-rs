@@ -182,8 +182,6 @@
 <span id="177">177</span>
 <span id="178">178</span>
 <span id="179">179</span>
-<span id="180">180</span>
-<span id="181">181</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Mutable URI components that allow in-place percent-decoding.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">mem</span>, <span class="ident">ops::Deref</span>};
@@ -207,9 +205,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span><span class="op">&gt;</span> <span class="ident">AuthorityMut</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(
-        <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="kw-2">mut</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
-    ) -&gt; <span class="ident">AuthorityMut</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="kw-2">mut</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>) -&gt; <span class="ident">AuthorityMut</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: Transparency holds.</span>
         <span class="ident">AuthorityMut</span> {
             <span class="ident">inner</span>: <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span>(<span class="ident">uri</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>) },
@@ -223,7 +219,14 @@
         <span class="kw-2">&amp;mut</span> <span class="ident">host</span>.<span class="number">2</span>
     }
 
-    <span class="doccomment">/// Takes the userinfo subcomponent out of the `Authority`, leaving a `None` in its place.</span>
+    <span class="doccomment">/// Consumes this `AuthorityMut` and yields the underlying mutable byte slice.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_mut_bytes</span>(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {
+        <span class="comment">// SAFETY: The indexes are within bounds.</span>
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">slice_mut</span>(<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path</span>.<span class="number">0</span>) }
+    }
+
+    <span class="doccomment">/// Takes the mutable userinfo subcomponent out of the `AuthorityMut`, leaving a `None` in its place.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_userinfo_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;out</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">tag</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">host_internal_mut</span>().<span class="ident">tag</span>;
@@ -239,7 +242,7 @@
         }
     }
 
-    <span class="doccomment">/// Turns into the mutable raw host subcomponent.</span>
+    <span class="doccomment">/// Consumes this `AuthorityMut` and returns the raw mutable host subcomponent.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_host_raw_mut</span>(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {
         <span class="kw">let</span> <span class="ident">bounds</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">host_bounds</span>();
@@ -247,7 +250,7 @@
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">slice_mut</span>(<span class="ident">bounds</span>.<span class="number">0</span>, <span class="ident">bounds</span>.<span class="number">1</span>) }
     }
 
-    <span class="doccomment">/// Turns into the mutable parsed host subcomponent.</span>
+    <span class="doccomment">/// Consumes this `AuthorityMut` and returns the parsed mutable host subcomponent.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_host_mut</span>(<span class="self">self</span>) -&gt; <span class="ident">HostMut</span><span class="op">&lt;</span><span class="lifetime">&#39;out</span><span class="op">&gt;</span> {
         <span class="ident">HostMut::from_authority</span>(<span class="self">self</span>)
     }
@@ -268,21 +271,18 @@
     <span class="doccomment">/// An IPv6 address.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// In the future an optional zone identifier may be supported.</span>
-    <span class="ident">Ipv6</span> {
-        <span class="doccomment">/// The address.</span>
-        <span class="ident">addr</span>: <span class="ident">Ipv6Addr</span>,
-        <span class="comment">// /// The zone identifier.</span>
-        <span class="comment">// zone_id: Option&lt;&amp;&#39;a EStr&gt;,</span>
-    },
+    <span class="ident">Ipv6</span>(<span class="ident">Ipv6Addr</span>),
     <span class="doccomment">/// An IP address of future version.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Note that neither `ver` nor `addr` is percent-encoded.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This is supported on **crate feature `ipv_future`** only.</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
     <span class="ident">IpvFuture</span> {
         <span class="doccomment">/// The version.</span>
-        <span class="ident">ver</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>],
+        <span class="ident">ver</span>: <span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
         <span class="doccomment">/// The address.</span>
-        <span class="ident">addr</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>],
+        <span class="ident">addr</span>: <span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>,
     },
     <span class="doccomment">/// A registered name.</span>
     <span class="ident">RegName</span>(<span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>),
@@ -299,22 +299,18 @@
             }
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
             <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">HostTag::IPV6</span>) {
-                <span class="ident">HostMut::Ipv6</span> {
-                    <span class="ident">addr</span>: <span class="ident">data</span>.<span class="ident">ipv6_addr</span>,
-                }
+                <span class="ident">HostMut::Ipv6</span>(<span class="ident">data</span>.<span class="ident">ipv6_addr</span>)
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="ident">dot_i</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">ipv_future_dot_i</span>;
                 <span class="kw">let</span> <span class="ident">bounds</span> <span class="op">=</span> <span class="ident">auth</span>.<span class="ident">host_bounds</span>();
-                <span class="comment">// SAFETY: The indexes are within bounds.</span>
+                <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
                 <span class="ident">HostMut::IpvFuture</span> {
-                    <span class="ident">ver</span>: <span class="ident">auth</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">slice_mut</span>(<span class="ident">bounds</span>.<span class="number">0</span> <span class="op">+</span> <span class="number">2</span>, <span class="ident">dot_i</span>),
-                    <span class="ident">addr</span>: <span class="ident">auth</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">slice_mut</span>(<span class="ident">dot_i</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">bounds</span>.<span class="number">1</span> <span class="op">-</span> <span class="number">1</span>),
+                    <span class="ident">ver</span>: <span class="ident">auth</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">eslice_mut</span>(<span class="ident">bounds</span>.<span class="number">0</span> <span class="op">+</span> <span class="number">2</span>, <span class="ident">dot_i</span>),
+                    <span class="ident">addr</span>: <span class="ident">auth</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">eslice_mut</span>(<span class="ident">dot_i</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">bounds</span>.<span class="number">1</span> <span class="op">-</span> <span class="number">1</span>),
                 }
             }
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>))]</span>
-            <span class="ident">HostMut::Ipv6</span> {
-                <span class="ident">addr</span>: <span class="ident">data</span>.<span class="ident">ipv6_addr</span>,
-            }
+            <span class="ident">HostMut::Ipv6</span>(<span class="ident">data</span>.<span class="ident">ipv6_addr</span>)
         }
     }
 }
@@ -339,18 +335,18 @@
         <span class="kw">unsafe</span> { <span class="ident">mem::transmute</span>(<span class="ident">path</span>) }
     }
 
-    <span class="doccomment">/// Returns the path as a mutable `EStr` slice.</span>
+    <span class="doccomment">/// Consumes this `PathMut` and yields the underlying `EStrMut`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_mut_estr</span>(<span class="self">self</span>) -&gt; <span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_estr_mut</span>(<span class="self">self</span>) -&gt; <span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: Transparency holds.</span>
         <span class="kw">unsafe</span> { <span class="ident">mem::transmute</span>(<span class="self">self</span>) }
     }
 
-    <span class="doccomment">/// Turns into an iterator over the mutable segments of the path.</span>
+    <span class="doccomment">/// Returns an iterator over the mutable segments of the path.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_mut_segments</span>(<span class="self">self</span>) -&gt; <span class="ident">SplitMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">segments_mut</span>(<span class="self">self</span>) -&gt; <span class="ident">SplitMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">absolute</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">is_absolute</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">into_mut_estr</span>().<span class="ident">into_mut_bytes</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">into_estr_mut</span>().<span class="ident">into_mut_bytes</span>();
         <span class="kw">let</span> <span class="ident">empty</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">is_empty</span>();
 
         <span class="kw">if</span> <span class="ident">absolute</span> {
@@ -366,5 +362,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (311e2683e 2022-04-18)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (4ca19e09d 2022-04-19)" ></div>
 </body></html>
