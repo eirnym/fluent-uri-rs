@@ -609,8 +609,18 @@
 <span id="604">604</span>
 <span id="605">605</span>
 <span id="606">606</span>
+<span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
+<span id="611">611</span>
+<span id="612">612</span>
+<span id="613">613</span>
+<span id="614">614</span>
+<span id="615">615</span>
+<span id="616">616</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
-    <span class="ident">encoding</span>::{<span class="ident">err</span>, <span class="ident">table</span>::<span class="kw-2">*</span>, <span class="ident">OCTET_TABLE_LO</span>},
+    <span class="ident">encoding</span>::{<span class="ident">table</span>::<span class="kw-2">*</span>, <span class="ident">OCTET_TABLE_LO</span>},
     <span class="ident">uri</span>::{<span class="ident">HostData</span>, <span class="ident">HostTag</span>},
     <span class="prelude-ty">Result</span>, <span class="ident">Uri</span>,
 };
@@ -644,6 +654,16 @@
     <span class="ident">parser</span>.<span class="ident">parse_from_scheme</span>()<span class="question-mark">?</span>;
     <span class="comment">// SAFETY: `Uri` has a fixed layout.</span>
     <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> { <span class="ident">mem::transmute</span>(<span class="ident">parser</span>.<span class="ident">out</span>) })
+}
+
+<span class="doccomment">/// Returns immediately with an error.</span>
+<span class="macro">macro_rules!</span> <span class="ident">err</span> {
+    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ident</span>) =&gt; {
+        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident"><span class="kw">crate</span>::UriParseError</span> {
+            <span class="ident">index</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span> <span class="kw">as</span> <span class="ident">usize</span>,
+            <span class="ident">kind</span>: <span class="ident"><span class="kw">crate</span>::UriParseErrorKind</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>,
+        })
+    };
 }
 
 <span class="doccomment">/// URI parser.</span>
@@ -1216,5 +1236,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (4ca19e09d 2022-04-19)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (879aff385 2022-04-20)" ></div>
 </body></html>
