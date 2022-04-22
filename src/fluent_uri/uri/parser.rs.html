@@ -633,9 +633,9 @@
     <span class="ident">str</span>,
 };
 
-<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::HostInternal</span>;
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">internal::Storage</span>, <span class="ident">HostInternal</span>};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">parse</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">len</span>: <span class="ident">u32</span>, <span class="ident">cap</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">parse</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span>(<span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">len</span>: <span class="ident">u32</span>, <span class="ident">cap</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parser</span> <span class="op">=</span> <span class="ident">Parser</span> {
         <span class="ident">out</span>: <span class="ident">Uri</span> {
             <span class="ident">ptr</span>: <span class="ident">NonNull::new</span>(<span class="ident">ptr</span>).<span class="ident">unwrap</span>(),
@@ -660,7 +660,7 @@
 <span class="macro">macro_rules!</span> <span class="ident">err</span> {
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ident</span>) =&gt; {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident"><span class="kw">crate</span>::UriParseError</span> {
-            <span class="ident">index</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span> <span class="kw">as</span> <span class="ident">usize</span>,
+            <span class="ident">index</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>,
             <span class="ident">kind</span>: <span class="ident"><span class="kw">crate</span>::UriParseErrorKind</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>,
         })
     };
@@ -672,7 +672,7 @@
 <span class="doccomment">/// where `pos` is non-decreasing and `bytes[..pos]` is valid UTF-8.</span>
 <span class="kw">struct</span> <span class="ident">Parser</span> {
     <span class="comment">// Not generic to avoid code bloat.</span>
-    <span class="ident">out</span>: <span class="ident">Uri</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+    <span class="ident">out</span>: <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>,
     <span class="ident">pos</span>: <span class="ident">u32</span>,
     <span class="ident">mark</span>: <span class="ident">u32</span>,
 }
@@ -1236,5 +1236,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (879aff385 2022-04-20)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (de1bc0008 2022-04-21)" ></div>
 </body></html>

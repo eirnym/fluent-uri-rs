@@ -902,6 +902,24 @@
 <span id="897">897</span>
 <span id="898">898</span>
 <span id="899">899</span>
+<span id="900">900</span>
+<span id="901">901</span>
+<span id="902">902</span>
+<span id="903">903</span>
+<span id="904">904</span>
+<span id="905">905</span>
+<span id="906">906</span>
+<span id="907">907</span>
+<span id="908">908</span>
+<span id="909">909</span>
+<span id="910">910</span>
+<span id="911">911</span>
+<span id="912">912</span>
+<span id="913">913</span>
+<span id="914">914</span>
+<span id="915">915</span>
+<span id="916">916</span>
+<span id="917">917</span>
 </pre><pre class="rust"><code><span class="kw">mod</span> <span class="ident">fmt</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mutable</span>;
@@ -921,13 +939,36 @@
 };
 
 <span class="kw">mod</span> <span class="ident">internal</span> {
-    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Storage</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span><span class="op">&gt;</span> {}
+    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Storage</span> {
+        <span class="kw">fn</span> <span class="ident">needs_drop</span>() -&gt; <span class="ident">bool</span>;
+    }
 
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Storage</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {}
+    <span class="kw">impl</span> <span class="ident">Storage</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
+        <span class="attribute">#[<span class="ident">inline</span>]</span>
+        <span class="kw">fn</span> <span class="ident">needs_drop</span>() -&gt; <span class="ident">bool</span> {
+            <span class="bool-val">false</span>
+        }
+    }
+    <span class="kw">impl</span> <span class="ident">Storage</span> <span class="kw">for</span> <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>] {
+        <span class="attribute">#[<span class="ident">inline</span>]</span>
+        <span class="kw">fn</span> <span class="ident">needs_drop</span>() -&gt; <span class="ident">bool</span> {
+            <span class="bool-val">false</span>
+        }
+    }
+    <span class="kw">impl</span> <span class="ident">Storage</span> <span class="kw">for</span> <span class="ident">String</span> {
+        <span class="attribute">#[<span class="ident">inline</span>]</span>
+        <span class="kw">fn</span> <span class="ident">needs_drop</span>() -&gt; <span class="ident">bool</span> {
+            <span class="bool-val">true</span>
+        }
+    }
 
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Storage</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {}
+    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span>: <span class="ident">Storage</span> {}
 
-    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span><span class="op">&gt;</span> <span class="ident">Storage</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;uri</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">String</span> {}
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {}
+
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {}
+
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">String</span> {}
 
     <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Buf</span> {
         <span class="kw">fn</span> <span class="ident">as_raw_parts</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">usize</span>, <span class="ident">usize</span>);
@@ -948,7 +989,7 @@
     }
 }
 
-<span class="kw">use</span> <span class="ident">internal</span>::{<span class="ident">Buf</span>, <span class="ident">Storage</span>};
+<span class="kw">use</span> <span class="ident">internal</span>::<span class="kw-2">*</span>;
 
 <span class="doccomment">/// Detailed cause of a [`UriParseError`].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
@@ -970,14 +1011,14 @@
 <span class="doccomment">/// An error occurred when parsing URI references.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">UriParseError</span> {
-    <span class="ident">index</span>: <span class="ident">usize</span>,
+    <span class="ident">index</span>: <span class="ident">u32</span>,
     <span class="ident">kind</span>: <span class="ident">UriParseErrorKind</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">UriParseError</span> {
     <span class="doccomment">/// Returns the index where the error occurred in the input string.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">usize</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
         <span class="self">self</span>.<span class="ident">index</span>
     }
 
@@ -1001,7 +1042,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [RFC 3986]: https://datatracker.ietf.org/doc/html/rfc3986/</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> {
     <span class="ident">ptr</span>: <span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
     <span class="ident">cap</span>: <span class="ident">u32</span>,
     <span class="ident">len</span>: <span class="ident">u32</span>,
@@ -1018,7 +1059,7 @@
     <span class="ident">_marker</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Parses a URI reference from a byte sequence into a `Uri&lt;&amp;str&gt;`.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function validates the input strictly except that UTF-8 validation is not</span>
@@ -1039,57 +1080,54 @@
         <span class="kw">unsafe</span> { <span class="ident">parser::parse</span>(<span class="ident">bytes</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>, <span class="ident">bytes</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>, <span class="number">0</span>) }
     }
 
-    <span class="doccomment">/// Creates a new `Uri&lt;String&gt;` by cloning the contents of this `Uri&lt;&amp;str&gt;`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Prefer [`into_owned`] if you have the ownership of the `Uri&lt;&amp;str&gt;`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`into_owned`]: Self::into_owned</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_owned</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="ident">Uri</span> { ..<span class="kw-2">*</span><span class="self">self</span> }.<span class="ident">into_owned</span>()
+    <span class="doccomment">/// Duplicates this `Uri&lt;&amp;str&gt;`.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dup</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> {
+        <span class="ident">Uri</span> { ..<span class="kw-2">*</span><span class="self">self</span> }
     }
 
-    <span class="doccomment">/// Consumes this `Uri&lt;&amp;str&gt;` and creates a new `Uri&lt;String&gt;` by cloning its contents.</span>
+    <span class="doccomment">/// Creates a new `Uri&lt;String&gt;` by cloning the contents of this `Uri&lt;&amp;str&gt;`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_owned</span>(<span class="self">self</span>) -&gt; <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="comment">// Cannot drop `self` because `self.cap` might not be zero (via `Uri::&lt;String&gt;::clone`).</span>
-        <span class="kw">let</span> <span class="ident">me</span> <span class="op">=</span> <span class="ident">ManuallyDrop::new</span>(<span class="self">self</span>);
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_owned</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
         <span class="comment">// We&#39;re allocating manually because there is no guarantee that</span>
         <span class="comment">// `String::to_owned` gives the exact capacity of `self.len`.</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vec</span> <span class="op">=</span> <span class="ident">ManuallyDrop::new</span>(<span class="ident">Vec::with_capacity</span>(<span class="ident">me</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>));
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vec</span> <span class="op">=</span> <span class="ident">ManuallyDrop::new</span>(<span class="ident">Vec::with_capacity</span>(<span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>));
         <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">vec</span>.<span class="ident">as_mut_ptr</span>();
 
         <span class="comment">// SAFETY: The capacity of `vec` is exactly `self.len`.</span>
         <span class="comment">// Newly allocated `Vec` won&#39;t overlap with existing data.</span>
         <span class="kw">unsafe</span> {
-            <span class="ident">me</span>.<span class="ident">ptr</span>.<span class="ident">as_ptr</span>().<span class="ident">copy_to_nonoverlapping</span>(<span class="ident">ptr</span>, <span class="ident">me</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>);
+            <span class="self">self</span>.<span class="ident">ptr</span>
+                .<span class="ident">as_ptr</span>()
+                .<span class="ident">copy_to_nonoverlapping</span>(<span class="ident">ptr</span>, <span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>);
         }
 
         <span class="ident">Uri</span> {
             <span class="ident">ptr</span>: <span class="ident">NonNull::new</span>(<span class="ident">ptr</span>).<span class="ident">unwrap</span>(),
-            <span class="ident">cap</span>: <span class="ident">me</span>.<span class="ident">len</span>,
-            <span class="ident">len</span>: <span class="ident">me</span>.<span class="ident">len</span>,
-            <span class="ident">scheme_end</span>: <span class="ident">me</span>.<span class="ident">scheme_end</span>,
-            <span class="ident">host</span>: <span class="ident">me</span>.<span class="ident">host</span>,
-            <span class="ident">path</span>: <span class="ident">me</span>.<span class="ident">path</span>,
-            <span class="ident">query_end</span>: <span class="ident">me</span>.<span class="ident">query_end</span>,
-            <span class="ident">fragment_start</span>: <span class="ident">me</span>.<span class="ident">fragment_start</span>,
+            <span class="ident">cap</span>: <span class="self">self</span>.<span class="ident">len</span>,
+            <span class="ident">len</span>: <span class="self">self</span>.<span class="ident">len</span>,
+            <span class="ident">scheme_end</span>: <span class="self">self</span>.<span class="ident">scheme_end</span>,
+            <span class="ident">host</span>: <span class="self">self</span>.<span class="ident">host</span>,
+            <span class="ident">path</span>: <span class="self">self</span>.<span class="ident">path</span>,
+            <span class="ident">query_end</span>: <span class="self">self</span>.<span class="ident">query_end</span>,
+            <span class="ident">fragment_start</span>: <span class="self">self</span>.<span class="ident">fragment_start</span>,
             <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span>, <span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="doccomment">/// Returns the URI reference as a string slice.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">str</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span> {
         <span class="comment">// SAFETY: The indexes are within bounds.</span>
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">slice</span>(<span class="number">0</span>, <span class="self">self</span>.<span class="ident">len</span>) }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span>, <span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">slice</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>, <span class="ident">start</span>: <span class="ident">u32</span>, <span class="ident">end</span>: <span class="ident">u32</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">str</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">slice</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>, <span class="ident">start</span>: <span class="ident">u32</span>, <span class="ident">end</span>: <span class="ident">u32</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span> {
         <span class="macro">debug_assert!</span>(<span class="ident">start</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">end</span> <span class="op">&amp;&amp;</span> <span class="ident">end</span> <span class="op">&lt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span>);
         <span class="comment">// SAFETY: The caller must ensure that the indexes are within bounds.</span>
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="kw">unsafe</span> {
@@ -1103,7 +1141,7 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">eslice</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>, <span class="ident">start</span>: <span class="ident">u32</span>, <span class="ident">end</span>: <span class="ident">u32</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">EStr</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">eslice</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>, <span class="ident">start</span>: <span class="ident">u32</span>, <span class="ident">end</span>: <span class="ident">u32</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">EStr</span> {
         <span class="comment">// SAFETY: The caller must ensure that the indexes are within bounds.</span>
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">slice</span>(<span class="ident">start</span>, <span class="ident">end</span>) };
         <span class="comment">// SAFETY: The caller must ensure that the subslice is properly encoded.</span>
@@ -1114,7 +1152,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [scheme]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.1</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scheme</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">Scheme</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scheme</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">Scheme</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: The indexes are within bounds.</span>
         <span class="self">self</span>.<span class="ident">scheme_end</span>
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">Scheme::new</span>(<span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">slice</span>(<span class="number">0</span>, <span class="ident">i</span>.<span class="ident">get</span>() <span class="op">-</span> <span class="number">1</span>) }))
@@ -1137,7 +1175,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [path]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.3</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">Path</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">Path</span> {
         <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
         <span class="ident">Path::new</span>(<span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">eslice</span>(<span class="self">self</span>.<span class="ident">path</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="ident">path</span>.<span class="number">1</span>) })
     }
@@ -1146,7 +1184,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [query]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.4</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">query</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">EStr</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">query</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">EStr</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
         <span class="self">self</span>.<span class="ident">query_end</span>
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">eslice</span>(<span class="self">self</span>.<span class="ident">path</span>.<span class="number">1</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">i</span>.<span class="ident">get</span>()) })
@@ -1156,7 +1194,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// [fragment]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.5</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fragment</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">EStr</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fragment</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">EStr</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
         <span class="self">self</span>.<span class="ident">fragment_start</span>
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">eslice</span>(<span class="ident">i</span>.<span class="ident">get</span>(), <span class="self">self</span>.<span class="ident">len</span>) })
@@ -1339,10 +1377,7 @@
     <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::should_implement_trait</span>)]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">borrow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: `Uri` has a fixed layout, `Uri&lt;&amp;str&gt;` with a capacity is</span>
-        <span class="comment">// fine behind a reference and the lifetimes are correct.</span>
-        <span class="comment">// NOTE: Don&#39;t try to `impl Clone for Uri&lt;&amp;str&gt;` because there&#39;d be</span>
-        <span class="comment">// UB if the capacity isn&#39;t zeroed when cloning, and the impl would</span>
-        <span class="comment">// conflict with `Uri::&lt;&amp;str&gt;::to_owned`.</span>
+        <span class="comment">// always fine and the lifetimes are correct.</span>
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) }
     }
 }
@@ -1355,14 +1390,15 @@
 }
 
 <span class="comment">// SAFETY: `&amp;str`, `&amp;mut [u8]` and `String` are all Send and Sync.</span>
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
+<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">cap</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="comment">// SAFETY: The capacity is nonzero iff `Self` is `Uri&lt;String&gt;`.</span>
+        <span class="comment">// Can&#39;t use `mem::needs_drop` here because there&#39;s no guarantee of its return value.</span>
+        <span class="kw">if</span> <span class="ident">T::needs_drop</span>() {
+            <span class="comment">// SAFETY: `T::needs_drop()` returns true iff `T` is `String`.</span>
             <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="kw">unsafe</span> {
                 <span class="ident">String::from_raw_parts</span>(<span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">as_ptr</span>(), <span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="self">self</span>.<span class="ident">cap</span> <span class="kw">as</span> <span class="ident">usize</span>)
             };
@@ -1474,11 +1510,11 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [authority]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> {
     <span class="ident">uri</span>: <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span>, <span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Returns the raw authority component as a string slice.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Examples</span>
@@ -1492,13 +1528,13 @@
     <span class="doccomment">/// # Ok::&lt;_, fluent_uri::UriParseError&gt;(())</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">str</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span> {
         <span class="comment">// SAFETY: The indexes are within bounds.</span>
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">slice</span>(<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path</span>.<span class="number">0</span>) }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span>, <span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;out</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: Transparency holds.</span>
@@ -1540,7 +1576,7 @@
     <span class="doccomment">/// # Ok::&lt;_, fluent_uri::UriParseError&gt;(())</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">userinfo</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">EStr</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">userinfo</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">EStr</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">host_internal</span>().<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">HostTag::HAS_USERINFO</span>) {
             <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">start</span>();
             <span class="kw">let</span> <span class="ident">host_start</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">0</span>;
@@ -1566,7 +1602,7 @@
     <span class="doccomment">/// # Ok::&lt;_, fluent_uri::UriParseError&gt;(())</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">host_raw</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">str</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">host_raw</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span> {
         <span class="kw">let</span> <span class="ident">bounds</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">host_bounds</span>();
         <span class="comment">// SAFETY: The indexes are within bounds.</span>
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">slice</span>(<span class="ident">bounds</span>.<span class="number">0</span>, <span class="ident">bounds</span>.<span class="number">1</span>) }
@@ -1575,7 +1611,7 @@
     <span class="doccomment">/// Returns the parsed [host] subcomponent.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [host]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">host</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>) -&gt; <span class="ident">Host</span><span class="op">&lt;</span><span class="lifetime">&#39;out</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">host</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="ident">Host</span><span class="op">&lt;</span><span class="lifetime">&#39;o</span><span class="op">&gt;</span> {
         <span class="ident">Host::from_authority</span>(<span class="self">self</span>)
     }
 
@@ -1602,7 +1638,7 @@
     <span class="doccomment">/// # Ok::&lt;_, fluent_uri::UriParseError&gt;(())</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">port_raw</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">port_raw</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">host_end</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">1</span>;
         <span class="comment">// SAFETY: The indexes are within bounds.</span>
         (<span class="ident">host_end</span> <span class="op">!</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path</span>.<span class="number">0</span>)
@@ -1640,7 +1676,7 @@
     <span class="doccomment">/// # Ok::&lt;_, fluent_uri::UriParseError&gt;(())</span>
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">port</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u16</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;out</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">port</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u16</span>, <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="self">self</span>.<span class="ident">port_raw</span>()
             .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="op">!</span><span class="ident">s</span>.<span class="ident">is_empty</span>())
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">parse</span>().<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">s</span>))
@@ -1697,7 +1733,7 @@
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Host</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from_authority</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&lt;</span><span class="lifetime">&#39;uri</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">auth</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;uri</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="ident">Host</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">from_authority</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">auth</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="ident">Host</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">HostInternal</span> { <span class="ident">tag</span>, <span class="kw-2">ref</span> <span class="ident">data</span> } <span class="op">=</span> <span class="kw-2">*</span><span class="ident">auth</span>.<span class="ident">host_internal</span>();
         <span class="comment">// SAFETY: We only access the union after checking the tag.</span>
         <span class="kw">unsafe</span> {
@@ -1802,5 +1838,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (879aff385 2022-04-20)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (de1bc0008 2022-04-21)" ></div>
 </body></html>
