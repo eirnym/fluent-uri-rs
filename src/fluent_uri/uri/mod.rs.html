@@ -1153,6 +1153,15 @@
             <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
         }
     }
+}
+
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="doccomment">/// Returns the URI reference as a string slice.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span> {
+        <span class="comment">// SAFETY: The indexes are within bounds.</span>
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">slice</span>(<span class="number">0</span>, <span class="self">self</span>.<span class="ident">len</span>) }
+    }
 
     <span class="doccomment">/// Creates a mutable copy of this `Uri` in the given buffer.</span>
     <span class="doccomment">///</span>
@@ -1191,15 +1200,6 @@
             <span class="ident">fragment_start</span>: <span class="self">self</span>.<span class="ident">fragment_start</span>,
             <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
         })
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="doccomment">/// Returns the URI reference as a string slice.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span> {
-        <span class="comment">// SAFETY: The indexes are within bounds.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">slice</span>(<span class="number">0</span>, <span class="self">self</span>.<span class="ident">len</span>) }
     }
 }
 
