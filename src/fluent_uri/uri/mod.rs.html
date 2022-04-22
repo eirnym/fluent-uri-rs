@@ -920,6 +920,43 @@
 <span id="915">915</span>
 <span id="916">916</span>
 <span id="917">917</span>
+<span id="918">918</span>
+<span id="919">919</span>
+<span id="920">920</span>
+<span id="921">921</span>
+<span id="922">922</span>
+<span id="923">923</span>
+<span id="924">924</span>
+<span id="925">925</span>
+<span id="926">926</span>
+<span id="927">927</span>
+<span id="928">928</span>
+<span id="929">929</span>
+<span id="930">930</span>
+<span id="931">931</span>
+<span id="932">932</span>
+<span id="933">933</span>
+<span id="934">934</span>
+<span id="935">935</span>
+<span id="936">936</span>
+<span id="937">937</span>
+<span id="938">938</span>
+<span id="939">939</span>
+<span id="940">940</span>
+<span id="941">941</span>
+<span id="942">942</span>
+<span id="943">943</span>
+<span id="944">944</span>
+<span id="945">945</span>
+<span id="946">946</span>
+<span id="947">947</span>
+<span id="948">948</span>
+<span id="949">949</span>
+<span id="950">950</span>
+<span id="951">951</span>
+<span id="952">952</span>
+<span id="953">953</span>
+<span id="954">954</span>
 </pre><pre class="rust"><code><span class="kw">mod</span> <span class="ident">fmt</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mutable</span>;
@@ -927,7 +964,7 @@
 
 <span class="kw">mod</span> <span class="ident">parser</span>;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::encoding</span>::{<span class="ident">EStr</span>, <span class="ident">EStrMut</span>, <span class="ident">Split</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::encoding</span>::{<span class="ident">internal::Buf</span>, <span class="ident">EStr</span>, <span class="ident">EStrMut</span>, <span class="ident">Split</span>};
 <span class="kw">use</span> <span class="ident">bitflags::bitflags</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">marker::PhantomData</span>,
@@ -970,18 +1007,18 @@
 
     <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">String</span> {}
 
-    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Buf</span> {
+    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">IntoOwnedUri</span> {
         <span class="kw">fn</span> <span class="ident">as_raw_parts</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">usize</span>, <span class="ident">usize</span>);
     }
 
-    <span class="kw">impl</span> <span class="ident">Buf</span> <span class="kw">for</span> <span class="ident">String</span> {
+    <span class="kw">impl</span> <span class="ident">IntoOwnedUri</span> <span class="kw">for</span> <span class="ident">String</span> {
         <span class="attribute">#[<span class="ident">inline</span>]</span>
         <span class="kw">fn</span> <span class="ident">as_raw_parts</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
             (<span class="self">self</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw">_</span>, <span class="self">self</span>.<span class="ident">len</span>(), <span class="self">self</span>.<span class="ident">capacity</span>())
         }
     }
 
-    <span class="kw">impl</span> <span class="ident">Buf</span> <span class="kw">for</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
+    <span class="kw">impl</span> <span class="ident">IntoOwnedUri</span> <span class="kw">for</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
         <span class="attribute">#[<span class="ident">inline</span>]</span>
         <span class="kw">fn</span> <span class="ident">as_raw_parts</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
             (<span class="self">self</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw">_</span>, <span class="self">self</span>.<span class="ident">len</span>(), <span class="self">self</span>.<span class="ident">capacity</span>())
@@ -1113,6 +1150,43 @@
             <span class="ident">fragment_start</span>: <span class="self">self</span>.<span class="ident">fragment_start</span>,
             <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
         }
+    }
+
+    <span class="doccomment">/// Creates a mutable copy of this `Uri` in the given buffer.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The type of a buffer may be:</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - `Vec&lt;u8&gt;`: grows automatically; bytes appended to the end.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// - `[u8]` or `[MaybeUninit&lt;u8&gt;]`: triggers a [`CapOverflowError`] when</span>
+    <span class="doccomment">///   the capacity is too small; bytes written from the start.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_mut_in</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">B</span>: <span class="ident">Buf</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="ident">B</span>,
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">B::ReserveError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">reserve</span>(<span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>)<span class="question-mark">?</span>;
+
+        <span class="comment">// SAFETY: We have reserved enough space in the buffer, and</span>
+        <span class="comment">// mutable reference `buf` ensures exclusive access.</span>
+        <span class="kw">unsafe</span> {
+            <span class="self">self</span>.<span class="ident">ptr</span>
+                .<span class="ident">as_ptr</span>()
+                .<span class="ident">copy_to_nonoverlapping</span>(<span class="ident">ptr</span>, <span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>);
+            <span class="ident">buf</span>.<span class="ident">inc_len</span>(<span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>);
+        }
+
+        <span class="prelude-val">Ok</span>(<span class="ident">Uri</span> {
+            <span class="ident">ptr</span>: <span class="ident">NonNull::new</span>(<span class="ident">ptr</span>).<span class="ident">unwrap</span>(),
+            <span class="ident">cap</span>: <span class="number">0</span>,
+            <span class="ident">len</span>: <span class="self">self</span>.<span class="ident">len</span>,
+            <span class="ident">scheme_end</span>: <span class="self">self</span>.<span class="ident">scheme_end</span>,
+            <span class="ident">host</span>: <span class="self">self</span>.<span class="ident">host</span>,
+            <span class="ident">path</span>: <span class="self">self</span>.<span class="ident">path</span>,
+            <span class="ident">query_end</span>: <span class="self">self</span>.<span class="ident">query_end</span>,
+            <span class="ident">fragment_start</span>: <span class="self">self</span>.<span class="ident">fragment_start</span>,
+            <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
+        })
     }
 }
 
@@ -1345,13 +1419,13 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Panics if the input capacity is greater than `i32::MAX`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_from</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">Buf</span><span class="op">&gt;</span>(<span class="ident">buf</span>: <span class="ident">B</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, (<span class="ident">B</span>, <span class="ident">UriParseError</span>)<span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_from</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IntoOwnedUri</span><span class="op">&gt;</span>(<span class="ident">t</span>: <span class="ident">T</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, (<span class="ident">T</span>, <span class="ident">UriParseError</span>)<span class="op">&gt;</span> {
         <span class="attribute">#[<span class="ident">cold</span>]</span>
         <span class="kw">fn</span> <span class="ident">cap_overflow</span>() -&gt; <span class="op">!</span> {
             <span class="macro">panic!</span>(<span class="string">&quot;input capacity exceeds i32::MAX&quot;</span>);
         }
 
-        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">ManuallyDrop::new</span>(<span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">ManuallyDrop::new</span>(<span class="ident">t</span>);
         <span class="kw">let</span> (<span class="ident">ptr</span>, <span class="ident">len</span>, <span class="ident">cap</span>) <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">as_raw_parts</span>();
         <span class="kw">if</span> <span class="ident">cap</span> <span class="op">&gt;</span> <span class="ident">i32::MAX</span> <span class="kw">as</span> <span class="ident">usize</span> {
             <span class="ident">cap_overflow</span>();
