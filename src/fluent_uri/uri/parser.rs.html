@@ -599,29 +599,9 @@
 <span id="594">594</span>
 <span id="595">595</span>
 <span id="596">596</span>
-<span id="597">597</span>
-<span id="598">598</span>
-<span id="599">599</span>
-<span id="600">600</span>
-<span id="601">601</span>
-<span id="602">602</span>
-<span id="603">603</span>
-<span id="604">604</span>
-<span id="605">605</span>
-<span id="606">606</span>
-<span id="607">607</span>
-<span id="608">608</span>
-<span id="609">609</span>
-<span id="610">610</span>
-<span id="611">611</span>
-<span id="612">612</span>
-<span id="613">613</span>
-<span id="614">614</span>
-<span id="615">615</span>
-<span id="616">616</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">encoding</span>::{<span class="ident">table</span>::<span class="kw-2">*</span>, <span class="ident">OCTET_TABLE_LO</span>},
-    <span class="ident">uri</span>::{<span class="ident">HostData</span>, <span class="ident">HostTag</span>},
+    <span class="ident">uri</span>::{<span class="ident">HostData</span>, <span class="ident">Tag</span>},
     <span class="prelude-ty">Result</span>, <span class="ident">Uri</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::{
@@ -633,7 +613,7 @@
     <span class="ident">str</span>,
 };
 
-<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">internal::Storage</span>, <span class="ident">HostInternal</span>};
+<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::internal::Storage</span>;
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">parse</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span>(<span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">len</span>: <span class="ident">u32</span>, <span class="ident">cap</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parser</span> <span class="op">=</span> <span class="ident">Parser</span> {
@@ -641,6 +621,7 @@
             <span class="ident">ptr</span>: <span class="ident">NonNull::new</span>(<span class="ident">ptr</span>).<span class="ident">unwrap</span>(),
             <span class="ident">cap</span>,
             <span class="ident">len</span>,
+            <span class="ident">tag</span>: <span class="ident">Tag::empty</span>(),
             <span class="ident">scheme_end</span>: <span class="prelude-val">None</span>,
             <span class="ident">host</span>: <span class="prelude-val">None</span>,
             <span class="ident">path</span>: (<span class="number">0</span>, <span class="number">0</span>),
@@ -856,9 +837,8 @@
 
             <span class="self">self</span>.<span class="ident">mark</span>();
 
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">host</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_host</span>()<span class="question-mark">?</span>;
-            <span class="ident">host</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">HostTag::HAS_USERINFO</span>;
-
+            <span class="kw">let</span> <span class="ident">host</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read_host</span>()<span class="question-mark">?</span>;
+            <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::HAS_USERINFO</span>;
             <span class="ident">host_out</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">mark</span>, <span class="self">self</span>.<span class="ident">pos</span>, <span class="ident">host</span>);
             <span class="self">self</span>.<span class="ident">read_port</span>();
         } <span class="kw">else</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">marked_len</span>() <span class="op">==</span> <span class="number">0</span> {
@@ -868,14 +848,8 @@
                 <span class="self">self</span>.<span class="ident">read_port</span>();
             } <span class="kw">else</span> {
                 <span class="comment">// Empty authority.</span>
-                <span class="ident">host_out</span> <span class="op">=</span> (
-                    <span class="self">self</span>.<span class="ident">pos</span>,
-                    <span class="self">self</span>.<span class="ident">pos</span>,
-                    <span class="ident">HostInternal</span> {
-                        <span class="ident">tag</span>: <span class="ident">HostTag::REG_NAME</span>,
-                        <span class="ident">data</span>: <span class="ident">HostData</span> { <span class="ident">reg_name</span>: () },
-                    },
-                );
+                <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">tag</span> <span class="op">=</span> <span class="ident">Tag::HOST_REG_NAME</span>;
+                <span class="ident">host_out</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">pos</span>, <span class="self">self</span>.<span class="ident">pos</span>, <span class="ident">HostData</span> { <span class="ident">reg_name</span>: () });
             }
         } <span class="kw">else</span> {
             <span class="comment">// The whole authority scanned. Try to parse the host and port.</span>
@@ -923,21 +897,15 @@
             <span class="self">self</span>.<span class="ident">pos</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">mark</span>;
 
             <span class="kw">let</span> <span class="ident">v4</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">scan_v4</span>();
+            <span class="kw">let</span> (<span class="ident">tag</span>, <span class="ident">data</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">v4</span> {
+                <span class="prelude-val">Some</span>(<span class="ident">addr</span>) <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">has_remaining</span>() =&gt; {
+                    (<span class="ident">Tag::HOST_IPV4</span>, <span class="ident">HostData</span> { <span class="ident">ipv4_addr</span>: <span class="ident">addr</span> })
+                }
+                <span class="kw">_</span> =&gt; (<span class="ident">Tag::HOST_REG_NAME</span>, <span class="ident">HostData</span> { <span class="ident">reg_name</span>: () }),
+            };
 
-            <span class="ident">host_out</span> <span class="op">=</span> (
-                <span class="self">self</span>.<span class="ident">mark</span>,
-                <span class="ident">host_end</span>,
-                <span class="kw">match</span> <span class="ident">v4</span> {
-                    <span class="prelude-val">Some</span>(<span class="ident">addr</span>) <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">has_remaining</span>() =&gt; <span class="ident">HostInternal</span> {
-                        <span class="ident">tag</span>: <span class="ident">HostTag::IPV4</span>,
-                        <span class="ident">data</span>: <span class="ident">HostData</span> { <span class="ident">ipv4_addr</span>: <span class="ident">addr</span> },
-                    },
-                    <span class="kw">_</span> =&gt; <span class="ident">HostInternal</span> {
-                        <span class="ident">tag</span>: <span class="ident">HostTag::REG_NAME</span>,
-                        <span class="ident">data</span>: <span class="ident">HostData</span> { <span class="ident">reg_name</span>: () },
-                    },
-                },
-            );
+            <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">tag</span> <span class="op">=</span> <span class="ident">tag</span>;
+            <span class="ident">host_out</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">mark</span>, <span class="ident">host_end</span>, <span class="ident">data</span>);
 
             <span class="comment">// Restore the state.</span>
             <span class="comment">// INVARIANT: Restoring the state would not affect the invariant.</span>
@@ -951,7 +919,7 @@
     }
 
     <span class="comment">// The marked length must be zero when this function is called.</span>
-    <span class="kw">fn</span> <span class="ident">read_host</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HostInternal</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_host</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HostData</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">read_ip_literal</span>()<span class="question-mark">?</span> {
             <span class="prelude-val">Some</span>(<span class="ident">host</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">host</span>),
             <span class="prelude-val">None</span> =&gt; <span class="self">self</span>.<span class="ident">read_v4_or_reg_name</span>(),
@@ -959,16 +927,14 @@
     }
 
     <span class="comment">// The marked length must be zero when this function is called.</span>
-    <span class="kw">fn</span> <span class="ident">read_ip_literal</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HostInternal</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_ip_literal</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HostData</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">read_str</span>(<span class="string">&quot;[&quot;</span>) {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
         }
 
         <span class="kw">let</span> <span class="ident">host</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">addr</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">scan_v6</span>() {
-            <span class="ident">HostInternal</span> {
-                <span class="ident">tag</span>: <span class="ident">HostTag::IPV6</span>,
-                <span class="ident">data</span>: <span class="ident">HostData</span> { <span class="ident">ipv6_addr</span>: <span class="ident">addr</span> },
-            }
+            <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">tag</span> <span class="op">=</span> <span class="ident">Tag::HOST_IPV6</span>;
+            <span class="ident">HostData</span> { <span class="ident">ipv6_addr</span>: <span class="ident">addr</span> }
         } <span class="kw">else</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">marked_len</span>() <span class="op">==</span> <span class="number">1</span> {
@@ -1100,21 +1066,17 @@
     }
 
     <span class="comment">// The marked length must be zero when this function is called.</span>
-    <span class="kw">fn</span> <span class="ident">read_v4_or_reg_name</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HostInternal</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_v4_or_reg_name</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HostData</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">v4</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">scan_v4</span>();
         <span class="kw">let</span> <span class="ident">v4_end</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">pos</span>;
         <span class="self">self</span>.<span class="ident">scan</span>(<span class="ident">REG_NAME</span>)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>(<span class="kw">match</span> <span class="ident">v4</span> {
-            <span class="prelude-val">Some</span>(<span class="ident">addr</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">pos</span> <span class="op">==</span> <span class="ident">v4_end</span> =&gt; <span class="ident">HostInternal</span> {
-                <span class="ident">tag</span>: <span class="ident">HostTag::IPV4</span>,
-                <span class="ident">data</span>: <span class="ident">HostData</span> { <span class="ident">ipv4_addr</span>: <span class="ident">addr</span> },
-            },
-            <span class="kw">_</span> =&gt; <span class="ident">HostInternal</span> {
-                <span class="ident">tag</span>: <span class="ident">HostTag::REG_NAME</span>,
-                <span class="ident">data</span>: <span class="ident">HostData</span> { <span class="ident">reg_name</span>: () },
-            },
-        })
+        <span class="kw">let</span> (<span class="ident">tag</span>, <span class="ident">data</span>) <span class="op">=</span> <span class="kw">match</span> <span class="ident">v4</span> {
+            <span class="prelude-val">Some</span>(<span class="ident">addr</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">pos</span> <span class="op">==</span> <span class="ident">v4_end</span> =&gt; (<span class="ident">Tag::HOST_IPV4</span>, <span class="ident">HostData</span> { <span class="ident">ipv4_addr</span>: <span class="ident">addr</span> }),
+            <span class="kw">_</span> =&gt; (<span class="ident">Tag::HOST_REG_NAME</span>, <span class="ident">HostData</span> { <span class="ident">reg_name</span>: () }),
+        };
+        <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">tag</span> <span class="op">=</span> <span class="ident">tag</span>;
+        <span class="prelude-val">Ok</span>(<span class="ident">data</span>)
     }
 
     <span class="kw">fn</span> <span class="ident">scan_v4</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Ipv4Addr</span><span class="op">&gt;</span> {
@@ -1172,18 +1134,16 @@
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_ipv_future</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HostInternal</span><span class="op">&gt;</span> {
+    <span class="kw">fn</span> <span class="ident">read_ipv_future</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HostData</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="macro">matches!</span>(<span class="self">self</span>.<span class="ident">peek</span>(<span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="string">b&#39;v&#39;</span> <span class="op">|</span> <span class="string">b&#39;V&#39;</span>)) {
             <span class="comment">// INVARIANT: Skipping &quot;v&quot; or &quot;V&quot; is fine.</span>
             <span class="self">self</span>.<span class="ident">skip</span>(<span class="number">1</span>);
             <span class="kw">let</span> <span class="ident">ver_read</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">read</span>(<span class="ident">HEXDIG</span>)<span class="question-mark">?</span>;
             <span class="kw">let</span> <span class="ident">dot_i</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">pos</span>;
             <span class="kw">if</span> <span class="ident">ver_read</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">read_str</span>(<span class="string">&quot;.&quot;</span>) <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">read</span>(<span class="ident">IPV_FUTURE</span>)<span class="question-mark">?</span> {
-                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">HostInternal</span> {
-                    <span class="ident">tag</span>: <span class="ident">HostTag::empty</span>(),
-                    <span class="ident">data</span>: <span class="ident">HostData</span> {
-                        <span class="ident">ipv_future_dot_i</span>: <span class="ident">dot_i</span>,
-                    },
+                <span class="comment">// Tag is empty for IPvFuture.</span>
+                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">HostData</span> {
+                    <span class="ident">ipv_future_dot_i</span>: <span class="ident">dot_i</span>,
                 });
             }
         }
@@ -1236,5 +1196,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (de1bc0008 2022-04-21)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (69a5d2481 2022-04-27)" ></div>
 </body></html>

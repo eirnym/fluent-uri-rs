@@ -959,6 +959,77 @@
 <span id="954">954</span>
 <span id="955">955</span>
 <span id="956">956</span>
+<span id="957">957</span>
+<span id="958">958</span>
+<span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
+<span id="989">989</span>
+<span id="990">990</span>
+<span id="991">991</span>
+<span id="992">992</span>
+<span id="993">993</span>
+<span id="994">994</span>
+<span id="995">995</span>
+<span id="996">996</span>
+<span id="997">997</span>
+<span id="998">998</span>
+<span id="999">999</span>
+<span id="1000">1000</span>
+<span id="1001">1001</span>
+<span id="1002">1002</span>
+<span id="1003">1003</span>
+<span id="1004">1004</span>
+<span id="1005">1005</span>
+<span id="1006">1006</span>
+<span id="1007">1007</span>
+<span id="1008">1008</span>
+<span id="1009">1009</span>
+<span id="1010">1010</span>
+<span id="1011">1011</span>
+<span id="1012">1012</span>
+<span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
+<span id="1021">1021</span>
+<span id="1022">1022</span>
+<span id="1023">1023</span>
+<span id="1024">1024</span>
+<span id="1025">1025</span>
+<span id="1026">1026</span>
+<span id="1027">1027</span>
 </pre><pre class="rust"><code><span class="kw">mod</span> <span class="ident">fmt</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mutable</span>;
@@ -980,6 +1051,7 @@
 <span class="kw">mod</span> <span class="ident">internal</span> {
     <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Storage</span> {
         <span class="kw">fn</span> <span class="ident">needs_drop</span>() -&gt; <span class="ident">bool</span>;
+        <span class="kw">fn</span> <span class="ident">is_mut</span>() -&gt; <span class="ident">bool</span>;
     }
 
     <span class="kw">impl</span> <span class="ident">Storage</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
@@ -987,17 +1059,34 @@
         <span class="kw">fn</span> <span class="ident">needs_drop</span>() -&gt; <span class="ident">bool</span> {
             <span class="bool-val">false</span>
         }
+
+        <span class="attribute">#[<span class="ident">inline</span>]</span>
+        <span class="kw">fn</span> <span class="ident">is_mut</span>() -&gt; <span class="ident">bool</span> {
+            <span class="bool-val">false</span>
+        }
     }
+
     <span class="kw">impl</span> <span class="ident">Storage</span> <span class="kw">for</span> <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>] {
         <span class="attribute">#[<span class="ident">inline</span>]</span>
         <span class="kw">fn</span> <span class="ident">needs_drop</span>() -&gt; <span class="ident">bool</span> {
             <span class="bool-val">false</span>
         }
+
+        <span class="attribute">#[<span class="ident">inline</span>]</span>
+        <span class="kw">fn</span> <span class="ident">is_mut</span>() -&gt; <span class="ident">bool</span> {
+            <span class="bool-val">true</span>
+        }
     }
+
     <span class="kw">impl</span> <span class="ident">Storage</span> <span class="kw">for</span> <span class="ident">String</span> {
         <span class="attribute">#[<span class="ident">inline</span>]</span>
         <span class="kw">fn</span> <span class="ident">needs_drop</span>() -&gt; <span class="ident">bool</span> {
             <span class="bool-val">true</span>
+        }
+
+        <span class="attribute">#[<span class="ident">inline</span>]</span>
+        <span class="kw">fn</span> <span class="ident">is_mut</span>() -&gt; <span class="ident">bool</span> {
+            <span class="bool-val">false</span>
         }
     }
 
@@ -1057,8 +1146,8 @@
 <span class="kw">impl</span> <span class="ident">UriParseError</span> {
     <span class="doccomment">/// Returns the index where the error occurred in the input string.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">index</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">usize</span> {
+        <span class="self">self</span>.<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>
     }
 
     <span class="doccomment">/// Returns the detailed cause of the error.</span>
@@ -1085,11 +1174,12 @@
     <span class="ident">ptr</span>: <span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
     <span class="ident">cap</span>: <span class="ident">u32</span>,
     <span class="ident">len</span>: <span class="ident">u32</span>,
+    <span class="ident">tag</span>: <span class="ident">Tag</span>,
     <span class="comment">// One byte past the trailing &#39;:&#39;.</span>
     <span class="comment">// This encoding is chosen so that no extra branch is introduced</span>
     <span class="comment">// when indexing the start of the authority.</span>
     <span class="ident">scheme_end</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
-    <span class="ident">host</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">NonZeroU32</span>, <span class="ident">u32</span>, <span class="ident">HostInternal</span>)<span class="op">&gt;</span>,
+    <span class="ident">host</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span>(<span class="ident">NonZeroU32</span>, <span class="ident">u32</span>, <span class="ident">HostData</span>)<span class="op">&gt;</span>,
     <span class="ident">path</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>),
     <span class="comment">// One byte past the last byte of query.</span>
     <span class="ident">query_end</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
@@ -1145,6 +1235,7 @@
             <span class="ident">ptr</span>: <span class="ident">NonNull::new</span>(<span class="ident">ptr</span>).<span class="ident">unwrap</span>(),
             <span class="ident">cap</span>: <span class="self">self</span>.<span class="ident">len</span>,
             <span class="ident">len</span>: <span class="self">self</span>.<span class="ident">len</span>,
+            <span class="ident">tag</span>: <span class="self">self</span>.<span class="ident">tag</span>,
             <span class="ident">scheme_end</span>: <span class="self">self</span>.<span class="ident">scheme_end</span>,
             <span class="ident">host</span>: <span class="self">self</span>.<span class="ident">host</span>,
             <span class="ident">path</span>: <span class="self">self</span>.<span class="ident">path</span>,
@@ -1171,7 +1262,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// - `[u8]` or `[MaybeUninit&lt;u8&gt;]`: triggers a [`CapOverflowError`] when</span>
     <span class="doccomment">///   the capacity is too small; bytes written from the start.</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// [`CapOverflowError`]: crate::encoding::CapOverflowError</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_mut_in</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">B</span>: <span class="ident">Buf</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(
@@ -1193,6 +1284,7 @@
             <span class="ident">ptr</span>: <span class="ident">NonNull::new</span>(<span class="ident">ptr</span>).<span class="ident">unwrap</span>(),
             <span class="ident">cap</span>: <span class="number">0</span>,
             <span class="ident">len</span>: <span class="self">self</span>.<span class="ident">len</span>,
+            <span class="ident">tag</span>: <span class="self">self</span>.<span class="ident">tag</span>,
             <span class="ident">scheme_end</span>: <span class="self">self</span>.<span class="ident">scheme_end</span>,
             <span class="ident">host</span>: <span class="self">self</span>.<span class="ident">host</span>,
             <span class="ident">path</span>: <span class="self">self</span>.<span class="ident">path</span>,
@@ -1201,6 +1293,11 @@
             <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
         })
     }
+}
+
+<span class="attribute">#[<span class="ident">cold</span>]</span>
+<span class="kw">fn</span> <span class="ident">component_taken</span>() -&gt; <span class="op">!</span> {
+    <span class="macro">panic!</span>(<span class="string">&quot;component already taken&quot;</span>);
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
@@ -1249,13 +1346,29 @@
         }
     }
 
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">path_opt</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">Path</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">T::is_mut</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::PATH_TAKEN</span>) {
+            <span class="prelude-val">None</span>
+        } <span class="kw">else</span> {
+            <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
+            <span class="prelude-val">Some</span>(<span class="ident">Path::new</span>(<span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">eslice</span>(<span class="self">self</span>.<span class="ident">path</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="ident">path</span>.<span class="number">1</span>) }))
+        }
+    }
+
     <span class="doccomment">/// Returns the [path] component.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [path]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.3</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Panics</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Panics if the path component is already taken.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">Path</span> {
-        <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
-        <span class="ident">Path::new</span>(<span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">eslice</span>(<span class="self">self</span>.<span class="ident">path</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="ident">path</span>.<span class="number">1</span>) })
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">path_opt</span>() {
+            <span class="prelude-val">Some</span>(<span class="ident">path</span>) =&gt; <span class="ident">path</span>,
+            <span class="prelude-val">None</span> =&gt; <span class="ident">component_taken</span>(),
+        }
     }
 
     <span class="doccomment">/// Returns the [query] component.</span>
@@ -1378,7 +1491,7 @@
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="ident">Scheme::new_mut</span>(<span class="self">self</span>.<span class="ident">slice_mut</span>(<span class="number">0</span>, <span class="ident">i</span>.<span class="ident">get</span>() <span class="op">-</span> <span class="number">1</span>)) })
     }
 
-    <span class="doccomment">/// Takes the mutable authority component out of the `Uri`, leaving a `None` in its place.</span>
+    <span class="doccomment">/// Takes the mutable authority component, leaving a `None` in its place.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_authority_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AuthorityMut</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">host</span>.<span class="ident">is_some</span>() {
@@ -1390,14 +1503,23 @@
         }
     }
 
-    <span class="doccomment">/// Consumes this `Uri` and returns the mutable path component.</span>
+    <span class="doccomment">/// Takes the mutable path component.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Panics</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Panics if the path component is already taken.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_path_mut</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">PathMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_path_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">PathMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::PATH_TAKEN</span>) {
+            <span class="ident">component_taken</span>();
+        }
+        <span class="self">self</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::PATH_TAKEN</span>;
+
         <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
         <span class="ident">PathMut::new</span>(<span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">eslice_mut</span>(<span class="self">self</span>.<span class="ident">path</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="ident">path</span>.<span class="number">1</span>) })
     }
 
-    <span class="doccomment">/// Takes the mutable query component out of the `Uri`, leaving a `None` in its place.</span>
+    <span class="doccomment">/// Takes the mutable query component, leaving a `None` in its place.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_query_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
@@ -1406,7 +1528,7 @@
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">eslice_mut</span>(<span class="self">self</span>.<span class="ident">path</span>.<span class="number">1</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">i</span>.<span class="ident">get</span>()) })
     }
 
-    <span class="doccomment">/// Takes the mutable fragment component out of the `Uri`, leaving a `None` in its place.</span>
+    <span class="doccomment">/// Takes the mutable fragment component, leaving a `None` in its place.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_fragment_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
@@ -1633,7 +1755,7 @@
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">host_internal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">HostInternal</span> {
+    <span class="kw">fn</span> <span class="ident">host_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">HostData</span> {
         <span class="comment">// SAFETY: When authority is present, `host` must be `Some`.</span>
         <span class="kw">let</span> <span class="ident">host</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">host</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap_unchecked</span>() };
         <span class="kw-2">&amp;</span><span class="ident">host</span>.<span class="number">2</span>
@@ -1655,7 +1777,7 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">userinfo</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">EStr</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">host_internal</span>().<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">HostTag::HAS_USERINFO</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HAS_USERINFO</span>) {
             <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">start</span>();
             <span class="kw">let</span> <span class="ident">host_start</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">0</span>;
             <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
@@ -1665,9 +1787,24 @@
         }
     }
 
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">host_raw_opt</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">T::is_mut</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
+            <span class="prelude-val">None</span>
+        } <span class="kw">else</span> {
+            <span class="kw">let</span> <span class="ident">bounds</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">host_bounds</span>();
+            <span class="comment">// SAFETY: The indexes are within bounds.</span>
+            <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">slice</span>(<span class="ident">bounds</span>.<span class="number">0</span>, <span class="ident">bounds</span>.<span class="number">1</span>) })
+        }
+    }
+
     <span class="doccomment">/// Returns the raw [host] subcomponent as a string slice.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [host]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Panics</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Panics if the host subcomponent is already taken.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Examples</span>
     <span class="doccomment">///</span>
@@ -1681,15 +1818,23 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">host_raw</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span> {
-        <span class="kw">let</span> <span class="ident">bounds</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">host_bounds</span>();
-        <span class="comment">// SAFETY: The indexes are within bounds.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">slice</span>(<span class="ident">bounds</span>.<span class="number">0</span>, <span class="ident">bounds</span>.<span class="number">1</span>) }
+        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">host_raw_opt</span>() {
+            <span class="prelude-val">Some</span>(<span class="ident">host</span>) =&gt; <span class="ident">host</span>,
+            <span class="prelude-val">None</span> =&gt; <span class="ident">component_taken</span>(),
+        }
     }
 
     <span class="doccomment">/// Returns the parsed [host] subcomponent.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [host]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Panics</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Panics if the host subcomponent is already taken.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">host</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="ident">Host</span><span class="op">&lt;</span><span class="lifetime">&#39;o</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="ident">T::is_mut</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
+            <span class="ident">component_taken</span>();
+        }
         <span class="ident">Host::from_authority</span>(<span class="self">self</span>)
     }
 
@@ -1761,18 +1906,14 @@
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-<span class="kw">struct</span> <span class="ident">HostInternal</span> {
-    <span class="ident">tag</span>: <span class="ident">HostTag</span>,
-    <span class="ident">data</span>: <span class="ident">HostData</span>,
-}
-
 <span class="macro">bitflags!</span> {
-    <span class="kw">struct</span> <span class="ident">HostTag</span>: <span class="ident">u32</span> {
-        <span class="kw">const</span> <span class="ident">REG_NAME</span>     <span class="op">=</span> <span class="number">0b0001</span>;
-        <span class="kw">const</span> <span class="ident">IPV4</span>         <span class="op">=</span> <span class="number">0b0010</span>;
-        <span class="kw">const</span> <span class="ident">IPV6</span>         <span class="op">=</span> <span class="number">0b0100</span>;
-        <span class="kw">const</span> <span class="ident">HAS_USERINFO</span> <span class="op">=</span> <span class="number">0b1000</span>;
+    <span class="kw">struct</span> <span class="ident">Tag</span>: <span class="ident">u32</span> {
+        <span class="kw">const</span> <span class="ident">HOST_REG_NAME</span> <span class="op">=</span> <span class="number">0b000001</span>;
+        <span class="kw">const</span> <span class="ident">HOST_IPV4</span> <span class="op">=</span> <span class="number">0b000010</span>;
+        <span class="kw">const</span> <span class="ident">HOST_IPV6</span> <span class="op">=</span> <span class="number">0b000100</span>;
+        <span class="kw">const</span> <span class="ident">HAS_USERINFO</span> <span class="op">=</span> <span class="number">0b001000</span>;
+        <span class="kw">const</span> <span class="ident">PATH_TAKEN</span> <span class="op">=</span> <span class="number">0b010000</span>;
+        <span class="kw">const</span> <span class="ident">HOST_TAKEN</span> <span class="op">=</span> <span class="number">0b100000</span>;
     }
 }
 
@@ -1812,16 +1953,17 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Host</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">from_authority</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">auth</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="ident">Host</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">HostInternal</span> { <span class="ident">tag</span>, <span class="kw-2">ref</span> <span class="ident">data</span> } <span class="op">=</span> <span class="kw-2">*</span><span class="ident">auth</span>.<span class="ident">host_internal</span>();
+        <span class="kw">let</span> <span class="ident">tag</span> <span class="op">=</span> <span class="ident">auth</span>.<span class="ident">uri</span>.<span class="ident">tag</span>;
+        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">auth</span>.<span class="ident">host_data</span>();
         <span class="comment">// SAFETY: We only access the union after checking the tag.</span>
         <span class="kw">unsafe</span> {
-            <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">HostTag::REG_NAME</span>) {
+            <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_REG_NAME</span>) {
                 <span class="kw">return</span> <span class="ident">Host::RegName</span>(<span class="ident">EStr::new_unchecked</span>(<span class="ident">auth</span>.<span class="ident">host_raw</span>().<span class="ident">as_bytes</span>()));
-            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">HostTag::IPV4</span>) {
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_IPV4</span>) {
                 <span class="kw">return</span> <span class="ident">Host::Ipv4</span>(<span class="ident">data</span>.<span class="ident">ipv4_addr</span>);
             }
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
-            <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">HostTag::IPV6</span>) {
+            <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_IPV6</span>) {
                 <span class="ident">Host::Ipv6</span>(<span class="ident">data</span>.<span class="ident">ipv6_addr</span>)
             } <span class="kw">else</span> {
                 <span class="kw">let</span> <span class="ident">dot_i</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">ipv_future_dot_i</span>;
@@ -1916,5 +2058,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (de1bc0008 2022-04-21)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (69a5d2481 2022-04-27)" ></div>
 </body></html>

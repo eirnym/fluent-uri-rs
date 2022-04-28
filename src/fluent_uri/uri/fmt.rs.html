@@ -184,7 +184,7 @@
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;Uri&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;scheme&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">scheme</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">as_str</span>()))
             .<span class="ident">field</span>(<span class="string">&quot;authority&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">authority</span>())
-            .<span class="ident">field</span>(<span class="string">&quot;path&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path</span>().<span class="ident">as_str</span>())
+            .<span class="ident">field</span>(<span class="string">&quot;path&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">path_opt</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">as_str</span>()))
             .<span class="ident">field</span>(<span class="string">&quot;query&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">query</span>())
             .<span class="ident">field</span>(<span class="string">&quot;fragment&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">fragment</span>())
             .<span class="ident">finish</span>()
@@ -238,7 +238,7 @@
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;Authority&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;userinfo&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">userinfo</span>())
-            .<span class="ident">field</span>(<span class="string">&quot;host&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">host_raw</span>())
+            .<span class="ident">field</span>(<span class="string">&quot;host&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">host_raw_opt</span>())
             .<span class="ident">field</span>(<span class="string">&quot;port&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">port_raw</span>())
             .<span class="ident">finish</span>()
     }
@@ -248,7 +248,7 @@
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
         <span class="ident">f</span>.<span class="ident">debug_struct</span>(<span class="string">&quot;AuthorityMut&quot;</span>)
             .<span class="ident">field</span>(<span class="string">&quot;userinfo&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">userinfo</span>())
-            .<span class="ident">field</span>(<span class="string">&quot;host&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">host_raw</span>())
+            .<span class="ident">field</span>(<span class="string">&quot;host&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">host_raw_opt</span>())
             .<span class="ident">field</span>(<span class="string">&quot;port&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">port_raw</span>())
             .<span class="ident">finish</span>()
     }
@@ -290,5 +290,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (de1bc0008 2022-04-21)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (69a5d2481 2022-04-27)" ></div>
 </body></html>
