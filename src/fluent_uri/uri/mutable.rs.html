@@ -363,7 +363,7 @@
         <span class="kw">unsafe</span> { <span class="ident">mem::transmute</span>(<span class="ident">path</span>) }
     }
 
-    <span class="doccomment">/// Consumes this `PathMut` and yields the underlying `EStrMut`.</span>
+    <span class="doccomment">/// Consumes this `PathMut` and yields the underlying [`EStrMut`].</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_estr_mut</span>(<span class="self">self</span>) -&gt; <span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: Transparency holds.</span>

@@ -1030,6 +1030,79 @@
 <span id="1025">1025</span>
 <span id="1026">1026</span>
 <span id="1027">1027</span>
+<span id="1028">1028</span>
+<span id="1029">1029</span>
+<span id="1030">1030</span>
+<span id="1031">1031</span>
+<span id="1032">1032</span>
+<span id="1033">1033</span>
+<span id="1034">1034</span>
+<span id="1035">1035</span>
+<span id="1036">1036</span>
+<span id="1037">1037</span>
+<span id="1038">1038</span>
+<span id="1039">1039</span>
+<span id="1040">1040</span>
+<span id="1041">1041</span>
+<span id="1042">1042</span>
+<span id="1043">1043</span>
+<span id="1044">1044</span>
+<span id="1045">1045</span>
+<span id="1046">1046</span>
+<span id="1047">1047</span>
+<span id="1048">1048</span>
+<span id="1049">1049</span>
+<span id="1050">1050</span>
+<span id="1051">1051</span>
+<span id="1052">1052</span>
+<span id="1053">1053</span>
+<span id="1054">1054</span>
+<span id="1055">1055</span>
+<span id="1056">1056</span>
+<span id="1057">1057</span>
+<span id="1058">1058</span>
+<span id="1059">1059</span>
+<span id="1060">1060</span>
+<span id="1061">1061</span>
+<span id="1062">1062</span>
+<span id="1063">1063</span>
+<span id="1064">1064</span>
+<span id="1065">1065</span>
+<span id="1066">1066</span>
+<span id="1067">1067</span>
+<span id="1068">1068</span>
+<span id="1069">1069</span>
+<span id="1070">1070</span>
+<span id="1071">1071</span>
+<span id="1072">1072</span>
+<span id="1073">1073</span>
+<span id="1074">1074</span>
+<span id="1075">1075</span>
+<span id="1076">1076</span>
+<span id="1077">1077</span>
+<span id="1078">1078</span>
+<span id="1079">1079</span>
+<span id="1080">1080</span>
+<span id="1081">1081</span>
+<span id="1082">1082</span>
+<span id="1083">1083</span>
+<span id="1084">1084</span>
+<span id="1085">1085</span>
+<span id="1086">1086</span>
+<span id="1087">1087</span>
+<span id="1088">1088</span>
+<span id="1089">1089</span>
+<span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
+<span id="1096">1096</span>
+<span id="1097">1097</span>
+<span id="1098">1098</span>
+<span id="1099">1099</span>
+<span id="1100">1100</span>
 </pre><pre class="rust"><code><span class="kw">mod</span> <span class="ident">fmt</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mutable</span>;
@@ -1169,6 +1242,79 @@
 <span class="doccomment">/// A URI reference defined in [RFC 3986].</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [RFC 3986]: https://datatracker.ietf.org/doc/html/rfc3986/</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Variants</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// There are three variants of `Uri` in total:</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// - `Uri&lt;&amp;str&gt;`: borrowed; immutable.</span>
+<span class="doccomment">/// - `Uri&lt;&amp;mut [u8]&gt;`: borrowed; in-place mutable.</span>
+<span class="doccomment">/// - `Uri&lt;String&gt;`: owned; immutable.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Lifetimes are correctly handled in a way that `Uri&lt;&amp;&#39;a str&gt;` and `Uri&lt;&amp;&#39;a mut [u8]&gt;` both</span>
+<span class="doccomment">/// output references with lifetime `&#39;a`. This allows you to drop a temporary `Uri` while keeping</span>
+<span class="doccomment">/// the output references.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use fluent_uri::Uri;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// let uri = Uri::parse(&quot;foo:bar&quot;).expect(&quot;invalid URI reference&quot;);</span>
+<span class="doccomment">/// let path = uri.path();</span>
+<span class="doccomment">/// drop(uri);</span>
+<span class="doccomment">/// assert_eq!(path.as_str(), &quot;bar&quot;);</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// # Examples</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Create and convert between `Uri&lt;&amp;str&gt;` and `Uri&lt;String&gt;`.</span>
+<span class="doccomment">///   </span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use fluent_uri::Uri;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// // Create a `Uri&lt;&amp;str&gt;`.</span>
+<span class="doccomment">/// let uri_a: Uri&lt;&amp;str&gt; = Uri::parse(&quot;&quot;).expect(&quot;invalid URI reference&quot;);</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// // Create a `Uri&lt;String&gt;`.</span>
+<span class="doccomment">/// let uri_b: Uri&lt;String&gt; = Uri::parse_from(String::new()).expect(&quot;invalid URI reference&quot;);</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// // Convert a `Uri&lt;&amp;str&gt;` to a `Uri&lt;String&gt;`.</span>
+<span class="doccomment">/// let uri_c: Uri&lt;String&gt; = uri_a.to_owned();</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// // Borrow a `Uri&lt;String&gt;` as a `Uri&lt;&amp;str&gt;`.</span>
+<span class="doccomment">/// let uri_d: &amp;Uri&lt;&amp;str&gt; = uri_b.borrow();</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Decode path segments in-place and collect them into a `Vec`.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use fluent_uri::Uri;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// fn decode_path_segments(uri: &amp;mut [u8]) -&gt; Option&lt;Vec&lt;&amp;str&gt;&gt; {</span>
+<span class="doccomment">///     let mut uri = Uri::parse_mut(uri).ok()?;</span>
+<span class="doccomment">///     let segs = uri.take_path_mut().segments_mut();</span>
+<span class="doccomment">///     let mut out = Vec::new();</span>
+<span class="doccomment">///     for seg in segs {</span>
+<span class="doccomment">///         out.push(seg.decode_in_place().into_str().ok()?);</span>
+<span class="doccomment">///     }</span>
+<span class="doccomment">///     Some(out)</span>
+<span class="doccomment">/// }</span>
+<span class="doccomment">///   </span>
+<span class="doccomment">/// let mut uri = b&quot;/path/to/my%20music&quot;.to_vec();</span>
+<span class="doccomment">/// assert_eq!(decode_path_segments(&amp;mut uri).unwrap(), [&quot;path&quot;, &quot;to&quot;, &quot;my music&quot;]);</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Create a mutable copy of an immutable `Uri` in a buffer.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// use fluent_uri::Uri;</span>
+<span class="doccomment">/// use std::mem::MaybeUninit;</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// let uri = Uri::parse(&quot;https://www.rust-lang.org/&quot;).expect(&quot;invalid URI reference&quot;);</span>
+<span class="doccomment">/// let mut buf = [MaybeUninit::uninit(); 256];</span>
+<span class="doccomment">/// let uri_mut = uri</span>
+<span class="doccomment">///     .to_mut_in(&amp;mut buf[..])</span>
+<span class="doccomment">///     .expect(&quot;buffer capacity overflow&quot;);</span>
+<span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> {
     <span class="ident">ptr</span>: <span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
@@ -1199,7 +1345,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the input length is greater than `i32::MAX`.</span>
+    <span class="doccomment">/// Panics if the input length is greater than [`i32::MAX`].</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">S</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">as_ref</span>();
         <span class="kw">if</span> <span class="ident">bytes</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">i32::MAX</span> <span class="kw">as</span> <span class="ident">usize</span> {
@@ -1258,10 +1404,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// The type of a buffer may be:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// - `Vec&lt;u8&gt;`: grows automatically; bytes appended to the end.</span>
+    <span class="doccomment">/// - [`Vec&lt;u8&gt;`]: grows automatically; bytes appended to the end.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// - `[u8]` or `[MaybeUninit&lt;u8&gt;]`: triggers a [`CapOverflowError`] when</span>
-    <span class="doccomment">///   the capacity is too small; bytes written from the start.</span>
+    <span class="doccomment">/// - [`[u8]`](prim@slice) or [`[MaybeUninit&lt;u8&gt;]`](prim@slice): triggers a</span>
+    <span class="doccomment">/// [`CapOverflowError`] when the capacity is too small; bytes written from the start.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`CapOverflowError`]: crate::encoding::CapOverflowError</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -1445,7 +1591,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the input length is greater than `i32::MAX`.</span>
+    <span class="doccomment">/// Panics if the input length is greater than [`i32::MAX`].</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_mut</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;mut</span> <span class="ident">S</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">as_mut</span>();
@@ -1543,7 +1689,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the input capacity is greater than `i32::MAX`.</span>
+    <span class="doccomment">/// Panics if the input capacity is greater than [`i32::MAX`].</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_from</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IntoOwnedUri</span><span class="op">&gt;</span>(<span class="ident">t</span>: <span class="ident">T</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, (<span class="ident">T</span>, <span class="ident">UriParseError</span>)<span class="op">&gt;</span> {
         <span class="attribute">#[<span class="ident">cold</span>]</span>
@@ -1564,7 +1710,7 @@
         }
     }
 
-    <span class="doccomment">/// Consumes this `Uri` and yields the underlying `String` storage.</span>
+    <span class="doccomment">/// Consumes this `Uri` and yields the underlying [`String`] storage.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_string</span>(<span class="self">self</span>) -&gt; <span class="ident">String</span> {
         <span class="comment">// SAFETY: Creating a `String` from the original raw parts is fine.</span>
@@ -1996,7 +2142,7 @@
         <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">path</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">EStr</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">Path</span>) }
     }
 
-    <span class="doccomment">/// Returns the path as an `EStr` slice.</span>
+    <span class="doccomment">/// Returns the path as an `EStr`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_estr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">EStr</span> {
         <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>
