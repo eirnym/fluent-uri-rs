@@ -17,6 +17,22 @@
 <span id="12">12</span>
 <span id="13">13</span>
 <span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
 </pre><pre class="rust"><code><span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_debug_implementations</span>, <span class="ident">missing_docs</span>, <span class="ident">rust_2018_idioms</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">unsafe_op_in_unsafe_fn</span>)]</span>
 
@@ -24,7 +40,23 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! [RFC 3986]: https://datatracker.ietf.org/doc/html/rfc3986/</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! See the documentation of [`Uri`] struct for more details.</span>
+<span class="doccomment">//! See the documentation of [`Uri`] for more details.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! # Feature flags</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! All the features are disabled by default.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! - `ipv_future`: Enables the parsing of [IPvFuture] literals,</span>
+<span class="doccomment">//!   which fails with [`InvalidIpLiteral`] when disabled.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! - `rfc6874bis`: Enables the parsing of IPv6 zone identifiers,</span>
+<span class="doccomment">//!   such as in &lt;https://[fe80::abcd%en1]&gt;.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     This feature is based on the homonymous [draft] and is thus subject to change.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! [IPvFuture]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2</span>
+<span class="doccomment">//! [`InvalidIpLiteral`]: UriParseErrorKind::InvalidIpLiteral</span>
+<span class="doccomment">//! [draft]: https://datatracker.ietf.org/doc/html/draft-ietf-6man-rfc6874bis-01</span>
 
 <span class="doccomment">/// Utilities for percent-encoding.</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">encoding</span>;
@@ -32,5 +64,5 @@
 <span class="kw">mod</span> <span class="ident">uri</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">uri</span>::<span class="kw-2">*</span>;
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (69a5d2481 2022-04-27)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (7c4b47696 2022-04-30)" ></div>
 </body></html>

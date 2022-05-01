@@ -599,6 +599,17 @@
 <span id="594">594</span>
 <span id="595">595</span>
 <span id="596">596</span>
+<span id="597">597</span>
+<span id="598">598</span>
+<span id="599">599</span>
+<span id="600">600</span>
+<span id="601">601</span>
+<span id="602">602</span>
+<span id="603">603</span>
+<span id="604">604</span>
+<span id="605">605</span>
+<span id="606">606</span>
+<span id="607">607</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">encoding</span>::{<span class="ident">table</span>::<span class="kw-2">*</span>, <span class="ident">OCTET_TABLE_LO</span>},
     <span class="ident">uri</span>::{<span class="ident">HostData</span>, <span class="ident">Tag</span>},
@@ -613,7 +624,7 @@
     <span class="ident">str</span>,
 };
 
-<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::internal::Storage</span>;
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">internal::Storage</span>, <span class="ident">Ipv6Data</span>};
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">parse</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span>(<span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">len</span>: <span class="ident">u32</span>, <span class="ident">cap</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parser</span> <span class="op">=</span> <span class="ident">Parser</span> {
@@ -934,7 +945,13 @@
 
         <span class="kw">let</span> <span class="ident">host</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">addr</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">scan_v6</span>() {
             <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">tag</span> <span class="op">=</span> <span class="ident">Tag::HOST_IPV6</span>;
-            <span class="ident">HostData</span> { <span class="ident">ipv6_addr</span>: <span class="ident">addr</span> }
+            <span class="ident">HostData</span> {
+                <span class="ident">ipv6</span>: <span class="ident">Ipv6Data</span> {
+                    <span class="ident">addr</span>,
+                    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rfc6874bis&quot;</span>)]</span>
+                    <span class="ident">zone_id_start</span>: <span class="self">self</span>.<span class="ident">read_zone_id</span>()<span class="question-mark">?</span>,
+                },
+            }
         } <span class="kw">else</span> {
             <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">marked_len</span>() <span class="op">==</span> <span class="number">1</span> {
@@ -1057,12 +1074,17 @@
         <span class="prelude-val">Some</span>(<span class="ident">Seg::Normal</span>(<span class="ident">x</span>, <span class="ident">colon</span>))
     }
 
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">unused</span>)]</span>
-    <span class="kw">fn</span> <span class="ident">read_zone_id</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">read_str</span>(<span class="string">&quot;%25&quot;</span>) <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">read</span>(<span class="ident">ZONE_ID</span>)<span class="question-mark">?</span> {
-            <span class="macro">err!</span>(<span class="self">self</span>.<span class="ident">mark</span>, <span class="ident">InvalidIpLiteral</span>);
+    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rfc6874bis&quot;</span>)]</span>
+    <span class="kw">fn</span> <span class="ident">read_zone_id</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">read_str</span>(<span class="string">&quot;%&quot;</span>) {
+            <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">pos</span>;
+            <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">read</span>(<span class="ident">ZONE_ID</span>)<span class="question-mark">?</span> {
+                <span class="macro">err!</span>(<span class="self">self</span>.<span class="ident">mark</span>, <span class="ident">InvalidIpLiteral</span>);
+            }
+            <span class="prelude-val">Ok</span>(<span class="ident">NonZeroU32::new</span>(<span class="ident">start</span>))
+        } <span class="kw">else</span> {
+            <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
         }
-        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="comment">// The marked length must be zero when this function is called.</span>
@@ -1196,5 +1218,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (69a5d2481 2022-04-27)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (7c4b47696 2022-04-30)" ></div>
 </body></html>
