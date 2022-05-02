@@ -245,7 +245,7 @@
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">slice_mut</span>(<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path</span>.<span class="number">0</span>) }
     }
 
-    <span class="doccomment">/// Takes the mutable userinfo subcomponent.</span>
+    <span class="doccomment">/// Takes the mutable userinfo subcomponent, leaving a `None` in its place.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_userinfo_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">tag</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">tag</span>;
@@ -278,7 +278,7 @@
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">slice_mut</span>(<span class="ident">bounds</span>.<span class="number">0</span>, <span class="ident">bounds</span>.<span class="number">1</span>) }
     }
 
-    <span class="doccomment">/// Takes the parsed mutable host subcomponent, leaving a `None` in its place.</span>
+    <span class="doccomment">/// Takes the parsed mutable host subcomponent.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
