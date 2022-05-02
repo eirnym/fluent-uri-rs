@@ -1120,6 +1120,9 @@
 <span id="1115">1115</span>
 <span id="1116">1116</span>
 <span id="1117">1117</span>
+<span id="1118">1118</span>
+<span id="1119">1119</span>
+<span id="1120">1120</span>
 </pre><pre class="rust"><code><span class="kw">mod</span> <span class="ident">fmt</span>;
 
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">mutable</span>;
@@ -1283,7 +1286,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Create and convert between `Uri&lt;&amp;str&gt;` and `Uri&lt;String&gt;`.</span>
+<span class="doccomment">/// Create and convert between `Uri&lt;&amp;str&gt;` and `Uri&lt;String&gt;`:</span>
 <span class="doccomment">///   </span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use fluent_uri::Uri;</span>
@@ -1301,7 +1304,7 @@
 <span class="doccomment">/// let uri_d: &amp;Uri&lt;&amp;str&gt; = uri_b.borrow();</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Decode path segments in-place and collect them into a `Vec`.</span>
+<span class="doccomment">/// Decode path segments in-place and collect them into a `Vec`:</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use fluent_uri::Uri;</span>
@@ -1320,7 +1323,7 @@
 <span class="doccomment">/// assert_eq!(decode_path_segments(&amp;mut uri).unwrap(), [&quot;path&quot;, &quot;to&quot;, &quot;my music&quot;]);</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Create a mutable copy of an immutable `Uri` in a buffer.</span>
+<span class="doccomment">/// Create a mutable copy of an immutable `Uri` in a buffer:</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use fluent_uri::Uri;</span>
@@ -1421,18 +1424,21 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// The type of a buffer may be:</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// - [`Vec&lt;u8&gt;`]: grows automatically; bytes appended to the end.</span>
+    <span class="doccomment">/// - [`Vec&lt;u8&gt;`]: bytes appended to the end; returns a [`TryReserveError`]</span>
+    <span class="doccomment">///   when the allocation fails.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// - [`[u8]`](prim@slice) or [`[MaybeUninit&lt;u8&gt;]`](prim@slice): triggers a</span>
-    <span class="doccomment">/// [`CapOverflowError`] when the capacity is too small; bytes written from the start.</span>
+    <span class="doccomment">/// - [`[u8]`](prim@slice) or [`[MaybeUninit&lt;u8&gt;]`](prim@slice): bytes</span>
+    <span class="doccomment">///   written from the start; returns a [`BufferTooSmallError`] when</span>
+    <span class="doccomment">///   the buffer is too small.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// [`CapOverflowError`]: crate::encoding::CapOverflowError</span>
+    <span class="doccomment">/// [`TryReserveError`]: std::collections::TryReserveError</span>
+    <span class="doccomment">/// [`BufferTooSmallError`]: crate::encoding::BufferTooSmallError</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_mut_in</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">B</span>: <span class="ident">Buf</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="ident">B</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">B::ReserveError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">reserve</span>(<span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>)<span class="question-mark">?</span>;
+    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">B::PrepareError</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare</span>(<span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>)<span class="question-mark">?</span>;
 
         <span class="comment">// SAFETY: We have reserved enough space in the buffer, and</span>
         <span class="comment">// mutable reference `buf` ensures exclusive access.</span>
@@ -1440,7 +1446,7 @@
             <span class="self">self</span>.<span class="ident">ptr</span>
                 .<span class="ident">as_ptr</span>()
                 .<span class="ident">copy_to_nonoverlapping</span>(<span class="ident">ptr</span>, <span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>);
-            <span class="ident">buf</span>.<span class="ident">inc_len</span>(<span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>);
+            <span class="ident">buf</span>.<span class="ident">finish</span>(<span class="self">self</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>);
         }
 
         <span class="prelude-val">Ok</span>(<span class="ident">Uri</span> {
@@ -1621,7 +1627,7 @@
 
     <span class="doccomment">/// Consumes this `Uri` and yields the underlying mutable byte slice.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_mut_bytes</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_bytes</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {
         <span class="comment">// SAFETY: The indexes are within bounds.</span>
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">slice_mut</span>(<span class="number">0</span>, <span class="self">self</span>.<span class="ident">len</span>) }
     }

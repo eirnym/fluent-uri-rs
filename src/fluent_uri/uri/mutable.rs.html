@@ -240,7 +240,7 @@
 
     <span class="doccomment">/// Consumes this `AuthorityMut` and yields the underlying mutable byte slice.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_mut_bytes</span>(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_bytes</span>(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {
         <span class="comment">// SAFETY: The indexes are within bounds.</span>
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">slice_mut</span>(<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path</span>.<span class="number">0</span>) }
     }
@@ -398,7 +398,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">segments_mut</span>(<span class="self">self</span>) -&gt; <span class="ident">SplitMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">absolute</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">is_absolute</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">into_estr_mut</span>().<span class="ident">into_mut_bytes</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">into_estr_mut</span>().<span class="ident">into_bytes</span>();
         <span class="kw">let</span> <span class="ident">empty</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">is_empty</span>();
 
         <span class="kw">if</span> <span class="ident">absolute</span> {
