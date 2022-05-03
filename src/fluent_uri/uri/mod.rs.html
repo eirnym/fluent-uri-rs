@@ -1273,7 +1273,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Lifetimes are correctly handled in a way that `Uri&lt;&amp;&#39;a str&gt;` and `Uri&lt;&amp;&#39;a mut [u8]&gt;` both</span>
 <span class="doccomment">/// output references with lifetime `&#39;a`. This allows you to drop a temporary `Uri` while keeping</span>
-<span class="doccomment">/// the output references.</span>
+<span class="doccomment">/// the output references:</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use fluent_uri::Uri;</span>
@@ -1304,7 +1304,7 @@
 <span class="doccomment">/// let uri_d: &amp;Uri&lt;&amp;str&gt; = uri_b.borrow();</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Decode path segments in-place and collect them into a `Vec`:</span>
+<span class="doccomment">/// Decode path segments in-place and collect them into a [`Vec`]:</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use fluent_uri::Uri;</span>
@@ -2244,5 +2244,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (4dd8b420c 2022-05-01)" ></div>
+</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (bed05e996 2022-05-02)" ></div>
 </body></html>
