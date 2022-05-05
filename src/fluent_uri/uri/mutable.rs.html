@@ -214,6 +214,10 @@
 <span id="209">209</span>
 <span id="210">210</span>
 <span id="211">211</span>
+<span id="212">212</span>
+<span id="213">213</span>
+<span id="214">214</span>
+<span id="215">215</span>
 </pre><pre class="rust"><code><span class="doccomment">//! Mutable URI components that allow in-place percent-decoding.</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">mem</span>, <span class="ident">ops::Deref</span>};
@@ -245,26 +249,35 @@
     }
 
     <span class="doccomment">/// Consumes this `AuthorityMut` and yields the underlying mutable byte slice.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The userinfo subcomponent is truncated if it is already taken.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// # Panics</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Panics if the host subcomponent is already taken.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_bytes</span>(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
+            <span class="ident">component_taken</span>();
+        }
         <span class="comment">// SAFETY: The indexes are within bounds.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">slice_mut</span>(<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path</span>.<span class="number">0</span>) }
+        <span class="kw">unsafe</span> {
+            <span class="self">self</span>.<span class="ident">inner</span>
+                .<span class="ident">uri</span>
+                .<span class="ident">slice_mut</span>(<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>)
+        }
     }
 
     <span class="doccomment">/// Takes the mutable userinfo subcomponent, leaving a `None` in its place.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_userinfo_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">tag</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">tag</span>;
-        <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HAS_USERINFO</span>) {
-            <span class="ident">tag</span>.<span class="ident">remove</span>(<span class="ident">Tag::HAS_USERINFO</span>);
-
-            <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">start</span>();
-            <span class="kw">let</span> <span class="ident">host_start</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">0</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_userinfo</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">EStrMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+        <span class="kw">let</span> (<span class="ident">start</span>, <span class="ident">host_start</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">0</span>);
+        (<span class="ident">start</span> <span class="op">!</span><span class="op">=</span> <span class="ident">host_start</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> {
+            <span class="comment">// SAFETY: Host won&#39;t start at index 0.</span>
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">internal_mut</span>().<span class="ident">start</span> <span class="op">=</span> <span class="ident">NonZeroU32::new_unchecked</span>(<span class="ident">host_start</span>);
             <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
-            <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">eslice_mut</span>(<span class="ident">start</span>, <span class="ident">host_start</span> <span class="op">-</span> <span class="number">1</span>) })
-        } <span class="kw">else</span> {
-            <span class="prelude-val">None</span>
-        }
+            <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">eslice_mut</span>(<span class="ident">start</span>, <span class="ident">host_start</span> <span class="op">-</span> <span class="number">1</span>)
+        })
     }
 
     <span class="doccomment">/// Takes the raw mutable host subcomponent.</span>
@@ -273,7 +286,7 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// Panics if the host subcomponent is already taken.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_host_raw_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_host_raw</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
             <span class="ident">component_taken</span>();
         }
@@ -289,7 +302,7 @@
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Panics if the host subcomponent is already taken.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_host_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">HostMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_host</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">HostMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
             <span class="ident">component_taken</span>();
         }
@@ -302,7 +315,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">AuthorityMut</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">host</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">auth</span> <span class="op">=</span> <span class="prelude-val">None</span>;
     }
 }
 
@@ -362,6 +375,7 @@
             }
             <span class="ident">HostMut::Ipv6</span> {
                 <span class="ident">addr</span>: <span class="ident">data</span>.<span class="ident">ipv6</span>.<span class="ident">addr</span>,
+                <span class="comment">// SAFETY: The indexes are within bounds and we have done the validation.</span>
                 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rfc6874bis&quot;</span>)]</span>
                 <span class="ident">zone_id</span>: <span class="ident">data</span>.<span class="ident">ipv6</span>.<span class="ident">zone_id_start</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">start</span><span class="op">|</span> {
                     <span class="ident">auth</span>.<span class="ident">inner</span>
@@ -400,12 +414,6 @@
         <span class="kw">unsafe</span> { <span class="ident">mem::transmute</span>(<span class="self">self</span>) }
     }
 
-    <span class="doccomment">/// Consumes this `PathMut` and yields the underlying [`Path`].</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_ref</span>(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Path</span> {
-        <span class="self">self</span>.<span class="number">0</span>
-    }
-
     <span class="doccomment">/// Returns an iterator over the mutable segments of the path.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">segments_mut</span>(<span class="self">self</span>) -&gt; <span class="ident">SplitMut</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
@@ -426,5 +434,5 @@
     }
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (bed05e996 2022-05-02)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (4c60a0ea5 2022-05-04)" ></div>
 </body></html>
