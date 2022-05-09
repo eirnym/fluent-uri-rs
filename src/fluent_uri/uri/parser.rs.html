@@ -611,8 +611,6 @@
 <span id="606">606</span>
 <span id="607">607</span>
 <span id="608">608</span>
-<span id="609">609</span>
-<span id="610">610</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">encoding</span>::{<span class="ident">table</span>::<span class="kw-2">*</span>, <span class="ident">OCTET_TABLE_LO</span>},
     <span class="ident">uri</span>::{<span class="ident">AuthorityInternal</span>, <span class="ident">HostData</span>, <span class="ident">Tag</span>},
@@ -808,7 +806,7 @@
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">peek</span>(<span class="number">0</span>) <span class="op">==</span> <span class="prelude-val">Some</span>(<span class="string">b&#39;:&#39;</span>) {
             <span class="comment">// Scheme starts with a letter.</span>
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">pos</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="number">0</span>).<span class="ident">is_ascii_alphabetic</span>() {
-                <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">scheme_end</span> <span class="op">=</span> <span class="ident">NonZeroU32::new</span>(<span class="self">self</span>.<span class="ident">pos</span>);
+                <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">scheme_end</span> <span class="op">=</span> <span class="ident">NonZeroU32::new</span>(<span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span> <span class="number">1</span>);
             } <span class="kw">else</span> {
                 <span class="macro">err!</span>(<span class="number">0</span>, <span class="ident">UnexpectedChar</span>);
             }
@@ -831,7 +829,6 @@
     }
 
     <span class="kw">fn</span> <span class="ident">parse_from_authority</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">pos</span>;
         <span class="kw">let</span> <span class="ident">host</span>;
 
         <span class="comment">// This table contains userinfo, reg-name, &quot;:&quot;, and port.</span>
@@ -927,9 +924,8 @@
         }
 
         <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">auth</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">AuthorityInternal</span> {
-            <span class="comment">// SAFETY: Authority won&#39;t start at index 0.</span>
-            <span class="ident">start</span>: <span class="kw">unsafe</span> { <span class="ident">NonZeroU32::new_unchecked</span>(<span class="ident">start</span>) },
-            <span class="ident">host_bounds</span>: (<span class="ident">host</span>.<span class="number">0</span>, <span class="ident">host</span>.<span class="number">1</span>),
+            <span class="comment">// SAFETY: Host won&#39;t start at index 0.</span>
+            <span class="ident">host_bounds</span>: (<span class="kw">unsafe</span> { <span class="ident">NonZeroU32::new_unchecked</span>(<span class="ident">host</span>.<span class="number">0</span>) }, <span class="ident">host</span>.<span class="number">1</span>),
             <span class="ident">host_data</span>: <span class="ident">host</span>.<span class="number">2</span>,
         });
         <span class="self">self</span>.<span class="ident">parse_from_path</span>(<span class="ident">PathKind::AbEmpty</span>)
@@ -1224,5 +1220,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (77652b9ef 2022-05-06)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (cb1219871 2022-05-08)" ></div>
 </body></html>

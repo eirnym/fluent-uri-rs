@@ -1,1 +1,1 @@
-initSidebarItems({"enum":[["HostMut","A mutable host subcomponent of authority."]],"struct":[["AuthorityMut","A mutable authority component."],["PathMut","A mutable path component."]]});
+initSidebarItems({"enum":[["HostMut","A mutable host subcomponent of authority."]],"struct":[["AuthorityMut","A mutable authority component."],["OnceMut","A wrapper around a mutable reference that may be mutably used only once."]]});
