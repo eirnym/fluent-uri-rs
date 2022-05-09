@@ -333,7 +333,7 @@
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::encoding::SplitMut</span>;
 
-<span class="doccomment">/// A wrapper around a mutable reference that may be mutably used only once.</span>
+<span class="doccomment">/// A wrapper around a mutable reference that may not be mutably reborrowed.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This struct was introduced considering the fact that a bare `&amp;mut EStr` wouldn&#39;t</span>
 <span class="doccomment">/// do for in-place decoding because such decoding breaks the invariant of [`EStr`].</span>
