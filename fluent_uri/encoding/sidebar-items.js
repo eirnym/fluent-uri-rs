@@ -1,1 +1,0 @@
-initSidebarItems({"enum":[["Decode","A wrapper of percent-decoded bytes."],["DecodeInPlace","A wrapper of in-place percent-decoded bytes."]],"struct":[["EStr","Percent-encoded string slices."],["Split","An iterator over subslices of an [`EStr`] separated by a delimiter."],["SplitMut","An iterator over mutable subslices of a [`OnceMut<EStr>`] separated by a delimiter."]]});

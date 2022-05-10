@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["HostView","A view of the host subcomponent of authority."]],"struct":[["AuthorityView","A view of the authority component."],["View","A smart pointer that allows viewing a mutable byte slice as `&T`."]]});
