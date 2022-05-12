@@ -290,58 +290,7 @@
 <span id="285">285</span>
 <span id="286">286</span>
 <span id="287">287</span>
-<span id="288">288</span>
-<span id="289">289</span>
-<span id="290">290</span>
-<span id="291">291</span>
-<span id="292">292</span>
-<span id="293">293</span>
-<span id="294">294</span>
-<span id="295">295</span>
-<span id="296">296</span>
-<span id="297">297</span>
-<span id="298">298</span>
-<span id="299">299</span>
-<span id="300">300</span>
-<span id="301">301</span>
-<span id="302">302</span>
-<span id="303">303</span>
-<span id="304">304</span>
-<span id="305">305</span>
-<span id="306">306</span>
-<span id="307">307</span>
-<span id="308">308</span>
-<span id="309">309</span>
-<span id="310">310</span>
-<span id="311">311</span>
-<span id="312">312</span>
-<span id="313">313</span>
-<span id="314">314</span>
-<span id="315">315</span>
-<span id="316">316</span>
-<span id="317">317</span>
-<span id="318">318</span>
-<span id="319">319</span>
-<span id="320">320</span>
-<span id="321">321</span>
-<span id="322">322</span>
-<span id="323">323</span>
-<span id="324">324</span>
-<span id="325">325</span>
-<span id="326">326</span>
-<span id="327">327</span>
-<span id="328">328</span>
-<span id="329">329</span>
-<span id="330">330</span>
-<span id="331">331</span>
-<span id="332">332</span>
-<span id="333">333</span>
-<span id="334">334</span>
-<span id="335">335</span>
-<span id="336">336</span>
-</pre><pre class="rust"><code><span class="doccomment">//! In-place mutable views of URI components.</span>
-
-<span class="kw">use</span> <span class="ident">std::ops::Deref</span>;
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::ops::Deref</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::enc::SplitView</span>;
@@ -349,12 +298,14 @@
 <span class="kw">mod</span> <span class="ident">internal</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Lens</span> {
-        <span class="doccomment">/// Views the inner bytes of a `View&lt;Self&gt;` as `&amp;Self`.</span>
-        <span class="kw">fn</span> <span class="ident">view</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>;
+    <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+        <span class="kw">type</span> <span class="ident">Ptr</span>: <span class="ident">Deref</span>;
+        <span class="doccomment">/// Views the inner representation of a `View&lt;Self&gt;` as `&amp;Self`.</span>
+        <span class="kw">fn</span> <span class="ident">view</span>(<span class="ident">target</span>: <span class="kw-2">&amp;</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::Ptr</span> <span class="kw">as</span> <span class="ident">Deref</span><span class="op">&gt;</span><span class="ident">::Target</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>;
     }
 
-    <span class="kw">impl</span> <span class="ident">Lens</span> <span class="kw">for</span> <span class="ident">EStr</span> {
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">EStr</span> {
+        <span class="kw">type</span> <span class="ident">Ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>];
         <span class="attribute">#[<span class="ident">inline</span>]</span>
         <span class="kw">fn</span> <span class="ident">view</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span> {
             <span class="comment">// SAFETY: A `View` may only be created through `new`,</span>
@@ -363,7 +314,8 @@
         }
     }
 
-    <span class="kw">impl</span> <span class="ident">Lens</span> <span class="kw">for</span> <span class="ident">str</span> {
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">str</span> {
+        <span class="kw">type</span> <span class="ident">Ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>];
         <span class="attribute">#[<span class="ident">inline</span>]</span>
         <span class="kw">fn</span> <span class="ident">view</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span> {
             <span class="comment">// SAFETY: A `View` may only be created through `new`,</span>
@@ -372,14 +324,54 @@
         }
     }
 
-    <span class="kw">impl</span> <span class="ident">Lens</span> <span class="kw">for</span> <span class="ident">Scheme</span> {
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Scheme</span> {
+        <span class="kw">type</span> <span class="ident">Ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>];
         <span class="attribute">#[<span class="ident">inline</span>]</span>
         <span class="kw">fn</span> <span class="ident">view</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span> {
             <span class="ident">Scheme::new</span>(<span class="ident">str::view</span>(<span class="ident">bytes</span>))
         }
     }
 
-    <span class="kw">impl</span> <span class="ident">Lens</span> <span class="kw">for</span> <span class="ident">Path</span> {
+    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+        <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="kw-2">mut</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
+    }
+
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">AuthGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+        <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>;
+        <span class="attribute">#[<span class="ident">inline</span>]</span>
+        <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Target</span> {
+            <span class="self">self</span>.<span class="ident">uri</span>
+        }
+    }
+
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">AuthGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+        <span class="attribute">#[<span class="ident">inline</span>]</span>
+        <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
+            <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">auth</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+        }
+    }
+
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;i</span><span class="op">&gt;</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
+        <span class="kw">type</span> <span class="ident">Ptr</span> <span class="op">=</span> <span class="ident">AuthGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span>;
+        <span class="attribute">#[<span class="ident">inline</span>]</span>
+        <span class="kw">fn</span> <span class="ident">view</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">Self</span> {
+            <span class="comment">// SAFETY: The caller must guarantee that `auth` is `Some`.</span>
+            <span class="kw">unsafe</span> { <span class="ident">Authority::new</span>(<span class="ident">uri</span>) }
+        }
+    }
+
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span>: <span class="lifetime">&#39;i</span><span class="op">&gt;</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Host</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
+        <span class="kw">type</span> <span class="ident">Ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="kw-2">mut</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>;
+        <span class="attribute">#[<span class="ident">inline</span>]</span>
+        <span class="kw">fn</span> <span class="ident">view</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="ident">auth</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">Self</span> {
+            <span class="comment">// SAFETY: The host is not modified at this time.</span>
+            <span class="kw">unsafe</span> { <span class="ident">Host::new</span>(<span class="ident">auth</span>) }
+        }
+    }
+
+    <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Path</span> {
+        <span class="kw">type</span> <span class="ident">Ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>];
         <span class="attribute">#[<span class="ident">inline</span>]</span>
         <span class="kw">fn</span> <span class="ident">view</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span> {
             <span class="ident">Path::new</span>(<span class="ident">EStr::view</span>(<span class="ident">bytes</span>))
@@ -387,44 +379,47 @@
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident"><span class="self">self</span>::internal::Lens</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident"><span class="self">self</span>::internal</span>::{<span class="ident">AuthGuard</span>, <span class="ident">Lens</span>};
 
 <span class="doccomment">/// A smart pointer that allows viewing a mutable byte slice as `&amp;T`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This struct was introduced considering the fact that a bare `&amp;mut EStr` wouldn&#39;t</span>
 <span class="doccomment">/// do for in-place decoding because such decoding breaks the invariant of [`EStr`].</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// Four types of *lenses* may be used as `T`: [`EStr`], [`prim@str`], [`Scheme`], and [`Path`].</span>
+<span class="doccomment">/// Six types of *lenses* may be used as `T`: [`EStr`], [`prim@str`], [`Scheme`],</span>
+<span class="doccomment">/// [`Authority`], [`Host`], and [`Path`].</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
 <span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span><span class="op">&gt;</span>);
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">T::Ptr</span>, <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span><span class="op">&gt;</span>);
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&gt;</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">T</span>;
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">T</span> {
-        <span class="ident">T::view</span>(<span class="self">self</span>.<span class="number">0</span>)
+        <span class="ident">T::view</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>)
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&gt;</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">as_ref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">T</span> {
         <span class="self">self</span>
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Creates a `View&lt;T&gt;` from a mutable byte slice assuming validity.</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Creates a `View&lt;T&gt;` from a pointer assuming validity.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Safety</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// The bytes must be valid as `T`.</span>
+    <span class="doccomment">/// The pointee must be valid as `T`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]) -&gt; <span class="self">Self</span> {
-        <span class="ident">View</span>(<span class="ident">bytes</span>, <span class="ident">PhantomData</span>)
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">ptr</span>: <span class="ident">T::Ptr</span>) -&gt; <span class="self">Self</span> {
+        <span class="ident">View</span>(<span class="ident">ptr</span>, <span class="ident">PhantomData</span>)
     }
+}
 
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Consumes this `View` and yields the underlying mutable byte slice.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_bytes</span>(<span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>] {
@@ -464,36 +459,18 @@
     }
 }
 
-<span class="doccomment">/// A view of the authority component.</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthorityView</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="ident">inner</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="kw-2">mut</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">AuthorityView</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>;
+<span class="doccomment">/// An [`Authority`] view into a mutable byte slice.</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Authority</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">inner</span>
-    }
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">AuthorityView</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="kw-2">mut</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>) -&gt; <span class="ident">AuthorityView</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: Transparency holds.</span>
-        <span class="ident">AuthorityView</span> {
-            <span class="ident">inner</span>: <span class="kw">unsafe</span> { <span class="kw-2">&amp;mut</span> <span class="kw-2">*</span>(<span class="ident">uri</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>) },
-        }
-    }
-
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">view</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">start</span>: <span class="ident">u32</span>, <span class="ident">end</span>: <span class="ident">u32</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
+    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">view</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">start</span>: <span class="ident">u32</span>, <span class="ident">end</span>: <span class="ident">u32</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>
+    <span class="kw">where</span>
+        <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
+    {
         <span class="comment">// SAFETY: The same as `Uri::view`.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="ident">start</span>, <span class="ident">end</span>) }
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="ident">start</span>, <span class="ident">end</span>) }
     }
 
-    <span class="doccomment">/// Consumes this `AuthorityView` and yields the underlying [`View&lt;str&gt;`].</span>
+    <span class="doccomment">/// Consumes this `View&lt;Authority&gt;` and yields the underlying [`View&lt;str&gt;`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
@@ -513,138 +490,63 @@
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::USERINFO_TAKEN</span>) {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::USERINFO_TAKEN</span>;
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::USERINFO_TAKEN</span>;
 
         <span class="kw">let</span> (<span class="ident">start</span>, <span class="ident">host_start</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">0</span>);
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
         (<span class="ident">start</span> <span class="op">!</span><span class="op">=</span> <span class="ident">host_start</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">view</span>(<span class="ident">start</span>, <span class="ident">host_start</span> <span class="op">-</span> <span class="number">1</span>) })
     }
 
-    <span class="doccomment">/// Takes a view of the raw host subcomponent.</span>
+    <span class="doccomment">/// Takes a view of the host subcomponent.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Panics if the host subcomponent is already taken.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_host_raw</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_host</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Host</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
             <span class="ident">component_taken</span>();
         }
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::HOST_TAKEN</span>;
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::HOST_TAKEN</span>;
 
-        <span class="kw">let</span> <span class="ident">bounds</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">host_bounds</span>();
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">view</span>(<span class="ident">bounds</span>.<span class="number">0</span>, <span class="ident">bounds</span>.<span class="number">1</span>) }
+        <span class="comment">// SAFETY: Transparency holds.</span>
+        <span class="kw">unsafe</span> { <span class="ident">View::new</span>(<span class="kw-2">&amp;mut</span> <span class="kw-2">*</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span>)) }
     }
 
-    <span class="doccomment">/// Takes a view of the parsed host subcomponent.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the host subcomponent is already taken.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_host</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">HostView</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
-            <span class="ident">component_taken</span>();
-        }
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::HOST_TAKEN</span>;
-
-        <span class="ident">HostView::from_authority</span>(<span class="self">self</span>)
-    }
-
-    <span class="doccomment">/// Takes a view of the raw port subcomponent, leaving a `None` in its place.</span>
+    <span class="doccomment">/// Takes a view of the port subcomponent, leaving a `None` in its place.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_port_raw</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_port</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::PORT_TAKEN</span>) {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::PORT_TAKEN</span>;
+        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::PORT_TAKEN</span>;
 
         <span class="kw">let</span> (<span class="ident">host_end</span>, <span class="ident">end</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">1</span>, <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>);
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
         (<span class="ident">host_end</span> <span class="op">!</span><span class="op">=</span> <span class="ident">end</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">view</span>(<span class="ident">host_end</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">end</span>) })
     }
-
-    <span class="doccomment">/// Takes a view of the parsed port subcomponent, leaving a `None` in its place.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_port</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u16</span>, <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">port_raw</span>().<span class="ident">filter</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="op">!</span><span class="ident">s</span>.<span class="ident">is_empty</span>()) {
-            <span class="prelude-val">Some</span>(<span class="ident">s</span>) =&gt; <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">parse</span>() {
-                <span class="prelude-val">Ok</span>(<span class="ident">port</span>) =&gt; <span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">port</span>)),
-                <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="self">self</span>.<span class="ident">take_port_raw</span>().<span class="ident">unwrap</span>())),
-            },
-            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">None</span>,
-        }
-    }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">AuthorityView</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
+<span class="doccomment">/// A [`Host`] view into a mutable byte slice.</span>
+<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="ident">Host</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
+    <span class="doccomment">/// Consumes this `View&lt;Host&gt;` and yields the underlying [`View&lt;str&gt;`].</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">uri</span>.<span class="ident">auth</span> <span class="op">=</span> <span class="prelude-val">None</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_str_view</span>(<span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span> {
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>) }
     }
-}
 
-<span class="doccomment">/// A view of the host subcomponent of authority.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">HostView</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// An IPv4 address.</span>
-    <span class="ident">Ipv4</span>(<span class="ident">Ipv4Addr</span>),
-    <span class="doccomment">/// An IPv6 address.</span>
-    <span class="ident">Ipv6</span> {
-        <span class="doccomment">/// The address.</span>
-        <span class="ident">addr</span>: <span class="ident">Ipv6Addr</span>,
-        <span class="doccomment">/// An optional zone identifier.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// This is supported on **crate feature `rfc6874bis`** only.</span>
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rfc6874bis&quot;</span>)]</span>
-        <span class="ident">zone_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>,
-    },
-    <span class="doccomment">/// An IP address of future version.</span>
+    <span class="doccomment">/// Consumes this `View&lt;Host&gt;` and yields the underlying [`View&lt;EStr&gt;`],</span>
+    <span class="doccomment">/// assuming that the host is a registered name.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This is supported on **crate feature `ipv_future`** only.</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
-    <span class="ident">IpvFuture</span> {
-        <span class="doccomment">/// The version.</span>
-        <span class="ident">ver</span>: <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span>,
-        <span class="doccomment">/// The address.</span>
-        <span class="ident">addr</span>: <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span>,
-    },
-    <span class="doccomment">/// A registered name.</span>
-    <span class="ident">RegName</span>(<span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">EStr</span><span class="op">&gt;</span>),
-}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">HostView</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">from_authority</span>(<span class="ident">auth</span>: <span class="kw-2">&amp;mut</span> <span class="ident">AuthorityView</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span>) -&gt; <span class="ident">HostView</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">tag</span> <span class="op">=</span> <span class="ident">auth</span>.<span class="ident">uri</span>.<span class="ident">tag</span>;
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">auth</span>.<span class="ident">host_data</span>();
-        <span class="kw">unsafe</span> {
-            <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_REG_NAME</span>) {
-                <span class="kw">let</span> <span class="ident">bounds</span> <span class="op">=</span> <span class="ident">auth</span>.<span class="ident">host_bounds</span>();
-                <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-                <span class="kw">return</span> <span class="ident">HostView::RegName</span>(<span class="ident">auth</span>.<span class="ident">view</span>(<span class="ident">bounds</span>.<span class="number">0</span>, <span class="ident">bounds</span>.<span class="number">1</span>));
-            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_IPV4</span>) {
-                <span class="kw">return</span> <span class="ident">HostView::Ipv4</span>(<span class="ident">data</span>.<span class="ident">ipv4_addr</span>);
-            }
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_IPV6</span>) {
-                <span class="kw">let</span> <span class="ident">dot_i</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">ipv_future_dot_i</span>;
-                <span class="kw">let</span> <span class="ident">bounds</span> <span class="op">=</span> <span class="ident">auth</span>.<span class="ident">host_bounds</span>();
-                <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-                <span class="kw">return</span> <span class="ident">HostView::IpvFuture</span> {
-                    <span class="ident">ver</span>: <span class="ident">auth</span>.<span class="ident">view</span>(<span class="ident">bounds</span>.<span class="number">0</span> <span class="op">+</span> <span class="number">2</span>, <span class="ident">dot_i</span>),
-                    <span class="ident">addr</span>: <span class="ident">auth</span>.<span class="ident">view</span>(<span class="ident">dot_i</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">bounds</span>.<span class="number">1</span> <span class="op">-</span> <span class="number">1</span>),
-                };
-            }
-            <span class="ident">HostView::Ipv6</span> {
-                <span class="ident">addr</span>: <span class="ident">data</span>.<span class="ident">ipv6</span>.<span class="ident">addr</span>,
-                <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rfc6874bis&quot;</span>)]</span>
-                <span class="ident">zone_id</span>: <span class="ident">data</span>
-                    .<span class="ident">ipv6</span>
-                    .<span class="ident">zone_id_start</span>
-                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">start</span><span class="op">|</span> <span class="ident">auth</span>.<span class="ident">view</span>(<span class="ident">start</span>.<span class="ident">get</span>(), <span class="ident">auth</span>.<span class="ident">host_bounds</span>().<span class="number">1</span> <span class="op">-</span> <span class="number">1</span>)),
-            }
-        }
+    <span class="doccomment">/// # Panics</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Panics if the host is not a registered name.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unwrap_reg_name</span>(<span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">EStr</span><span class="op">&gt;</span> {
+        <span class="macro">assert!</span>(<span class="self">self</span>.<span class="ident">any</span>(<span class="ident">Tag::HOST_REG_NAME</span>));
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>) }
     }
 }
 
@@ -676,5 +578,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (88860d547 2022-05-09)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (6dd68402c 2022-05-11)" ></div>
 </body></html>
