@@ -663,7 +663,7 @@
 <span class="doccomment">/// where `pos` is non-decreasing and `bytes[..pos]` is valid UTF-8.</span>
 <span class="kw">struct</span> <span class="ident">Parser</span> {
     <span class="comment">// Not generic to avoid code bloat.</span>
-    <span class="ident">out</span>: <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span><span class="op">&gt;</span>,
+    <span class="ident">out</span>: <span class="ident">Uri</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
     <span class="ident">pos</span>: <span class="ident">u32</span>,
     <span class="ident">mark</span>: <span class="ident">u32</span>,
 }
@@ -978,7 +978,7 @@
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">scan_v6_segment</span>() {
                 <span class="prelude-val">Some</span>(<span class="ident">Seg::Normal</span>(<span class="ident">seg</span>, <span class="ident">colon</span>)) =&gt; {
                     <span class="kw">if</span> <span class="ident">colon</span> <span class="op">==</span> (<span class="ident">i</span> <span class="op">==</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">i</span> <span class="op">==</span> <span class="ident">ellipsis_i</span>) {
-                        <span class="comment">// Preceding colon, triple colons or no colon.</span>
+                        <span class="comment">// Preceding colon, triple colons, or no colon.</span>
                         <span class="kw">return</span> <span class="prelude-val">None</span>;
                     }
                     <span class="ident">segs</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">seg</span>;
@@ -1218,5 +1218,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (6dd68402c 2022-05-11)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (a5ad0d29a 2022-05-12)" ></div>
 </body></html>

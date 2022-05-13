@@ -279,17 +279,6 @@
 <span id="274">274</span>
 <span id="275">275</span>
 <span id="276">276</span>
-<span id="277">277</span>
-<span id="278">278</span>
-<span id="279">279</span>
-<span id="280">280</span>
-<span id="281">281</span>
-<span id="282">282</span>
-<span id="283">283</span>
-<span id="284">284</span>
-<span id="285">285</span>
-<span id="286">286</span>
-<span id="287">287</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::ops::Deref</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
@@ -332,7 +321,7 @@
         }
     }
 
-    <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">missing_debug_implementations</span>)]</span>
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthGuard</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="kw-2">mut</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
     }
@@ -388,8 +377,6 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// Six types of *lenses* may be used as `T`: [`EStr`], [`prim@str`], [`Scheme`],</span>
 <span class="doccomment">/// [`Authority`], [`Host`], and [`Path`].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">T::Ptr</span>, <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">T</span><span class="op">&gt;</span>);
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span> {
@@ -461,27 +448,18 @@
 
 <span class="doccomment">/// An [`Authority`] view into a mutable byte slice.</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">view</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">start</span>: <span class="ident">u32</span>, <span class="ident">end</span>: <span class="ident">u32</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
-    {
-        <span class="comment">// SAFETY: The same as `Uri::view`.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="ident">start</span>, <span class="ident">end</span>) }
-    }
-
     <span class="doccomment">/// Consumes this `View&lt;Authority&gt;` and yields the underlying [`View&lt;str&gt;`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Panics if any of the subcomponents is already taken.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_str_view</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_str_view</span>(<span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">intersects</span>(<span class="ident">Tag::AUTH_SUB_TAKEN</span>) {
             <span class="ident">component_taken</span>();
         }
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>) }
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>) }
     }
 
     <span class="doccomment">/// Takes a view of the userinfo subcomponent, leaving a `None` in its place.</span>
@@ -494,7 +472,7 @@
 
         <span class="kw">let</span> (<span class="ident">start</span>, <span class="ident">host_start</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">0</span>);
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        (<span class="ident">start</span> <span class="op">!</span><span class="op">=</span> <span class="ident">host_start</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">view</span>(<span class="ident">start</span>, <span class="ident">host_start</span> <span class="op">-</span> <span class="number">1</span>) })
+        (<span class="ident">start</span> <span class="op">!</span><span class="op">=</span> <span class="ident">host_start</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="ident">start</span>, <span class="ident">host_start</span> <span class="op">-</span> <span class="number">1</span>) })
     }
 
     <span class="doccomment">/// Takes a view of the host subcomponent.</span>
@@ -523,20 +501,20 @@
 
         <span class="kw">let</span> (<span class="ident">host_end</span>, <span class="ident">end</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">1</span>, <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>);
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        (<span class="ident">host_end</span> <span class="op">!</span><span class="op">=</span> <span class="ident">end</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">view</span>(<span class="ident">host_end</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">end</span>) })
+        (<span class="ident">host_end</span> <span class="op">!</span><span class="op">=</span> <span class="ident">end</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="ident">host_end</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">end</span>) })
     }
 }
 
 <span class="doccomment">/// A [`Host`] view into a mutable byte slice.</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="ident">Host</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Consumes this `View&lt;Host&gt;` and yields the underlying [`View&lt;str&gt;`].</span>
+    <span class="doccomment">/// Consumes this `View&lt;Host&gt;` and yields the underlying `View&lt;str&gt;`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_str_view</span>(<span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>) }
     }
 
-    <span class="doccomment">/// Consumes this `View&lt;Host&gt;` and yields the underlying [`View&lt;EStr&gt;`],</span>
+    <span class="doccomment">/// Consumes this `View&lt;Host&gt;` and yields the underlying `View&lt;EStr&gt;`,</span>
     <span class="doccomment">/// assuming that the host is a registered name.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
@@ -544,7 +522,7 @@
     <span class="doccomment">/// Panics if the host is not a registered name.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unwrap_reg_name</span>(<span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">EStr</span><span class="op">&gt;</span> {
-        <span class="macro">assert!</span>(<span class="self">self</span>.<span class="ident">any</span>(<span class="ident">Tag::HOST_REG_NAME</span>));
+        <span class="macro">assert!</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_REG_NAME</span>));
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>) }
     }
@@ -562,14 +540,14 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">segments_view</span>(<span class="self">self</span>) -&gt; <span class="ident">SplitView</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">absolute</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">is_absolute</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">into_estr_view</span>().<span class="ident">into_bytes</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">into_bytes</span>();
         <span class="kw">let</span> <span class="ident">empty</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">is_empty</span>();
 
         <span class="kw">if</span> <span class="ident">absolute</span> {
             <span class="comment">// SAFETY: Skipping &quot;/&quot; is fine.</span>
             <span class="ident">path</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">path</span>.<span class="ident">get_unchecked_mut</span>(<span class="number">1</span>..) };
         }
-        <span class="comment">// SAFETY: We have done the validation.</span>
+        <span class="comment">// SAFETY: The validation is done.</span>
         <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">View</span>::<span class="op">&lt;</span><span class="ident">EStr</span><span class="op">&gt;</span><span class="ident">::new</span>(<span class="ident">path</span>) };
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">split</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">split_view</span>(<span class="string">&#39;/&#39;</span>);
@@ -578,5 +556,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (6dd68402c 2022-05-11)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (a5ad0d29a 2022-05-12)" ></div>
 </body></html>
