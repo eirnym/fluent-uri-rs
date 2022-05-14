@@ -279,7 +279,15 @@
 <span id="274">274</span>
 <span id="275">275</span>
 <span id="276">276</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std::ops::Deref</span>;
+<span id="277">277</span>
+<span id="278">278</span>
+<span id="279">279</span>
+<span id="280">280</span>
+<span id="281">281</span>
+<span id="282">282</span>
+<span id="283">283</span>
+<span id="284">284</span>
+</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">num::NonZeroU32</span>, <span class="ident">ops::Deref</span>};
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::enc::SplitView</span>;
@@ -448,31 +456,39 @@
 
 <span class="doccomment">/// An [`Authority`] view into a mutable byte slice.</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Consumes this `View&lt;Authority&gt;` and yields the underlying [`View&lt;str&gt;`].</span>
+    <span class="doccomment">/// Consumes this `View&lt;Authority&gt;` and yields the underlying `View&lt;str&gt;`.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// The userinfo or port subcomponent is truncated if it is already taken.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if any of the subcomponents is already taken.</span>
+    <span class="doccomment">/// Panics if the host subcomponent is already taken.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_str_view</span>(<span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">intersects</span>(<span class="ident">Tag::AUTH_SUB_TAKEN</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
             <span class="ident">component_taken</span>();
         }
+
+        <span class="kw">let</span> <span class="ident">end</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::PORT_TAKEN</span>) {
+            <span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">1</span>
+        } <span class="kw">else</span> {
+            <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>
+        };
+
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>) }
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="ident">start</span>(), <span class="ident">end</span>) }
     }
 
     <span class="doccomment">/// Takes a view of the userinfo subcomponent, leaving a `None` in its place.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_userinfo</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">EStr</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::USERINFO_TAKEN</span>) {
-            <span class="kw">return</span> <span class="prelude-val">None</span>;
-        }
-        <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::USERINFO_TAKEN</span>;
-
         <span class="kw">let</span> (<span class="ident">start</span>, <span class="ident">host_start</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">0</span>);
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        (<span class="ident">start</span> <span class="op">!</span><span class="op">=</span> <span class="ident">host_start</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="ident">start</span>, <span class="ident">host_start</span> <span class="op">-</span> <span class="number">1</span>) })
+        (<span class="ident">start</span> <span class="op">!</span><span class="op">=</span> <span class="ident">host_start</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> {
+            <span class="comment">// SAFETY: Host won&#39;t start at index 0.</span>
+            <span class="self">self</span>.<span class="ident">data</span>().<span class="ident">start</span>.<span class="ident">set</span>(<span class="ident">NonZeroU32::new_unchecked</span>(<span class="ident">host_start</span>));
+            <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
+            <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="ident">start</span>, <span class="ident">host_start</span> <span class="op">-</span> <span class="number">1</span>)
+        })
     }
 
     <span class="doccomment">/// Takes a view of the host subcomponent.</span>
@@ -511,7 +527,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_str_view</span>(<span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span> {
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>) }
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="ident">bounds</span>().<span class="number">0</span>, <span class="self">self</span>.<span class="ident">bounds</span>().<span class="number">1</span>) }
     }
 
     <span class="doccomment">/// Consumes this `View&lt;Host&gt;` and yields the underlying `View&lt;EStr&gt;`,</span>
@@ -524,7 +540,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">unwrap_reg_name</span>(<span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">EStr</span><span class="op">&gt;</span> {
         <span class="macro">assert!</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_REG_NAME</span>));
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="number">0</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>) }
+        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">uri</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="ident">bounds</span>().<span class="number">0</span>, <span class="self">self</span>.<span class="ident">bounds</span>().<span class="number">1</span>) }
     }
 }
 

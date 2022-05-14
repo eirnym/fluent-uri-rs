@@ -224,13 +224,10 @@
 <span id="219">219</span>
 <span id="220">220</span>
 <span id="221">221</span>
-<span id="222">222</span>
-<span id="223">223</span>
-<span id="224">224</span>
-<span id="225">225</span>
 </pre><pre class="rust"><code><span class="attribute">#![<span class="ident">allow</span>(<span class="ident">missing_debug_implementations</span>)]</span>
 
 <span class="kw">use</span> <span class="ident">std</span>::{
+    <span class="ident">cell::Cell</span>,
     <span class="ident">mem::MaybeUninit</span>,
     <span class="ident">num::NonZeroU32</span>,
     <span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">DerefMut</span>},
@@ -388,9 +385,7 @@
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Data</span> {
     <span class="kw">pub</span> <span class="ident">tag</span>: <span class="ident">Tag</span>,
-    <span class="comment">// One byte past the trailing &#39;:&#39;.</span>
-    <span class="comment">// This encoding is chosen so that no extra branch is introduced</span>
-    <span class="comment">// when indexing the start of the authority.</span>
+    <span class="comment">// The index of the trailing colon.</span>
     <span class="kw">pub</span> <span class="ident">scheme_end</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">auth</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AuthData</span><span class="op">&gt;</span>,
     <span class="kw">pub</span> <span class="ident">path_bounds</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>),
@@ -419,22 +414,19 @@
 
 <span class="macro">bitflags!</span> {
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Tag</span>: <span class="ident">u32</span> {
-        <span class="kw">const</span> <span class="ident">HOST_REG_NAME</span>  <span class="op">=</span> <span class="number">0b00000001</span>;
-        <span class="kw">const</span> <span class="ident">HOST_IPV4</span>      <span class="op">=</span> <span class="number">0b00000010</span>;
-        <span class="kw">const</span> <span class="ident">HOST_IPV6</span>      <span class="op">=</span> <span class="number">0b00000100</span>;
-        <span class="kw">const</span> <span class="ident">SCHEME_TAKEN</span>   <span class="op">=</span> <span class="number">0b00001000</span>;
-        <span class="kw">const</span> <span class="ident">USERINFO_TAKEN</span> <span class="op">=</span> <span class="number">0b00010000</span>;
-        <span class="kw">const</span> <span class="ident">HOST_TAKEN</span>     <span class="op">=</span> <span class="number">0b00100000</span>;
-        <span class="kw">const</span> <span class="ident">PORT_TAKEN</span>     <span class="op">=</span> <span class="number">0b01000000</span>;
-        <span class="kw">const</span> <span class="ident">PATH_TAKEN</span>     <span class="op">=</span> <span class="number">0b10000000</span>;
-
-        <span class="kw">const</span> <span class="ident">AUTH_SUB_TAKEN</span> <span class="op">=</span> <span class="number">0b01110000</span>;
+        <span class="kw">const</span> <span class="ident">HOST_REG_NAME</span> <span class="op">=</span> <span class="number">0b00000001</span>;
+        <span class="kw">const</span> <span class="ident">HOST_IPV4</span>     <span class="op">=</span> <span class="number">0b00000010</span>;
+        <span class="kw">const</span> <span class="ident">HOST_IPV6</span>     <span class="op">=</span> <span class="number">0b00000100</span>;
+        <span class="kw">const</span> <span class="ident">HOST_TAKEN</span>    <span class="op">=</span> <span class="number">0b00001000</span>;
+        <span class="kw">const</span> <span class="ident">PORT_TAKEN</span>    <span class="op">=</span> <span class="number">0b00010000</span>;
+        <span class="kw">const</span> <span class="ident">PATH_TAKEN</span>    <span class="op">=</span> <span class="number">0b00100000</span>;
     }
 }
 
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthData</span> {
-    <span class="kw">pub</span> <span class="ident">host_bounds</span>: (<span class="ident">NonZeroU32</span>, <span class="ident">u32</span>),
+    <span class="kw">pub</span> <span class="ident">start</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
+    <span class="kw">pub</span> <span class="ident">host_bounds</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>),
     <span class="kw">pub</span> <span class="ident">host_data</span>: <span class="ident">RawHostData</span>,
 }
 
