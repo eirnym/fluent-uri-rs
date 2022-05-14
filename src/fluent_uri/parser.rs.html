@@ -610,16 +610,18 @@
 <span id="605">605</span>
 <span id="606">606</span>
 <span id="607">607</span>
+<span id="608">608</span>
+<span id="609">609</span>
+<span id="610">610</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">enc</span>::{<span class="ident">table</span>::<span class="kw-2">*</span>, <span class="ident">OCTET_TABLE_LO</span>},
-    <span class="ident">AuthorityInternal</span>, <span class="ident">RawHostData</span> <span class="kw">as</span> <span class="ident">HostData</span>, <span class="prelude-ty">Result</span>, <span class="ident">Tag</span>, <span class="ident">Uri</span>,
+    <span class="ident">internal::Pointer</span>,
+    <span class="ident">AuthData</span>, <span class="ident">Data</span>, <span class="ident">RawHostData</span> <span class="kw">as</span> <span class="ident">HostData</span>, <span class="prelude-ty">Result</span>, <span class="ident">Tag</span>, <span class="ident">Uri</span>,
 };
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">marker::PhantomData</span>,
-    <span class="ident">mem</span>,
     <span class="ident">net</span>::{<span class="ident">Ipv4Addr</span>, <span class="ident">Ipv6Addr</span>},
     <span class="ident">num::NonZeroU32</span>,
-    <span class="ident">ptr::NonNull</span>,
     <span class="ident">str</span>,
 };
 
@@ -627,24 +629,27 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">parse</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span>(<span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">len</span>: <span class="ident">u32</span>, <span class="ident">cap</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parser</span> <span class="op">=</span> <span class="ident">Parser</span> {
-        <span class="ident">out</span>: <span class="ident">Uri</span> {
-            <span class="ident">ptr</span>: <span class="ident">NonNull::new</span>(<span class="ident">ptr</span>).<span class="ident">unwrap</span>(),
-            <span class="ident">cap</span>,
-            <span class="ident">len</span>,
+        <span class="ident">ptr</span>,
+        <span class="ident">len</span>,
+        <span class="ident">out</span>: <span class="ident">Data</span> {
             <span class="ident">tag</span>: <span class="ident">Tag::empty</span>(),
             <span class="ident">scheme_end</span>: <span class="prelude-val">None</span>,
             <span class="ident">auth</span>: <span class="prelude-val">None</span>,
             <span class="ident">path_bounds</span>: (<span class="number">0</span>, <span class="number">0</span>),
             <span class="ident">query_end</span>: <span class="prelude-val">None</span>,
             <span class="ident">fragment_start</span>: <span class="prelude-val">None</span>,
-            <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
         },
         <span class="ident">pos</span>: <span class="number">0</span>,
         <span class="ident">mark</span>: <span class="number">0</span>,
     };
     <span class="ident">parser</span>.<span class="ident">parse_from_scheme</span>()<span class="question-mark">?</span>;
-    <span class="comment">// SAFETY: `Uri` has a fixed layout.</span>
-    <span class="prelude-val">Ok</span>(<span class="kw">unsafe</span> { <span class="ident">mem::transmute</span>(<span class="ident">parser</span>.<span class="ident">out</span>) })
+    <span class="prelude-val">Ok</span>(<span class="ident">Uri</span> {
+        <span class="comment">// SAFETY: The caller must ensure that the pointer is not null</span>
+        <span class="comment">// and that the length and capacity are correct.</span>
+        <span class="ident">ptr</span>: <span class="kw">unsafe</span> { <span class="op">&lt;</span><span class="ident">T::Ptr</span> <span class="kw">as</span> <span class="ident">Pointer</span><span class="op">&gt;</span><span class="ident">::new</span>(<span class="ident">ptr</span>, <span class="ident">len</span>, <span class="ident">cap</span>) },
+        <span class="ident">data</span>: <span class="ident">parser</span>.<span class="ident">out</span>,
+        <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
+    })
 }
 
 <span class="doccomment">/// Returns immediately with an error.</span>
@@ -662,8 +667,9 @@
 <span class="doccomment">/// The invariant holds that `mark &lt;= pos &lt;= len`,</span>
 <span class="doccomment">/// where `pos` is non-decreasing and `bytes[..pos]` is valid UTF-8.</span>
 <span class="kw">struct</span> <span class="ident">Parser</span> {
-    <span class="comment">// Not generic to avoid code bloat.</span>
-    <span class="ident">out</span>: <span class="ident">Uri</span><span class="op">&lt;</span>()<span class="op">&gt;</span>,
+    <span class="ident">ptr</span>: <span class="kw-2">*const</span> <span class="ident">u8</span>,
+    <span class="ident">len</span>: <span class="ident">u32</span>,
+    <span class="ident">out</span>: <span class="ident">Data</span>,
     <span class="ident">pos</span>: <span class="ident">u32</span>,
     <span class="ident">mark</span>: <span class="ident">u32</span>,
 }
@@ -687,30 +693,30 @@
 
 <span class="kw">impl</span> <span class="ident">Parser</span> {
     <span class="kw">fn</span> <span class="ident">has_remaining</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">pos</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span>
+        <span class="self">self</span>.<span class="ident">pos</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">len</span>
     }
 
     <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">get_unchecked</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">u32</span>) -&gt; <span class="ident">u8</span> {
-        <span class="macro">debug_assert!</span>(<span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span>, <span class="string">&quot;index out of bounds&quot;</span>);
+        <span class="macro">debug_assert!</span>(<span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">len</span>, <span class="string">&quot;index out of bounds&quot;</span>);
         <span class="comment">// SAFETY: The caller must ensure that the index is within bounds.</span>
-        <span class="kw">unsafe</span> { <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">out</span>.<span class="ident">ptr</span>.<span class="ident">as_ptr</span>().<span class="ident">add</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>) }
+        <span class="kw">unsafe</span> { <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">add</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>) }
     }
 
     <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">u32</span>) -&gt; <span class="ident">u8</span> {
-        <span class="macro">assert!</span>(<span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span>, <span class="string">&quot;index out of bounds&quot;</span>);
+        <span class="macro">assert!</span>(<span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">len</span>, <span class="string">&quot;index out of bounds&quot;</span>);
         <span class="comment">// SAFETY: We have checked that `i &lt; len`.</span>
         <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span>) }
     }
 
     <span class="kw">fn</span> <span class="ident">peek</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">i</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-        (<span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span> <span class="ident">i</span>))
+        (<span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">len</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span> <span class="ident">i</span>))
     }
 
     <span class="comment">// Any call to this function must keep the invariant.</span>
     <span class="kw">fn</span> <span class="ident">skip</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">u32</span>) {
         <span class="comment">// INVARIANT: `pos` is non-decreasing.</span>
         <span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span><span class="op">=</span> <span class="ident">n</span>;
-        <span class="macro">debug_assert!</span>(<span class="self">self</span>.<span class="ident">pos</span> <span class="op">&lt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span>);
+        <span class="macro">debug_assert!</span>(<span class="self">self</span>.<span class="ident">pos</span> <span class="op">&lt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span>);
     }
 
     <span class="kw">fn</span> <span class="ident">mark</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
@@ -727,7 +733,7 @@
             <span class="self">self</span>.<span class="ident">scan_enc</span>(<span class="ident">table</span>, <span class="op">|</span><span class="kw">_</span><span class="op">|</span> ())
         } <span class="kw">else</span> {
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">pos</span>;
-            <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span> {
+            <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">len</span> {
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">table</span>.<span class="ident">allows</span>(<span class="self">self</span>.<span class="ident">get</span>(<span class="ident">i</span>)) {
                     <span class="kw">break</span>;
                 }
@@ -743,10 +749,10 @@
     <span class="kw">fn</span> <span class="ident">scan_enc</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">table</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span>, <span class="kw-2">mut</span> <span class="ident">f</span>: <span class="kw">impl</span> <span class="ident">FnMut</span>(<span class="ident">u8</span>)) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">pos</span>;
 
-        <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span> {
+        <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">len</span> {
             <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">i</span>);
             <span class="kw">if</span> <span class="ident">x</span> <span class="op">==</span> <span class="string">b&#39;%&#39;</span> {
-                <span class="kw">if</span> <span class="ident">i</span> <span class="op">+</span> <span class="number">2</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span> {
+                <span class="kw">if</span> <span class="ident">i</span> <span class="op">+</span> <span class="number">2</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span> {
                     <span class="macro">err!</span>(<span class="ident">i</span>, <span class="ident">InvalidOctet</span>);
                 }
                 <span class="comment">// SAFETY: We have checked that `i + 2 &lt; len`.</span>
@@ -787,7 +793,7 @@
 
         <span class="comment">// SAFETY: We have checked that `pos + s.len() &lt;= len`.</span>
         <span class="comment">// Overflow is impossible since both `len` and `s.len()` are no larger than `i32::MAX`.</span>
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span> <span class="ident">len</span> <span class="op">&lt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span>
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span> <span class="ident">len</span> <span class="op">&lt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span>
             <span class="op">&amp;&amp;</span> (<span class="number">0</span>..<span class="ident">len</span>)
                 .<span class="ident">all</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">get_unchecked</span>(<span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span> <span class="ident">i</span>) } <span class="op">==</span> <span class="ident">s</span>.<span class="ident">as_bytes</span>()[<span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>]);
         <span class="kw">if</span> <span class="ident">res</span> {
@@ -897,10 +903,10 @@
             };
 
             <span class="comment">// Save the state.</span>
-            <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span>, <span class="self">self</span>.<span class="ident">pos</span>);
+            <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">len</span>, <span class="self">self</span>.<span class="ident">pos</span>);
 
             <span class="comment">// The entire host is already scanned so the index is within bounds.</span>
-            <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span> <span class="op">=</span> <span class="ident">host_end</span>;
+            <span class="self">self</span>.<span class="ident">len</span> <span class="op">=</span> <span class="ident">host_end</span>;
             <span class="comment">// INVARIANT: It holds that `mark &lt;= pos &lt;= buf.len()`.</span>
             <span class="comment">// Here `pos` may decrease but will be restored later.</span>
             <span class="self">self</span>.<span class="ident">pos</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">mark</span>;
@@ -918,10 +924,10 @@
 
             <span class="comment">// Restore the state.</span>
             <span class="comment">// INVARIANT: Restoring the state would not affect the invariant.</span>
-            (<span class="self">self</span>.<span class="ident">out</span>.<span class="ident">len</span>, <span class="self">self</span>.<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">state</span>;
+            (<span class="self">self</span>.<span class="ident">len</span>, <span class="self">self</span>.<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">state</span>;
         }
 
-        <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">auth</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">AuthorityInternal</span> {
+        <span class="self">self</span>.<span class="ident">out</span>.<span class="ident">auth</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">AuthData</span> {
             <span class="comment">// SAFETY: Host won&#39;t start at index 0.</span>
             <span class="ident">host_bounds</span>: (<span class="kw">unsafe</span> { <span class="ident">NonZeroU32::new_unchecked</span>(<span class="ident">host</span>.<span class="number">0</span>) }, <span class="ident">host</span>.<span class="number">1</span>),
             <span class="ident">host_data</span>: <span class="ident">host</span>.<span class="number">2</span>,
@@ -1218,5 +1224,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (a5ad0d29a 2022-05-12)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (f1f721e64 2022-05-13)" ></div>
 </body></html>

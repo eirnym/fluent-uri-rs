@@ -1,3 +1,0 @@
-(function() {var implementors = {};
-implementors["fluent_uri"] = [{"text":"impl&lt;T:&nbsp;Storage&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html\" title=\"trait core::ops::drop::Drop\">Drop</a> for <a class=\"struct\" href=\"fluent_uri/struct.Uri.html\" title=\"struct fluent_uri::Uri\">Uri</a>&lt;T&gt;","synthetic":false,"types":["fluent_uri::Uri"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
