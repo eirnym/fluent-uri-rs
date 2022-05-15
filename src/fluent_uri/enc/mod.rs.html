@@ -754,9 +754,6 @@
 <span id="749">749</span>
 <span id="750">750</span>
 <span id="751">751</span>
-<span id="752">752</span>
-<span id="753">753</span>
-<span id="754">754</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">table</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>))]</span>
@@ -916,8 +913,7 @@
     <span class="doccomment">/// ```</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Decode</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: An `EStr` may only be created through `new_unchecked`,</span>
-        <span class="comment">// of which the caller must guarantee that the string is properly encoded.</span>
+        <span class="comment">// SAFETY: `EStr::new_unchecked` ensures that the string is properly encoded.</span>
         <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">decode_unchecked</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>) } {
             <span class="prelude-val">Some</span>(<span class="ident">s</span>) =&gt; <span class="ident">Decode::Dst</span>(<span class="ident">s</span>),
             <span class="prelude-val">None</span> =&gt; <span class="ident">Decode::Src</span>(<span class="self">self</span>.<span class="ident">as_str</span>()),
@@ -950,8 +946,7 @@
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decode_with</span><span class="op">&lt;</span><span class="lifetime">&#39;dst</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;dst</span> <span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) -&gt; <span class="ident">DecodeRef</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="lifetime">&#39;dst</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: An `EStr` may only be created through `new_unchecked`,</span>
-        <span class="comment">// of which the caller must guarantee that the string is properly encoded.</span>
+        <span class="comment">// SAFETY: `EStr::new_unchecked` ensures that the string is properly encoded.</span>
         <span class="kw">let</span> <span class="ident">decoded</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">decode_with_unchecked</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>, <span class="ident">buf</span>) };
 
         <span class="kw">match</span> <span class="ident">decoded</span> {
@@ -1033,8 +1028,7 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">decode_in_place</span>(<span class="self">self</span>) -&gt; <span class="ident">DecodeInPlace</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">into_bytes</span>();
-        <span class="comment">// SAFETY: An `View&lt;EStr&gt;` may only be created through `new`,</span>
-        <span class="comment">// of which the caller must guarantee that the bytes are properly encoded.</span>
+        <span class="comment">// SAFETY: `Self::new` ensures that the bytes are properly encoded.</span>
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">imp::decode_in_place_unchecked</span>(<span class="ident">bytes</span>) };
         <span class="kw">if</span> <span class="ident">len</span> <span class="op">==</span> <span class="ident">bytes</span>.<span class="ident">len</span>() {
             <span class="comment">// SAFETY: Nothing is decoded so the bytes are valid UTF-8.</span>
@@ -1512,5 +1506,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (f1f721e64 2022-05-13)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.62.0-nightly (70b3681bf 2022-05-14)" ></div>
 </body></html>
