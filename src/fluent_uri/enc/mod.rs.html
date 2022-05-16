@@ -1280,7 +1280,7 @@
     <span class="doccomment">/// An error along with the decoded bytes is returned if the bytes are not valid UTF-8.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_str</span>(<span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>, (<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>], <span class="ident">Utf8Error</span>)<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">into_str_view</span>().<span class="ident">map</span>(<span class="ident">View::into_ref</span>)   
+        <span class="self">self</span>.<span class="ident">into_str_view</span>().<span class="ident">map</span>(<span class="ident">View::into_ref</span>)
     }
 
     <span class="doccomment">/// Converts the decoded bytes to a string lossily.</span>
