@@ -670,7 +670,7 @@
 
 <span class="doccomment">/// URI parser.</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// The invariant holds that `mark &lt;= pos &lt;= len`,</span>
+<span class="doccomment">/// The invariants hold that `mark &lt;= pos &lt;= len`,</span>
 <span class="doccomment">/// where `pos` is non-decreasing and `bytes[..pos]` is valid UTF-8.</span>
 <span class="kw">struct</span> <span class="ident">Parser</span> {
     <span class="ident">ptr</span>: <span class="kw-2">*const</span> <span class="ident">u8</span>,
@@ -718,7 +718,7 @@
         (<span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">len</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span> <span class="ident">i</span>))
     }
 
-    <span class="comment">// Any call to this function must keep the invariant.</span>
+    <span class="comment">// Any call to this method must keep the invariants.</span>
     <span class="kw">fn</span> <span class="ident">skip</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">u32</span>) {
         <span class="comment">// INVARIANT: `pos` is non-decreasing.</span>
         <span class="self">self</span>.<span class="ident">pos</span> <span class="op">+</span><span class="op">=</span> <span class="ident">n</span>;
@@ -930,7 +930,7 @@
             <span class="ident">host</span> <span class="op">=</span> (<span class="self">self</span>.<span class="ident">mark</span>, <span class="ident">host_end</span>, <span class="ident">data</span>);
 
             <span class="comment">// Restore the state.</span>
-            <span class="comment">// INVARIANT: Restoring the state would not affect the invariant.</span>
+            <span class="comment">// INVARIANT: Restoring the state would not affect the invariants.</span>
             (<span class="self">self</span>.<span class="ident">len</span>, <span class="self">self</span>.<span class="ident">pos</span>) <span class="op">=</span> <span class="ident">state</span>;
         }
 
@@ -943,7 +943,7 @@
         <span class="self">self</span>.<span class="ident">parse_from_path</span>(<span class="ident">PathKind::AbEmpty</span>)
     }
 
-    <span class="comment">// The marked length must be zero when this function is called.</span>
+    <span class="comment">// The marked length must be zero when this method is called.</span>
     <span class="kw">fn</span> <span class="ident">read_host</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HostData</span><span class="op">&gt;</span> {
         <span class="kw">match</span> <span class="self">self</span>.<span class="ident">read_ip_literal</span>()<span class="question-mark">?</span> {
             <span class="prelude-val">Some</span>(<span class="ident">host</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">host</span>),
@@ -951,7 +951,7 @@
         }
     }
 
-    <span class="comment">// The marked length must be zero when this function is called.</span>
+    <span class="comment">// The marked length must be zero when this method is called.</span>
     <span class="kw">fn</span> <span class="ident">read_ip_literal</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">HostData</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">read_str</span>(<span class="string">&quot;[&quot;</span>) {
             <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
@@ -1101,7 +1101,7 @@
         }
     }
 
-    <span class="comment">// The marked length must be zero when this function is called.</span>
+    <span class="comment">// The marked length must be zero when this method is called.</span>
     <span class="kw">fn</span> <span class="ident">read_v4_or_reg_name</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">HostData</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">v4</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">scan_v4</span>();
         <span class="kw">let</span> <span class="ident">v4_end</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">pos</span>;

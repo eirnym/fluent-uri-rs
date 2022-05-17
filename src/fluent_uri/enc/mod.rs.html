@@ -796,10 +796,10 @@
 <span class="doccomment">/// use std::collections::HashMap;</span>
 <span class="doccomment">/// use fluent_uri::enc::EStr;</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// let s = &quot;name=%E5%BC%A0%E4%B8%89&amp;speech=%C2%A1Ol%C3%A9%21&quot;;</span>
-<span class="doccomment">/// let map: HashMap&lt;_, _&gt; = EStr::new(s)</span>
+<span class="doccomment">/// let query = &quot;name=%E5%BC%A0%E4%B8%89&amp;speech=%C2%A1Ol%C3%A9%21&quot;;</span>
+<span class="doccomment">/// let map: HashMap&lt;_, _&gt; = EStr::new(query)</span>
 <span class="doccomment">///     .split(&#39;&amp;&#39;)</span>
-<span class="doccomment">///     .filter_map(|s| s.split_once(&#39;=&#39;))</span>
+<span class="doccomment">///     .filter_map(|pair| pair.split_once(&#39;=&#39;))</span>
 <span class="doccomment">///     .map(|(k, v)| (k.decode(), v.decode()))</span>
 <span class="doccomment">///     .filter_map(|(k, v)| k.into_string().ok().zip(v.into_string().ok()))</span>
 <span class="doccomment">///     .collect();</span>

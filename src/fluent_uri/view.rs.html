@@ -263,6 +263,8 @@
 <span id="256">256</span>
 <span id="257">257</span>
 <span id="258">258</span>
+<span id="259">259</span>
+<span id="260">260</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">num::NonZeroU32</span>, <span class="ident">ops::Deref</span>};
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
@@ -335,7 +337,7 @@
 <span class="doccomment">/// A smart pointer that allows viewing a mutable byte slice as `&amp;T`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This struct was introduced considering the fact that a bare `&amp;mut EStr` wouldn&#39;t</span>
-<span class="doccomment">/// do for in-place decoding because such decoding breaks the invariant of [`EStr`].</span>
+<span class="doccomment">/// do for in-place decoding because such decoding breaks the invariants of [`EStr`].</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// Six types of *lenses* may be used as `T`: [`EStr`], [`prim@str`], [`Scheme`],</span>
 <span class="doccomment">/// [`Authority`], [`Host`], and [`Path`].</span>
@@ -386,6 +388,8 @@
 <span class="doccomment">/// A [`Scheme`] view into a mutable byte slice that allows lowercasing in-place.</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Scheme</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Converts the scheme to lower case in-place.</span>
+    <span class="doccomment">/// </span>
+    <span class="doccomment">/// This method is slightly faster than [`slice::make_ascii_lowercase`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Examples</span>
     <span class="doccomment">///</span>

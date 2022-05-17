@@ -1391,7 +1391,7 @@
 
     <span class="doccomment">/// Returns `true` if the URI reference is [relative], i.e., without a scheme.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that this function is not the opposite of [`is_absolute`].</span>
+    <span class="doccomment">/// Note that this method is not the opposite of [`is_absolute`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [relative]: https://datatracker.ietf.org/doc/html/rfc3986/#section-4.2</span>
     <span class="doccomment">/// [`is_absolute`]: Self::is_absolute</span>
@@ -1414,7 +1414,7 @@
 
     <span class="doccomment">/// Returns `true` if the URI reference is [absolute], i.e., with a scheme and without a fragment.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that this function is not the opposite of [`is_relative`].</span>
+    <span class="doccomment">/// Note that this method is not the opposite of [`is_relative`].</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [absolute]: https://datatracker.ietf.org/doc/html/rfc3986/#section-4.3</span>
     <span class="doccomment">/// [`is_relative`]: Self::is_relative</span>
@@ -1441,7 +1441,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
     <span class="doccomment">/// Parses a URI reference from a mutable byte sequence into a `Uri&lt;&amp;mut [u8]&gt;`.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See the [`parse`] method for more details.</span>
+    <span class="doccomment">/// See the [`parse`] function for more details.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`parse`]: Uri::parse</span>
     <span class="doccomment">///</span>
@@ -1535,7 +1535,7 @@
 <span class="kw">impl</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Parses a URI reference from a [`String`] or [`Vec&lt;u8&gt;`] into a `Uri&lt;String&gt;`.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// See the [`parse`] method for more details.</span>
+    <span class="doccomment">/// See the [`parse`] function for more details.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`parse`]: Uri::parse</span>
     <span class="doccomment">///</span>
@@ -1653,7 +1653,7 @@
 
     <span class="doccomment">/// Checks if the scheme equals case-insensitively with a lowercase string.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// This function is faster than [`str::eq_ignore_ascii_case`] but will</span>
+    <span class="doccomment">/// This method is slightly faster than [`str::eq_ignore_ascii_case`] but will</span>
     <span class="doccomment">/// always return `false` if there is any uppercase letter in the given string.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Examples</span>
