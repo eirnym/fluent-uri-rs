@@ -760,6 +760,14 @@
 <span id="753">753</span>
 <span id="754">754</span>
 <span id="755">755</span>
+<span id="756">756</span>
+<span id="757">757</span>
+<span id="758">758</span>
+<span id="759">759</span>
+<span id="760">760</span>
+<span id="761">761</span>
+<span id="762">762</span>
+<span id="763">763</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">table</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>))]</span>
@@ -779,7 +787,9 @@
 
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">borrow</span>::{<span class="self">self</span>, <span class="ident">Cow</span>},
-    <span class="ident">fmt</span>, <span class="ident">hash</span>, <span class="ident">mem</span>,
+    <span class="ident">fmt</span>, <span class="ident">hash</span>,
+    <span class="ident">iter::FusedIterator</span>,
+    <span class="ident">mem</span>,
     <span class="ident">str</span>::{<span class="self">self</span>, <span class="ident">Utf8Error</span>},
     <span class="ident">string::FromUtf8Error</span>,
 };
@@ -1299,6 +1309,7 @@
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`split`]: EStr::split</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;iterators are lazy and do nothing unless consumed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Split</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>],
     <span class="ident">delim</span>: <span class="ident">u8</span>,
@@ -1362,12 +1373,15 @@
     }
 }
 
+<span class="kw">impl</span> <span class="ident">FusedIterator</span> <span class="kw">for</span> <span class="ident">Split</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {}
+
 <span class="doccomment">/// An iterator over subslices of a [`View&lt;EStr&gt;`] separated by a delimiter.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This struct is created by the [`split_view`] method on [`View&lt;EStr&gt;`].</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`split_view`]: View::&lt;EStr&gt;::split_view</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;iterators are lazy and do nothing unless consumed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">SplitView</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>],
     <span class="ident">delim</span>: <span class="ident">u8</span>,
@@ -1432,6 +1446,8 @@
         <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="ident">View::new</span>(<span class="ident">tail</span>) })
     }
 }
+
+<span class="kw">impl</span> <span class="ident">FusedIterator</span> <span class="kw">for</span> <span class="ident">SplitView</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {}
 
 <span class="doccomment">/// An error occurred when attempting to write to a buffer that is too small.</span>
 <span class="doccomment">///</span>
