@@ -424,7 +424,7 @@
     <span class="doccomment">/// Panics if the host subcomponent is already taken.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_str_view</span>(<span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
             <span class="ident">component_taken</span>();
         }
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
@@ -452,7 +452,7 @@
     <span class="comment">// `view.0` would alias with `self.0`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_host</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Host</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
             <span class="ident">component_taken</span>();
         }
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::HOST_TAKEN</span>;
@@ -464,12 +464,12 @@
     <span class="doccomment">/// Takes a view of the port subcomponent, leaving a `None` in its place.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_port</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::PORT_TAKEN</span>) {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::PORT_TAKEN</span>) {
             <span class="kw">return</span> <span class="prelude-val">None</span>;
         }
         <span class="self">self</span>.<span class="number">0</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::PORT_TAKEN</span>;
 
-        <span class="kw">let</span> (<span class="ident">host_end</span>, <span class="ident">end</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">1</span>, <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>);
+        <span class="kw">let</span> (<span class="ident">host_end</span>, <span class="ident">end</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">1</span>, <span class="self">self</span>.<span class="number">0</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>);
         <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
         (<span class="ident">host_end</span> <span class="op">!</span><span class="op">=</span> <span class="ident">end</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="number">0</span>.<span class="ident">view</span>(<span class="ident">host_end</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">end</span>) })
     }
@@ -526,5 +526,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (c52b9c10b 2022-05-16)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (cd282d7f7 2022-05-18)" ></div>
 </body></html>
