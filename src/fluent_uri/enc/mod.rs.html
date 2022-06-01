@@ -768,6 +768,20 @@
 <span id="761">761</span>
 <span id="762">762</span>
 <span id="763">763</span>
+<span id="764">764</span>
+<span id="765">765</span>
+<span id="766">766</span>
+<span id="767">767</span>
+<span id="768">768</span>
+<span id="769">769</span>
+<span id="770">770</span>
+<span id="771">771</span>
+<span id="772">772</span>
+<span id="773">773</span>
+<span id="774">774</span>
+<span id="775">775</span>
+<span id="776">776</span>
+<span id="777">777</span>
 </pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">table</span>;
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>))]</span>
@@ -835,6 +849,10 @@
     }
 }
 
+<span class="doccomment">/// Implements equality comparisons on `EStr`s.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// `EStr`s are compared by their byte values. Percent-encoding</span>
+<span class="doccomment">/// normalization is **not** performed prior to comparison.</span>
 <span class="kw">impl</span> <span class="ident">PartialEq</span><span class="op">&lt;</span><span class="ident">EStr</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">EStr</span> {
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">eq</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">EStr</span>) -&gt; <span class="ident">bool</span> {
@@ -886,7 +904,17 @@
     }
 }
 
+<span class="kw">impl</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">EStr</span> {
+    <span class="doccomment">/// Creates an empty `EStr`.</span>
+    <span class="attribute">#[<span class="ident">inline</span>]</span>
+    <span class="kw">fn</span> <span class="ident">default</span>() -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">EStr</span> {
+        <span class="ident">EStr::EMPTY</span>
+    }
+}
+
 <span class="kw">impl</span> <span class="ident">EStr</span> {
+    <span class="kw">const</span> <span class="ident">EMPTY</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">EStr</span> <span class="op">=</span> <span class="ident">EStr::new</span>(<span class="string">&quot;&quot;</span>);
+
     <span class="doccomment">/// Converts a string slice to an `EStr`.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// # Panics</span>
@@ -1108,7 +1136,7 @@
 <span class="doccomment">/// This enum is created by the [`decode`] method on [`EStr`].</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`decode`]: EStr::decode</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">Decode</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="doccomment">/// No percent-encoded octets are decoded.</span>
     <span class="ident">Src</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>),
@@ -1308,7 +1336,7 @@
 <span class="doccomment">/// This struct is created by the [`split`] method on [`EStr`].</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`split`]: EStr::split</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>)]</span>
+<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Debug</span>)]</span>
 <span class="attribute">#[<span class="ident">must_use</span> <span class="op">=</span> <span class="string">&quot;iterators are lazy and do nothing unless consumed&quot;</span>]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Split</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>],
@@ -1532,5 +1560,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (e6a4afc3a 2022-05-20)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (e09449220 2022-05-31)" ></div>
 </body></html>
