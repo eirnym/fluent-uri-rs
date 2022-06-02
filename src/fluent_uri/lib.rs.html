@@ -1018,6 +1018,13 @@
 <span id="1011">1011</span>
 <span id="1012">1012</span>
 <span id="1013">1013</span>
+<span id="1014">1014</span>
+<span id="1015">1015</span>
+<span id="1016">1016</span>
+<span id="1017">1017</span>
+<span id="1018">1018</span>
+<span id="1019">1019</span>
+<span id="1020">1020</span>
 </pre><pre class="rust"><code><span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_debug_implementations</span>, <span class="ident">missing_docs</span>, <span class="ident">rust_2018_idioms</span>)]</span>
 <span class="attribute">#![<span class="ident">deny</span>(<span class="ident">unsafe_op_in_unsafe_fn</span>)]</span>
 
@@ -1029,10 +1036,17 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Feature flags</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! All features are disabled by default.</span>
+<span class="doccomment">//! All features are disabled by default. However, note that these features each</span>
+<span class="doccomment">//! alter the enum [`HostData`] in a backward incompatible way that could make it</span>
+<span class="doccomment">//! impossible for two crates that depend on different features of `fluent-uri` to</span>
+<span class="doccomment">//! be used together.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! - `ipv_future`: Enables the parsing of [IPvFuture] literal addresses,</span>
 <span class="doccomment">//!   which fails with [`InvalidIpLiteral`] when disabled.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//!     Only enable this feature when you have a compelling reason to do so, such as</span>
+<span class="doccomment">//!     that you have to deal with an existing system where the IPvFuture format is</span>
+<span class="doccomment">//!     in use.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! - `rfc6874bis`: Enables the parsing of IPv6 zone identifiers,</span>
 <span class="doccomment">//!   such as in `https://[fe80::abcd%en1]`.</span>
@@ -1283,7 +1297,7 @@
     <span class="doccomment">///   the buffer is too small.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// [`TryReserveError`]: std::collections::TryReserveError</span>
-    <span class="doccomment">/// [`BufferTooSmallError`]: crate::mutable::BufferTooSmallError</span>
+    <span class="doccomment">/// [`BufferTooSmallError`]: crate::enc::BufferTooSmallError</span>
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_mut_in</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">B</span>: <span class="ident"><span class="kw">crate</span>::enc::internal::Buf</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(
@@ -2032,5 +2046,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (e09449220 2022-05-31)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (12cd71f4d 2022-06-01)" ></div>
 </body></html>

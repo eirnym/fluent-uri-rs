@@ -6,14 +6,20 @@
         </a><h2 class="location"><a href="#">Crate fluent_uri</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.1.3</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#modules">Modules</a></li><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li></ul></div></section><div id="sidebar-vars" data-name="fluent_uri" data-ty="mod" data-relpath=""></div><script defer src="sidebar-items.js"></script></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../fluent_uri/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
                                 <a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div>
                         </div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
-    <h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">fluent_uri</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/fluent_uri/lib.rs.html#1-1013">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A URI parser that strictly adheres to IETF <a href="https://datatracker.ietf.org/doc/html/rfc3986/">RFC 3986</a>.</p>
+    <h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">fluent_uri</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/fluent_uri/lib.rs.html#1-1020">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>A URI parser that strictly adheres to IETF <a href="https://datatracker.ietf.org/doc/html/rfc3986/">RFC 3986</a>.</p>
 <p>See the documentation of <a href="struct.Uri.html" title="Uri"><code>Uri</code></a> for more details.</p>
 <h2 id="feature-flags"><a href="#feature-flags">Feature flags</a></h2>
-<p>All features are disabled by default.</p>
+<p>All features are disabled by default. However, note that these features each
+alter the enum <a href="enum.HostData.html" title="HostData"><code>HostData</code></a> in a backward incompatible way that could make it
+impossible for two crates that depend on different features of <code>fluent-uri</code> to
+be used together.</p>
 <ul>
 <li>
 <p><code>ipv_future</code>: Enables the parsing of <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2">IPvFuture</a> literal addresses,
 which fails with <a href="enum.ParseErrorKind.html#variant.InvalidIpLiteral"><code>InvalidIpLiteral</code></a> when disabled.</p>
+<p>Only enable this feature when you have a compelling reason to do so, such as
+that you have to deal with an existing system where the IPvFuture format is
+in use.</p>
 </li>
 <li>
 <p><code>rfc6874bis</code>: Enables the parsing of IPv6 zone identifiers,
@@ -34,5 +40,5 @@ such as in <code>https://[fe80::abcd%en1]</code>.</p>
 </div></div></div><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2>
 <div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.HostData.html" title="fluent_uri::HostData enum">HostData</a></div><div class="item-right docblock-short"><p>Structured host data.</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.ParseErrorKind.html" title="fluent_uri::ParseErrorKind enum">ParseErrorKind</a></div><div class="item-right docblock-short"><p>Detailed cause of a <a href="struct.ParseError.html" title="ParseError"><code>ParseError</code></a>.</p>
-</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (e09449220 2022-05-31)" ></div>
+</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (12cd71f4d 2022-06-01)" ></div>
 </body></html>
