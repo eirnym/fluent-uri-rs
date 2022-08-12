@@ -1,3 +1,4 @@
-var sourcesIndex = {};
-sourcesIndex["fluent_uri"] = {"name":"","dirs":[{"name":"enc","files":["imp.rs","mod.rs","table.rs"]}],"files":["fmt.rs","internal.rs","lib.rs","parser.rs","view.rs"]};
+var sourcesIndex = JSON.parse('{\
+"fluent_uri":["",[["enc",[],["estring.rs","imp.rs","mod.rs","table.rs"]]],["fmt.rs","internal.rs","lib.rs","parser.rs","view.rs"]]\
+}');
 createSourceSidebar();
