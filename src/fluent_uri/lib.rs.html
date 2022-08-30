@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../fluent_uri/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../fluent_uri/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -1020,1027 +1020,1027 @@
 <span id="1020">1020</span>
 <span id="1021">1021</span>
 <span id="1022">1022</span>
-</pre><pre class="rust"><code><span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_debug_implementations</span>, <span class="ident">missing_docs</span>, <span class="ident">rust_2018_idioms</span>)]</span>
-<span class="attribute">#![<span class="ident">deny</span>(<span class="ident">unsafe_op_in_unsafe_fn</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![warn(missing_debug_implementations, missing_docs, rust_2018_idioms)]
+#![deny(unsafe_op_in_unsafe_fn)]
 
-<span class="doccomment">//! A generic URI parser that strictly adheres to IETF [RFC 3986].</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [RFC 3986]: https://datatracker.ietf.org/doc/html/rfc3986/</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! See the documentation of [`Uri`] for more details.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Feature flags</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! All features are disabled by default. However, note that these features each</span>
-<span class="doccomment">//! alter the enum [`HostData`] in a backward incompatible way that could make it</span>
-<span class="doccomment">//! impossible for two crates that depend on different features of `fluent-uri` to</span>
-<span class="doccomment">//! be used together.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! - `ipv_future`: Enables the parsing of [IPvFuture] literal addresses,</span>
-<span class="doccomment">//!   which fails with [`InvalidIpLiteral`] when disabled.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     Only enable this feature when you have a compelling reason to do so, such as</span>
-<span class="doccomment">//!     that you have to deal with an existing system where the IPvFuture format is</span>
-<span class="doccomment">//!     in use.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! - `rfc6874bis`: Enables the parsing of IPv6 zone identifiers,</span>
-<span class="doccomment">//!   such as in `https://[fe80::abcd%en1]`.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//!     This feature is based on the homonymous [draft] and is thus subject to change.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [IPvFuture]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2</span>
-<span class="doccomment">//! [`InvalidIpLiteral`]: ParseErrorKind::InvalidIpLiteral</span>
-<span class="doccomment">//! [draft]: https://datatracker.ietf.org/doc/html/draft-ietf-6man-rfc6874bis-01</span>
+</span><span class="doccomment">//! A generic URI parser that strictly adheres to IETF [RFC 3986].
+//!
+//! [RFC 3986]: https://datatracker.ietf.org/doc/html/rfc3986/
+//!
+//! See the documentation of [`Uri`] for more details.
+//!
+//! # Feature flags
+//!
+//! All features are disabled by default. However, note that these features each
+//! alter the enum [`HostData`] in a backward incompatible way that could make it
+//! impossible for two crates that depend on different features of `fluent-uri` to
+//! be used together.
+//!
+//! - `ipv_future`: Enables the parsing of [IPvFuture] literal addresses,
+//!   which fails with [`InvalidIpLiteral`] when disabled.
+//!
+//!     Only enable this feature when you have a compelling reason to do so, such as
+//!     that you have to deal with an existing system where the IPvFuture format is
+//!     in use.
+//!
+//! - `rfc6874bis`: Enables the parsing of IPv6 zone identifiers,
+//!   such as in `https://[fe80::abcd%en1]`.
+//!
+//!     This feature is based on the homonymous [draft] and is thus subject to change.
+//!
+//! [IPvFuture]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2
+//! [`InvalidIpLiteral`]: ParseErrorKind::InvalidIpLiteral
+//! [draft]: https://datatracker.ietf.org/doc/html/draft-ietf-6man-rfc6874bis-02
 
-<span class="doccomment">/// Utilities for percent-encoding.</span>
-<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">enc</span>;
+/// Utilities for percent-encoding.
+</span><span class="kw">pub mod </span>enc;
 
-<span class="kw">mod</span> <span class="ident">fmt</span>;
+<span class="kw">mod </span>fmt;
 
-<span class="kw">mod</span> <span class="ident">view</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">view</span>::<span class="kw-2">*</span>;
+<span class="kw">mod </span>view;
+<span class="kw">pub use </span>view::<span class="kw-2">*</span>;
 
-<span class="kw">mod</span> <span class="ident">parser</span>;
+<span class="kw">mod </span>parser;
 
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::enc</span>::{<span class="ident">EStr</span>, <span class="ident">Split</span>};
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">marker::PhantomData</span>,
-    <span class="ident">mem::ManuallyDrop</span>,
-    <span class="ident">net</span>::{<span class="ident">Ipv4Addr</span>, <span class="ident">Ipv6Addr</span>},
-    <span class="ident">ptr::NonNull</span>,
-    <span class="ident">slice</span>, <span class="ident">str</span>,
+<span class="kw">use </span><span class="kw">crate</span>::enc::{EStr, Split};
+<span class="kw">use </span>std::{
+    marker::PhantomData,
+    mem::ManuallyDrop,
+    net::{Ipv4Addr, Ipv6Addr},
+    ptr::NonNull,
+    slice, str,
 };
 
-<span class="kw">mod</span> <span class="ident">internal</span>;
-<span class="kw">use</span> <span class="ident">internal</span>::<span class="kw-2">*</span>;
+<span class="kw">mod </span>internal;
+<span class="kw">use </span>internal::<span class="kw-2">*</span>;
 
-<span class="doccomment">/// Detailed cause of a [`ParseError`].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">ParseErrorKind</span> {
-    <span class="doccomment">/// Invalid percent-encoded octet that is either non-hexadecimal or incomplete.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The error index points to the percent character &quot;%&quot; of the octet.</span>
-    <span class="ident">InvalidOctet</span>,
-    <span class="doccomment">/// Unexpected character that is not allowed by the URI syntax.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The error index points to the character.</span>
-    <span class="ident">UnexpectedChar</span>,
-    <span class="doccomment">/// Invalid IP literal address.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The error index points to the preceding left square bracket &quot;[&quot;.</span>
-    <span class="ident">InvalidIpLiteral</span>,
+<span class="doccomment">/// Detailed cause of a [`ParseError`].
+</span><span class="attribute">#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+</span><span class="kw">pub enum </span>ParseErrorKind {
+    <span class="doccomment">/// Invalid percent-encoded octet that is either non-hexadecimal or incomplete.
+    ///
+    /// The error index points to the percent character &quot;%&quot; of the octet.
+    </span>InvalidOctet,
+    <span class="doccomment">/// Unexpected character that is not allowed by the URI syntax.
+    ///
+    /// The error index points to the character.
+    </span>UnexpectedChar,
+    <span class="doccomment">/// Invalid IP literal address.
+    ///
+    /// The error index points to the preceding left square bracket &quot;[&quot;.
+    </span>InvalidIpLiteral,
 }
 
-<span class="doccomment">/// An error occurred when parsing URI references.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">ParseError</span> {
-    <span class="ident">index</span>: <span class="ident">u32</span>,
-    <span class="ident">kind</span>: <span class="ident">ParseErrorKind</span>,
+<span class="doccomment">/// An error occurred when parsing URI references.
+</span><span class="attribute">#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>ParseError {
+    index: u32,
+    kind: ParseErrorKind,
 }
 
-<span class="kw">impl</span> <span class="ident">ParseError</span> {
-    <span class="doccomment">/// Returns the index where the error occurred in the input string.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">usize</span> {
-        <span class="self">self</span>.<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>
+<span class="kw">impl </span>ParseError {
+    <span class="doccomment">/// Returns the index where the error occurred in the input string.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>index(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.index <span class="kw">as </span>usize
     }
 
-    <span class="doccomment">/// Returns the detailed cause of the error.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">ParseErrorKind</span> {
-        <span class="self">self</span>.<span class="ident">kind</span>
+    <span class="doccomment">/// Returns the detailed cause of the error.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>kind(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; ParseErrorKind {
+        <span class="self">self</span>.kind
     }
 }
 
-<span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">ParseError</span> {}
+<span class="kw">impl </span>std::error::Error <span class="kw">for </span>ParseError {}
 
-<span class="kw">type</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span> <span class="op">=</span> <span class="ident">ParseError</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">std::result::Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>;
+<span class="kw">type </span><span class="prelude-ty">Result</span>&lt;T, E = ParseError&gt; = std::result::Result&lt;T, E&gt;;
 
-<span class="attribute">#[<span class="ident">cold</span>]</span>
-<span class="kw">fn</span> <span class="ident">len_overflow</span>() -&gt; <span class="op">!</span> {
+<span class="attribute">#[cold]
+</span><span class="kw">fn </span>len_overflow() -&gt; ! {
     <span class="macro">panic!</span>(<span class="string">&quot;input length exceeds i32::MAX&quot;</span>);
 }
 
-<span class="doccomment">/// A [URI reference] defined in RFC 3986.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [URI reference]: https://datatracker.ietf.org/doc/html/rfc3986/#section-4.1</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Variants</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// There are three variants of `Uri` in total:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// - `Uri&lt;&amp;str&gt;`: borrowed; immutable.</span>
-<span class="doccomment">/// - `Uri&lt;&amp;mut [u8]&gt;`: borrowed; in-place mutable.</span>
-<span class="doccomment">/// - `Uri&lt;String&gt;`: owned; immutable.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Lifetimes are correctly handled in a way that `Uri&lt;&amp;&#39;a str&gt;` and `Uri&lt;&amp;&#39;a mut [u8]&gt;`</span>
-<span class="doccomment">/// both output references with lifetime `&#39;a` where appropriate. This allows you to drop</span>
-<span class="doccomment">/// a temporary `Uri` while keeping the output references:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// use fluent_uri::Uri;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// let mut bytes = *b&quot;foo:bar&quot;;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// let uri = Uri::parse(&amp;bytes)?;</span>
-<span class="doccomment">/// let path = uri.path();</span>
-<span class="doccomment">/// drop(uri);</span>
-<span class="doccomment">/// assert_eq!(path.as_str(), &quot;bar&quot;);</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// let mut uri = Uri::parse_mut(&amp;mut bytes)?;</span>
-<span class="doccomment">/// let path = uri.take_path();</span>
-<span class="doccomment">/// drop(uri);</span>
-<span class="doccomment">/// assert_eq!(path.as_str(), &quot;bar&quot;);</span>
-<span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Examples</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Create and convert between `Uri&lt;&amp;str&gt;` and `Uri&lt;String&gt;`:</span>
-<span class="doccomment">///   </span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// use fluent_uri::Uri;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// let uri_str = &quot;http://example.com/&quot;;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // Create a `Uri&lt;&amp;str&gt;` from a string slice.</span>
-<span class="doccomment">/// let uri_a: Uri&lt;&amp;str&gt; = Uri::parse(uri_str)?;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // Create a `Uri&lt;String&gt;` from an owned string.</span>
-<span class="doccomment">/// let uri_b: Uri&lt;String&gt; = Uri::parse_from(uri_str.to_owned()).map_err(|e| e.1)?;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // Convert a `Uri&lt;&amp;str&gt;` to a `Uri&lt;String&gt;`.</span>
-<span class="doccomment">/// let uri_c: Uri&lt;String&gt; = uri_a.to_owned();</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // Borrow a `Uri&lt;String&gt;` as a `Uri&lt;&amp;str&gt;`.</span>
-<span class="doccomment">/// let uri_d: &amp;Uri&lt;&amp;str&gt; = uri_b.borrow();</span>
-<span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Decode and extract query parameters in-place from a URI reference:</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// use fluent_uri::{ParseError, Uri};</span>
-<span class="doccomment">/// use std::collections::HashMap;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// fn decode_and_extract_query(</span>
-<span class="doccomment">///     bytes: &amp;mut [u8],</span>
-<span class="doccomment">/// ) -&gt; Result&lt;(Uri&lt;&amp;mut [u8]&gt;, HashMap&lt;&amp;str, &amp;str&gt;), ParseError&gt; {</span>
-<span class="doccomment">///     let mut uri = Uri::parse_mut(bytes)?;</span>
-<span class="doccomment">///     let map = if let Some(query) = uri.take_query() {</span>
-<span class="doccomment">///         query</span>
-<span class="doccomment">///             .split_view(&#39;&amp;&#39;)</span>
-<span class="doccomment">///             .flat_map(|pair| pair.split_once_view(&#39;=&#39;))</span>
-<span class="doccomment">///             .map(|(k, v)| (k.decode_in_place(), v.decode_in_place()))</span>
-<span class="doccomment">///             .flat_map(|(k, v)| k.into_str().ok().zip(v.into_str().ok()))</span>
-<span class="doccomment">///             .collect()</span>
-<span class="doccomment">///     } else {</span>
-<span class="doccomment">///         HashMap::new()</span>
-<span class="doccomment">///     };</span>
-<span class="doccomment">///     Ok((uri, map))</span>
-<span class="doccomment">/// }</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// let mut bytes = *b&quot;?lang=Rust&amp;mascot=Ferris%20the%20crab&quot;;</span>
-<span class="doccomment">/// let (uri, query) = decode_and_extract_query(&amp;mut bytes)?;</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// assert_eq!(query[&quot;lang&quot;], &quot;Rust&quot;);</span>
-<span class="doccomment">/// assert_eq!(query[&quot;mascot&quot;], &quot;Ferris the crab&quot;);</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// // The query is taken from the `Uri`.</span>
-<span class="doccomment">/// assert!(uri.query().is_none());</span>
-<span class="doccomment">/// // In-place decoding is like this if you&#39;re interested:</span>
-<span class="doccomment">/// assert_eq!(&amp;bytes, b&quot;?lang=Rust&amp;mascot=Ferris the crabcrab&quot;);</span>
-<span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-<span class="doccomment">/// ```</span>
-<span class="comment">// TODO: Create a mutable copy of an immutable `Uri` in a buffer:</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> {
-    <span class="ident">ptr</span>: <span class="ident">T::Ptr</span>,
-    <span class="ident">data</span>: <span class="ident">Data</span>,
-    <span class="ident">_marker</span>: <span class="ident">PhantomData</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+<span class="doccomment">/// A [URI reference] defined in RFC 3986.
+///
+/// [URI reference]: https://datatracker.ietf.org/doc/html/rfc3986/#section-4.1
+///
+/// # Variants
+///
+/// There are three variants of `Uri` in total:
+///
+/// - `Uri&lt;&amp;str&gt;`: borrowed; immutable.
+/// - `Uri&lt;&amp;mut [u8]&gt;`: borrowed; in-place mutable.
+/// - `Uri&lt;String&gt;`: owned; immutable.
+///
+/// Lifetimes are correctly handled in a way that `Uri&lt;&amp;&#39;a str&gt;` and `Uri&lt;&amp;&#39;a mut [u8]&gt;`
+/// both output references with lifetime `&#39;a` where appropriate. This allows you to drop
+/// a temporary `Uri` while keeping the output references:
+///
+/// ```
+/// use fluent_uri::Uri;
+///
+/// let mut bytes = *b&quot;foo:bar&quot;;
+///
+/// let uri = Uri::parse(&amp;bytes)?;
+/// let path = uri.path();
+/// drop(uri);
+/// assert_eq!(path.as_str(), &quot;bar&quot;);
+///
+/// let mut uri = Uri::parse_mut(&amp;mut bytes)?;
+/// let path = uri.take_path();
+/// drop(uri);
+/// assert_eq!(path.as_str(), &quot;bar&quot;);
+/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+/// ```
+///
+/// # Examples
+///
+/// Create and convert between `Uri&lt;&amp;str&gt;` and `Uri&lt;String&gt;`:
+///   
+/// ```
+/// use fluent_uri::Uri;
+///
+/// let uri_str = &quot;http://example.com/&quot;;
+///
+/// // Create a `Uri&lt;&amp;str&gt;` from a string slice.
+/// let uri_a: Uri&lt;&amp;str&gt; = Uri::parse(uri_str)?;
+///
+/// // Create a `Uri&lt;String&gt;` from an owned string.
+/// let uri_b: Uri&lt;String&gt; = Uri::parse_from(uri_str.to_owned()).map_err(|e| e.1)?;
+///
+/// // Convert a `Uri&lt;&amp;str&gt;` to a `Uri&lt;String&gt;`.
+/// let uri_c: Uri&lt;String&gt; = uri_a.to_owned();
+///
+/// // Borrow a `Uri&lt;String&gt;` as a `Uri&lt;&amp;str&gt;`.
+/// let uri_d: &amp;Uri&lt;&amp;str&gt; = uri_b.borrow();
+/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+/// ```
+///
+/// Decode and extract query parameters in-place from a URI reference:
+///
+/// ```
+/// use fluent_uri::{ParseError, Uri};
+/// use std::collections::HashMap;
+///
+/// fn decode_and_extract_query(
+///     bytes: &amp;mut [u8],
+/// ) -&gt; Result&lt;(Uri&lt;&amp;mut [u8]&gt;, HashMap&lt;&amp;str, &amp;str&gt;), ParseError&gt; {
+///     let mut uri = Uri::parse_mut(bytes)?;
+///     let map = if let Some(query) = uri.take_query() {
+///         query
+///             .split_view(&#39;&amp;&#39;)
+///             .flat_map(|pair| pair.split_once_view(&#39;=&#39;))
+///             .map(|(k, v)| (k.decode_in_place(), v.decode_in_place()))
+///             .flat_map(|(k, v)| k.into_str().ok().zip(v.into_str().ok()))
+///             .collect()
+///     } else {
+///         HashMap::new()
+///     };
+///     Ok((uri, map))
+/// }
+///
+/// let mut bytes = *b&quot;?lang=Rust&amp;mascot=Ferris%20the%20crab&quot;;
+/// let (uri, query) = decode_and_extract_query(&amp;mut bytes)?;
+///
+/// assert_eq!(query[&quot;lang&quot;], &quot;Rust&quot;);
+/// assert_eq!(query[&quot;mascot&quot;], &quot;Ferris the crab&quot;);
+///
+/// // The query is taken from the `Uri`.
+/// assert!(uri.query().is_none());
+/// // In-place decoding is like this if you&#39;re interested:
+/// assert_eq!(&amp;bytes, b&quot;?lang=Rust&amp;mascot=Ferris the crabcrab&quot;);
+/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+/// ```
+</span><span class="comment">// TODO: Create a mutable copy of an immutable `Uri` in a buffer:
+</span><span class="attribute">#[repr(C)]
+</span><span class="kw">pub struct </span>Uri&lt;T: Storage&gt; {
+    ptr: T::Ptr,
+    data: Data,
+    _marker: PhantomData&lt;T&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Parses a URI reference from a byte sequence into a `Uri&lt;&amp;str&gt;`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This function validates the input strictly except that UTF-8 validation is not</span>
-    <span class="doccomment">/// performed on a percent-encoded registered name (see [Section 3.2.2, RFC 3986][1]).</span>
-    <span class="doccomment">/// Care should be taken when dealing with such cases.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [1]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the input length is greater than [`i32::MAX`].</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">S</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">as_ref</span>();
-        <span class="kw">if</span> <span class="ident">bytes</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">i32::MAX</span> <span class="kw">as</span> <span class="ident">usize</span> {
-            <span class="ident">len_overflow</span>();
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Uri&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+    <span class="doccomment">/// Parses a URI reference from a byte sequence into a `Uri&lt;&amp;str&gt;`.
+    ///
+    /// This function validates the input strictly except that UTF-8 validation is not
+    /// performed on a percent-encoded registered name (see [Section 3.2.2, RFC 3986][1]).
+    /// Care should be taken when dealing with such cases.
+    ///
+    /// [1]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2
+    ///
+    /// # Panics
+    ///
+    /// Panics if the input length is greater than [`i32::MAX`].
+    </span><span class="kw">pub fn </span>parse&lt;S: AsRef&lt;[u8]&gt; + <span class="question-mark">?</span>Sized&gt;(s: <span class="kw-2">&amp;</span>S) -&gt; <span class="prelude-ty">Result</span>&lt;Uri&lt;<span class="kw-2">&amp;</span>str&gt;&gt; {
+        <span class="kw">let </span>bytes = s.as_ref();
+        <span class="kw">if </span>bytes.len() &gt; i32::MAX <span class="kw">as </span>usize {
+            len_overflow();
         }
-        <span class="comment">// SAFETY: We&#39;re using the correct pointer, length, capacity, and generics.</span>
-        <span class="kw">unsafe</span> { <span class="ident">parser::parse</span>(<span class="ident">bytes</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="kw">_</span>, <span class="ident">bytes</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>, <span class="number">0</span>) }
+        <span class="comment">// SAFETY: We&#39;re using the correct pointer, length, capacity, and generics.
+        </span><span class="kw">unsafe </span>{ parser::parse(bytes.as_ptr() <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_</span>, bytes.len() <span class="kw">as </span>u32, <span class="number">0</span>) }
     }
 
-    <span class="doccomment">/// Duplicates this `Uri&lt;&amp;str&gt;`.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">dup</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span> {
-        <span class="ident">Uri</span> {
-            <span class="ident">data</span>: <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">clone</span>(),
-            ..<span class="kw-2">*</span><span class="self">self</span>
-        }
+    <span class="doccomment">/// Duplicates this `Uri&lt;&amp;str&gt;`.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>dup(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Uri&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt; {
+        Uri {
+            data: <span class="self">self</span>.data.clone(),
+            ..<span class="kw-2">*</span><span class="self">self
+        </span>}
     }
 
-    <span class="doccomment">/// Creates a new `Uri&lt;String&gt;` by cloning the contents of this `Uri&lt;&amp;str&gt;`.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_owned</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span>();
-        <span class="comment">// We&#39;re allocating manually because there is no guarantee that</span>
-        <span class="comment">// `String::to_owned` gives the exact capacity of `self.len`.</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">vec</span> <span class="op">=</span> <span class="ident">ManuallyDrop::new</span>(<span class="ident">Vec::with_capacity</span>(<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>));
-        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">vec</span>.<span class="ident">as_mut_ptr</span>();
+    <span class="doccomment">/// Creates a new `Uri&lt;String&gt;` by cloning the contents of this `Uri&lt;&amp;str&gt;`.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>to_owned(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Uri&lt;String&gt; {
+        <span class="kw">let </span>len = <span class="self">self</span>.len();
+        <span class="comment">// We&#39;re allocating manually because there is no guarantee that
+        // `String::to_owned` gives the exact capacity of `self.len`.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>vec = ManuallyDrop::new(Vec::with_capacity(len <span class="kw">as </span>usize));
+        <span class="kw">let </span>ptr = vec.as_mut_ptr();
 
-        <span class="comment">// SAFETY: The capacity of `vec` is exactly `self.len`.</span>
-        <span class="comment">// Newly allocated `Vec` won&#39;t overlap with existing data.</span>
-        <span class="kw">unsafe</span> {
-            <span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">get</span>().<span class="ident">copy_to_nonoverlapping</span>(<span class="ident">ptr</span>, <span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>);
+        <span class="comment">// SAFETY: The capacity of `vec` is exactly `self.len`.
+        // Newly allocated `Vec` won&#39;t overlap with existing data.
+        </span><span class="kw">unsafe </span>{
+            <span class="self">self</span>.ptr.get().copy_to_nonoverlapping(ptr, len <span class="kw">as </span>usize);
         }
 
-        <span class="ident">Uri</span> {
-            <span class="comment">// SAFETY: The pointer is not null and the length and capacity are correct.</span>
-            <span class="ident">ptr</span>: <span class="kw">unsafe</span> { <span class="ident">Capped::new</span>(<span class="ident">ptr</span>, <span class="ident">len</span>, <span class="ident">len</span>) },
-            <span class="ident">data</span>: <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">clone</span>(),
-            <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
+        Uri {
+            <span class="comment">// SAFETY: The pointer is not null and the length and capacity are correct.
+            </span>ptr: <span class="kw">unsafe </span>{ Capped::new(ptr, len, len) },
+            data: <span class="self">self</span>.data.clone(),
+            _marker: PhantomData,
         }
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="doccomment">/// Returns the URI reference as a string slice.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span> {
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">slice</span>(<span class="number">0</span>, <span class="self">self</span>.<span class="ident">len</span>()) }
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, T: Io&lt;<span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>&gt; + AsRef&lt;str&gt;&gt; Uri&lt;T&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="doccomment">/// Returns the URI reference as a string slice.
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>str {
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.slice(<span class="number">0</span>, <span class="self">self</span>.len()) }
     }
 
-    <span class="doccomment">/// Creates a mutable copy of this `Uri` in the given buffer.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The type of a buffer may be:</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// - [`Vec&lt;u8&gt;`]: bytes appended to the end; returns a [`TryReserveError`]</span>
-    <span class="doccomment">///   when the allocation fails.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// - [`[u8]`](prim@slice) or [`[MaybeUninit&lt;u8&gt;]`](prim@slice): bytes</span>
-    <span class="doccomment">///   written from the start; returns a [`BufferTooSmallError`] when</span>
-    <span class="doccomment">///   the buffer is too small.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`TryReserveError`]: std::collections::TryReserveError</span>
-    <span class="doccomment">/// [`BufferTooSmallError`]: crate::enc::BufferTooSmallError</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_mut_in</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span>, <span class="ident">B</span>: <span class="ident"><span class="kw">crate</span>::enc::internal::Buf</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(
+    <span class="doccomment">/// Creates a mutable copy of this `Uri` in the given buffer.
+    ///
+    /// The type of a buffer may be:
+    ///
+    /// - [`Vec&lt;u8&gt;`]: bytes appended to the end; returns a [`TryReserveError`]
+    ///   when the allocation fails.
+    ///
+    /// - [`[u8]`](prim@slice) or [`[MaybeUninit&lt;u8&gt;]`](prim@slice): bytes
+    ///   written from the start; returns a [`BufferTooSmallError`] when
+    ///   the buffer is too small.
+    ///
+    /// [`TryReserveError`]: std::collections::TryReserveError
+    /// [`BufferTooSmallError`]: crate::enc::BufferTooSmallError
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+    #[inline]
+    </span><span class="kw">pub fn </span>to_mut_in&lt;<span class="lifetime">&#39;b</span>, B: <span class="kw">crate</span>::enc::internal::Buf + <span class="question-mark">?</span>Sized&gt;(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> <span class="ident">B</span>,
-    ) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>, <span class="ident">B::PrepareError</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span>();
-        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">prepare</span>(<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>)<span class="question-mark">?</span>;
+        buf: <span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="kw-2">mut </span>B,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;Uri&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;b </span><span class="kw-2">mut </span>[u8]&gt;, B::PrepareError&gt; {
+        <span class="kw">let </span>len = <span class="self">self</span>.len();
+        <span class="kw">let </span>ptr = buf.prepare(len <span class="kw">as </span>usize)<span class="question-mark">?</span>;
 
-        <span class="comment">// SAFETY: We have reserved enough space in the buffer, and</span>
-        <span class="comment">// mutable reference `buf` ensures exclusive access.</span>
-        <span class="kw">unsafe</span> {
-            <span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">get</span>().<span class="ident">copy_to_nonoverlapping</span>(<span class="ident">ptr</span>, <span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>);
-            <span class="ident">buf</span>.<span class="ident">finish</span>(<span class="ident">len</span> <span class="kw">as</span> <span class="ident">usize</span>);
+        <span class="comment">// SAFETY: We have reserved enough space in the buffer, and
+        // mutable reference `buf` ensures exclusive access.
+        </span><span class="kw">unsafe </span>{
+            <span class="self">self</span>.ptr.get().copy_to_nonoverlapping(ptr, len <span class="kw">as </span>usize);
+            buf.finish(len <span class="kw">as </span>usize);
         }
 
-        <span class="prelude-val">Ok</span>(<span class="ident">Uri</span> {
-            <span class="comment">// SAFETY: The pointer is not null and the length and capacity are correct.</span>
-            <span class="ident">ptr</span>: <span class="kw">unsafe</span> { <span class="ident">Uncapped::new</span>(<span class="ident">ptr</span>, <span class="ident">len</span>, <span class="number">0</span>) },
-            <span class="ident">data</span>: <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">clone</span>(),
-            <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
+        <span class="prelude-val">Ok</span>(Uri {
+            <span class="comment">// SAFETY: The pointer is not null and the length and capacity are correct.
+            </span>ptr: <span class="kw">unsafe </span>{ Uncapped::new(ptr, len, <span class="number">0</span>) },
+            data: <span class="self">self</span>.data.clone(),
+            _marker: PhantomData,
         })
     }
 }
 
-<span class="attribute">#[<span class="ident">cold</span>]</span>
-<span class="kw">fn</span> <span class="ident">component_taken</span>() -&gt; <span class="op">!</span> {
+<span class="attribute">#[cold]
+</span><span class="kw">fn </span>component_taken() -&gt; ! {
     <span class="macro">panic!</span>(<span class="string">&quot;component already taken&quot;</span>);
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">len</span>()
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, T: Io&lt;<span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>&gt;&gt; Uri&lt;T&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.ptr.len()
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">slice</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>, <span class="ident">start</span>: <span class="ident">u32</span>, <span class="ident">end</span>: <span class="ident">u32</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span> {
-        <span class="macro">debug_assert!</span>(<span class="ident">start</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">end</span> <span class="op">&amp;&amp;</span> <span class="ident">end</span> <span class="op">&lt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span>());
-        <span class="comment">// SAFETY: The caller must ensure that the indexes are within bounds.</span>
-        <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-            <span class="ident">slice::from_raw_parts</span>(<span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">get</span>().<span class="ident">add</span>(<span class="ident">start</span> <span class="kw">as</span> <span class="ident">usize</span>), (<span class="ident">end</span> <span class="op">-</span> <span class="ident">start</span>) <span class="kw">as</span> <span class="ident">usize</span>)
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>slice(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>, start: u32, end: u32) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>str {
+        <span class="macro">debug_assert!</span>(start &lt;= end &amp;&amp; end &lt;= <span class="self">self</span>.len());
+        <span class="comment">// SAFETY: The caller must ensure that the indexes are within bounds.
+        </span><span class="kw">let </span>bytes = <span class="kw">unsafe </span>{
+            slice::from_raw_parts(<span class="self">self</span>.ptr.get().add(start <span class="kw">as </span>usize), (end - start) <span class="kw">as </span>usize)
         };
-        <span class="comment">// SAFETY: The parser guarantees that the bytes are valid UTF-8.</span>
-        <span class="kw">unsafe</span> { <span class="ident">str::from_utf8_unchecked</span>(<span class="ident">bytes</span>) }
+        <span class="comment">// SAFETY: The parser guarantees that the bytes are valid UTF-8.
+        </span><span class="kw">unsafe </span>{ str::from_utf8_unchecked(bytes) }
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">eslice</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>, <span class="ident">start</span>: <span class="ident">u32</span>, <span class="ident">end</span>: <span class="ident">u32</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">EStr</span> {
-        <span class="comment">// SAFETY: The caller must ensure that the indexes are within bounds.</span>
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">slice</span>(<span class="ident">start</span>, <span class="ident">end</span>) };
-        <span class="comment">// SAFETY: The caller must ensure that the subslice is properly encoded.</span>
-        <span class="kw">unsafe</span> { <span class="ident">EStr::new_unchecked</span>(<span class="ident">s</span>.<span class="ident">as_bytes</span>()) }
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>eslice(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>, start: u32, end: u32) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>EStr {
+        <span class="comment">// SAFETY: The caller must ensure that the indexes are within bounds.
+        </span><span class="kw">let </span>s = <span class="kw">unsafe </span>{ <span class="self">self</span>.slice(start, end) };
+        <span class="comment">// SAFETY: The caller must ensure that the subslice is properly encoded.
+        </span><span class="kw">unsafe </span>{ EStr::new_unchecked(s.as_bytes()) }
     }
 
-    <span class="doccomment">/// Returns the [scheme] component.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [scheme]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.1</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">scheme</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">Scheme</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="self">self</span>.<span class="ident">scheme_end</span>
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="ident">Scheme::new</span>(<span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">slice</span>(<span class="number">0</span>, <span class="ident">i</span>.<span class="ident">get</span>()) }))
+    <span class="doccomment">/// Returns the [scheme] component.
+    ///
+    /// [scheme]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.1
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>scheme(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>Scheme&gt; {
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span><span class="self">self</span>.scheme_end
+            .map(|i| Scheme::new(<span class="kw">unsafe </span>{ <span class="self">self</span>.slice(<span class="number">0</span>, i.get()) }))
     }
 
-    <span class="doccomment">/// Returns the [authority] component.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [authority]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">authority</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">T::is_mut</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::AUTH_TAKEN</span>) {
-            <span class="kw">return</span> <span class="prelude-val">None</span>;
+    <span class="doccomment">/// Returns the [authority] component.
+    ///
+    /// [authority]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>authority(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Authority&lt;T&gt;&gt; {
+        <span class="kw">if </span>T::is_mut() &amp;&amp; <span class="self">self</span>.tag.contains(Tag::AUTH_TAKEN) {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
         }
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">auth</span>.<span class="ident">is_some</span>() {
-            <span class="comment">// SAFETY: The authority is present and not modified.</span>
-            <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="ident">Authority::new</span>(<span class="self">self</span>) })
-        } <span class="kw">else</span> {
-            <span class="prelude-val">None</span>
+        <span class="kw">if </span><span class="self">self</span>.auth.is_some() {
+            <span class="comment">// SAFETY: The authority is present and not modified.
+            </span><span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ Authority::new(<span class="self">self</span>) })
+        } <span class="kw">else </span>{
+            <span class="prelude-val">None
+        </span>}
+    }
+
+    <span class="doccomment">/// Returns the [path] component.
+    ///
+    /// [path]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.3
+    ///
+    /// # Panics
+    ///
+    /// Panics if the path component is already taken.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>path(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>Path {
+        <span class="kw">if </span>T::is_mut() &amp;&amp; <span class="self">self</span>.tag.contains(Tag::PATH_TAKEN) {
+            component_taken();
         }
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span>Path::new(<span class="kw">unsafe </span>{ <span class="self">self</span>.eslice(<span class="self">self</span>.path_bounds.<span class="number">0</span>, <span class="self">self</span>.path_bounds.<span class="number">1</span>) })
     }
 
-    <span class="doccomment">/// Returns the [path] component.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [path]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.3</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the path component is already taken.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">Path</span> {
-        <span class="kw">if</span> <span class="ident">T::is_mut</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::PATH_TAKEN</span>) {
-            <span class="ident">component_taken</span>();
-        }
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="ident">Path::new</span>(<span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">eslice</span>(<span class="self">self</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="ident">path_bounds</span>.<span class="number">1</span>) })
+    <span class="doccomment">/// Returns the [query] component.
+    ///
+    /// [query]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.4
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>query(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>EStr&gt; {
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span><span class="self">self</span>.query_end
+            .map(|i| <span class="kw">unsafe </span>{ <span class="self">self</span>.eslice(<span class="self">self</span>.path_bounds.<span class="number">1 </span>+ <span class="number">1</span>, i.get()) })
     }
 
-    <span class="doccomment">/// Returns the [query] component.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [query]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.4</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">query</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">EStr</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="self">self</span>.<span class="ident">query_end</span>
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">eslice</span>(<span class="self">self</span>.<span class="ident">path_bounds</span>.<span class="number">1</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">i</span>.<span class="ident">get</span>()) })
+    <span class="doccomment">/// Returns the [fragment] component.
+    ///
+    /// [fragment]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.5
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>fragment(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>EStr&gt; {
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span><span class="self">self</span>.fragment_start
+            .map(|i| <span class="kw">unsafe </span>{ <span class="self">self</span>.eslice(i.get(), <span class="self">self</span>.len()) })
     }
 
-    <span class="doccomment">/// Returns the [fragment] component.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [fragment]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.5</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fragment</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">EStr</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="self">self</span>.<span class="ident">fragment_start</span>
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">eslice</span>(<span class="ident">i</span>.<span class="ident">get</span>(), <span class="self">self</span>.<span class="ident">len</span>()) })
+    <span class="doccomment">/// Returns `true` if the URI reference is [relative], i.e., without a scheme.
+    ///
+    /// Note that this method is not the opposite of [`is_absolute`].
+    ///
+    /// [relative]: https://datatracker.ietf.org/doc/html/rfc3986/#section-4.2
+    /// [`is_absolute`]: Self::is_absolute
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fluent_uri::Uri;
+    ///
+    /// let uri = Uri::parse(&quot;/path/to/file&quot;)?;
+    /// assert!(uri.is_relative());
+    /// let uri = Uri::parse(&quot;http://example.com/&quot;)?;
+    /// assert!(!uri.is_relative());
+    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_relative(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.scheme_end.is_none()
     }
 
-    <span class="doccomment">/// Returns `true` if the URI reference is [relative], i.e., without a scheme.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that this method is not the opposite of [`is_absolute`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [relative]: https://datatracker.ietf.org/doc/html/rfc3986/#section-4.2</span>
-    <span class="doccomment">/// [`is_absolute`]: Self::is_absolute</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use fluent_uri::Uri;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;/path/to/file&quot;)?;</span>
-    <span class="doccomment">/// assert!(uri.is_relative());</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;http://example.com/&quot;)?;</span>
-    <span class="doccomment">/// assert!(!uri.is_relative());</span>
-    <span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_relative</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">scheme_end</span>.<span class="ident">is_none</span>()
-    }
-
-    <span class="doccomment">/// Returns `true` if the URI reference is [absolute], i.e., with a scheme and without a fragment.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Note that this method is not the opposite of [`is_relative`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [absolute]: https://datatracker.ietf.org/doc/html/rfc3986/#section-4.3</span>
-    <span class="doccomment">/// [`is_relative`]: Self::is_relative</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use fluent_uri::Uri;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;http://example.com/&quot;)?;</span>
-    <span class="doccomment">/// assert!(uri.is_absolute());</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;http://example.com/#title1&quot;)?;</span>
-    <span class="doccomment">/// assert!(!uri.is_absolute());</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;/path/to/file&quot;)?;</span>
-    <span class="doccomment">/// assert!(!uri.is_absolute());</span>
-    <span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_absolute</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">scheme_end</span>.<span class="ident">is_some</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">fragment_start</span>.<span class="ident">is_none</span>()
+    <span class="doccomment">/// Returns `true` if the URI reference is [absolute], i.e., with a scheme and without a fragment.
+    ///
+    /// Note that this method is not the opposite of [`is_relative`].
+    ///
+    /// [absolute]: https://datatracker.ietf.org/doc/html/rfc3986/#section-4.3
+    /// [`is_relative`]: Self::is_relative
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fluent_uri::Uri;
+    ///
+    /// let uri = Uri::parse(&quot;http://example.com/&quot;)?;
+    /// assert!(uri.is_absolute());
+    /// let uri = Uri::parse(&quot;http://example.com/#title1&quot;)?;
+    /// assert!(!uri.is_absolute());
+    /// let uri = Uri::parse(&quot;/path/to/file&quot;)?;
+    /// assert!(!uri.is_absolute());
+    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_absolute(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.scheme_end.is_some() &amp;&amp; <span class="self">self</span>.fragment_start.is_none()
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
-    <span class="doccomment">/// Parses a URI reference from a mutable byte sequence into a `Uri&lt;&amp;mut [u8]&gt;`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See the [`parse`] function for more details.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`parse`]: Uri::parse</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the input length is greater than [`i32::MAX`].</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_mut</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">AsMut</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span> <span class="op">+</span> <span class="question-mark">?</span><span class="ident">Sized</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;mut</span> <span class="ident">S</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">as_mut</span>();
-        <span class="kw">if</span> <span class="ident">bytes</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">i32::MAX</span> <span class="kw">as</span> <span class="ident">usize</span> {
-            <span class="ident">len_overflow</span>();
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Uri&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>[u8]&gt; {
+    <span class="doccomment">/// Parses a URI reference from a mutable byte sequence into a `Uri&lt;&amp;mut [u8]&gt;`.
+    ///
+    /// See the [`parse`] function for more details.
+    ///
+    /// [`parse`]: Uri::parse
+    ///
+    /// # Panics
+    ///
+    /// Panics if the input length is greater than [`i32::MAX`].
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>parse_mut&lt;S: AsMut&lt;[u8]&gt; + <span class="question-mark">?</span>Sized&gt;(s: <span class="kw-2">&amp;mut </span>S) -&gt; <span class="prelude-ty">Result</span>&lt;Uri&lt;<span class="kw-2">&amp;mut </span>[u8]&gt;&gt; {
+        <span class="kw">let </span>bytes = s.as_mut();
+        <span class="kw">if </span>bytes.len() &gt; i32::MAX <span class="kw">as </span>usize {
+            len_overflow();
         }
-        <span class="comment">// SAFETY: We&#39;re using the correct pointer, length, capacity, and generics.</span>
-        <span class="kw">unsafe</span> { <span class="ident">parser::parse</span>(<span class="ident">bytes</span>.<span class="ident">as_mut_ptr</span>(), <span class="ident">bytes</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u32</span>, <span class="number">0</span>) }
+        <span class="comment">// SAFETY: We&#39;re using the correct pointer, length, capacity, and generics.
+        </span><span class="kw">unsafe </span>{ parser::parse(bytes.as_mut_ptr(), bytes.len() <span class="kw">as </span>u32, <span class="number">0</span>) }
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">view</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">start</span>: <span class="ident">u32</span>, <span class="ident">end</span>: <span class="ident">u32</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">T</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">T</span>: <span class="question-mark">?</span><span class="ident">Sized</span> <span class="op">+</span> <span class="ident">Lens</span><span class="op">&lt;</span><span class="ident">Target</span> <span class="op">=</span> [<span class="ident">u8</span>]<span class="op">&gt;</span>,
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>view&lt;T&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, start: u32, end: u32) -&gt; View&lt;<span class="lifetime">&#39;a</span>, T&gt;
+    <span class="kw">where
+        </span>T: <span class="question-mark">?</span>Sized + Lens&lt;Target = [u8]&gt;,
     {
-        <span class="macro">debug_assert!</span>(<span class="ident">start</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">end</span> <span class="op">&amp;&amp;</span> <span class="ident">end</span> <span class="op">&lt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">len</span>());
-        <span class="comment">// SAFETY: The caller must ensure that the indexes are within bounds.</span>
-        <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="kw">unsafe</span> {
-            <span class="ident">slice::from_raw_parts_mut</span>(<span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">get</span>().<span class="ident">add</span>(<span class="ident">start</span> <span class="kw">as</span> <span class="ident">usize</span>), (<span class="ident">end</span> <span class="op">-</span> <span class="ident">start</span>) <span class="kw">as</span> <span class="ident">usize</span>)
+        <span class="macro">debug_assert!</span>(start &lt;= end &amp;&amp; end &lt;= <span class="self">self</span>.len());
+        <span class="comment">// SAFETY: The caller must ensure that the indexes are within bounds.
+        </span><span class="kw">let </span>bytes = <span class="kw">unsafe </span>{
+            slice::from_raw_parts_mut(<span class="self">self</span>.ptr.get().add(start <span class="kw">as </span>usize), (end - start) <span class="kw">as </span>usize)
         };
-        <span class="comment">// SAFETY: The caller must ensure that the bytes are properly encoded.</span>
-        <span class="kw">unsafe</span> { <span class="ident">View::new</span>(<span class="ident">bytes</span>) }
+        <span class="comment">// SAFETY: The caller must ensure that the bytes are properly encoded.
+        </span><span class="kw">unsafe </span>{ View::new(bytes) }
     }
 
-    <span class="doccomment">/// Takes a view of the scheme component, leaving a `None` in its place.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_scheme</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Scheme</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="self">self</span>.<span class="ident">scheme_end</span>
-            .<span class="ident">take</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">view</span>(<span class="number">0</span>, <span class="ident">i</span>.<span class="ident">get</span>()) })
+    <span class="doccomment">/// Takes a view of the scheme component, leaving a `None` in its place.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>take_scheme(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;View&lt;<span class="lifetime">&#39;a</span>, Scheme&gt;&gt; {
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span><span class="self">self</span>.scheme_end
+            .take()
+            .map(|i| <span class="kw">unsafe </span>{ <span class="self">self</span>.view(<span class="number">0</span>, i.get()) })
     }
 
-    <span class="doccomment">/// Takes a view of the authority component, leaving a `None` in its place.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_authority</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, <span class="ident">Authority</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::AUTH_TAKEN</span>) {
-            <span class="kw">return</span> <span class="prelude-val">None</span>;
+    <span class="doccomment">/// Takes a view of the authority component, leaving a `None` in its place.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>take_authority(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;View&lt;<span class="lifetime">&#39;_</span>, Authority&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>[u8]&gt;&gt;&gt; {
+        <span class="kw">if </span><span class="self">self</span>.tag.contains(Tag::AUTH_TAKEN) {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
         }
-        <span class="self">self</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::AUTH_TAKEN</span>;
+        <span class="self">self</span>.tag |= Tag::AUTH_TAKEN;
 
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">auth</span>.<span class="ident">is_some</span>() {
-            <span class="comment">// SAFETY: The authority is present and not modified.</span>
-            <span class="prelude-val">Some</span>(<span class="kw">unsafe</span> { <span class="ident">View::new</span>(<span class="self">self</span>) })
-        } <span class="kw">else</span> {
-            <span class="prelude-val">None</span>
+        <span class="kw">if </span><span class="self">self</span>.auth.is_some() {
+            <span class="comment">// SAFETY: The authority is present and not modified.
+            </span><span class="prelude-val">Some</span>(<span class="kw">unsafe </span>{ View::new(<span class="self">self</span>) })
+        } <span class="kw">else </span>{
+            <span class="prelude-val">None
+        </span>}
+    }
+
+    <span class="doccomment">/// Takes a view of the path component.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the path component is already taken.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>take_path(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; View&lt;<span class="lifetime">&#39;a</span>, Path&gt; {
+        <span class="kw">if </span><span class="self">self</span>.tag.contains(Tag::PATH_TAKEN) {
+            component_taken();
         }
+        <span class="self">self</span>.tag |= Tag::PATH_TAKEN;
+
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.view(<span class="self">self</span>.path_bounds.<span class="number">0</span>, <span class="self">self</span>.path_bounds.<span class="number">1</span>) }
     }
 
-    <span class="doccomment">/// Takes a view of the path component.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the path component is already taken.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_path</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">Path</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::PATH_TAKEN</span>) {
-            <span class="ident">component_taken</span>();
-        }
-        <span class="self">self</span>.<span class="ident">tag</span> <span class="op">|</span><span class="op">=</span> <span class="ident">Tag::PATH_TAKEN</span>;
-
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>, <span class="self">self</span>.<span class="ident">path_bounds</span>.<span class="number">1</span>) }
+    <span class="doccomment">/// Takes a view of the query component, leaving a `None` in its place.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>take_query(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;View&lt;<span class="lifetime">&#39;a</span>, EStr&gt;&gt; {
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span><span class="self">self</span>.query_end
+            .take()
+            .map(|i| <span class="kw">unsafe </span>{ <span class="self">self</span>.view(<span class="self">self</span>.path_bounds.<span class="number">1 </span>+ <span class="number">1</span>, i.get()) })
     }
 
-    <span class="doccomment">/// Takes a view of the query component, leaving a `None` in its place.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_query</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">EStr</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="self">self</span>.<span class="ident">query_end</span>
-            .<span class="ident">take</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">view</span>(<span class="self">self</span>.<span class="ident">path_bounds</span>.<span class="number">1</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">i</span>.<span class="ident">get</span>()) })
-    }
-
-    <span class="doccomment">/// Takes a view of the fragment component, leaving a `None` in its place.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">take_fragment</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">View</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">EStr</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="self">self</span>.<span class="ident">fragment_start</span>
-            .<span class="ident">take</span>()
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">view</span>(<span class="ident">i</span>.<span class="ident">get</span>(), <span class="self">self</span>.<span class="ident">len</span>()) })
+    <span class="doccomment">/// Takes a view of the fragment component, leaving a `None` in its place.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>take_fragment(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;View&lt;<span class="lifetime">&#39;a</span>, EStr&gt;&gt; {
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span><span class="self">self</span>.fragment_start
+            .take()
+            .map(|i| <span class="kw">unsafe </span>{ <span class="self">self</span>.view(i.get(), <span class="self">self</span>.len()) })
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Parses a URI reference from a [`String`] or [`Vec&lt;u8&gt;`] into a `Uri&lt;String&gt;`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// See the [`parse`] function for more details.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`parse`]: Uri::parse</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the input capacity is greater than [`i32::MAX`].</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_from</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">IntoOwnedUri</span><span class="op">&gt;</span>(<span class="ident">t</span>: <span class="ident">T</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, (<span class="ident">T</span>, <span class="ident">ParseError</span>)<span class="op">&gt;</span> {
-        <span class="attribute">#[<span class="ident">cold</span>]</span>
-        <span class="kw">fn</span> <span class="ident">cap_overflow</span>() -&gt; <span class="op">!</span> {
+<span class="kw">impl </span>Uri&lt;String&gt; {
+    <span class="doccomment">/// Parses a URI reference from a [`String`] or [`Vec&lt;u8&gt;`] into a `Uri&lt;String&gt;`.
+    ///
+    /// See the [`parse`] function for more details.
+    ///
+    /// [`parse`]: Uri::parse
+    ///
+    /// # Panics
+    ///
+    /// Panics if the input capacity is greater than [`i32::MAX`].
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>parse_from&lt;T: IntoOwnedUri&gt;(t: T) -&gt; <span class="prelude-ty">Result</span>&lt;Uri&lt;String&gt;, (T, ParseError)&gt; {
+        <span class="attribute">#[cold]
+        </span><span class="kw">fn </span>cap_overflow() -&gt; ! {
             <span class="macro">panic!</span>(<span class="string">&quot;input capacity exceeds i32::MAX&quot;</span>);
         }
 
-        <span class="kw">let</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">ManuallyDrop::new</span>(<span class="ident">t</span>);
-        <span class="kw">let</span> (<span class="ident">ptr</span>, <span class="ident">len</span>, <span class="ident">cap</span>) <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">as_raw_parts</span>();
-        <span class="kw">if</span> <span class="ident">cap</span> <span class="op">&gt;</span> <span class="ident">i32::MAX</span> <span class="kw">as</span> <span class="ident">usize</span> {
-            <span class="ident">cap_overflow</span>();
+        <span class="kw">let </span>buf = ManuallyDrop::new(t);
+        <span class="kw">let </span>(ptr, len, cap) = buf.as_raw_parts();
+        <span class="kw">if </span>cap &gt; i32::MAX <span class="kw">as </span>usize {
+            cap_overflow();
         }
 
-        <span class="comment">// SAFETY: We&#39;re using the correct pointer, length, capacity, and generics.</span>
-        <span class="kw">match</span> <span class="kw">unsafe</span> { <span class="ident">parser::parse</span>(<span class="ident">ptr</span>, <span class="ident">len</span> <span class="kw">as</span> <span class="ident">u32</span>, <span class="ident">cap</span> <span class="kw">as</span> <span class="ident">u32</span>) } {
-            <span class="prelude-val">Ok</span>(<span class="ident">out</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">out</span>),
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>((<span class="ident">ManuallyDrop::into_inner</span>(<span class="ident">buf</span>), <span class="ident">e</span>)),
+        <span class="comment">// SAFETY: We&#39;re using the correct pointer, length, capacity, and generics.
+        </span><span class="kw">match unsafe </span>{ parser::parse(ptr, len <span class="kw">as </span>u32, cap <span class="kw">as </span>u32) } {
+            <span class="prelude-val">Ok</span>(out) =&gt; <span class="prelude-val">Ok</span>(out),
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Err</span>((ManuallyDrop::into_inner(buf), e)),
         }
     }
 
-    <span class="doccomment">/// Consumes this `Uri` and yields the underlying [`String`] storage.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use fluent_uri::Uri;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;https://www.rust-lang.org/&quot;)?.to_owned();</span>
-    <span class="doccomment">/// let string = uri.into_string();</span>
-    <span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_string</span>(<span class="self">self</span>) -&gt; <span class="ident">String</span> {
-        <span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">into_string</span>()
+    <span class="doccomment">/// Consumes this `Uri` and yields the underlying [`String`] storage.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fluent_uri::Uri;
+    ///
+    /// let uri = Uri::parse(&quot;https://www.rust-lang.org/&quot;)?.to_owned();
+    /// let string = uri.into_string();
+    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>into_string(<span class="self">self</span>) -&gt; String {
+        <span class="self">self</span>.ptr.into_string()
     }
 
-    <span class="doccomment">/// Borrows this `Uri&lt;String&gt;` as a reference to `Uri&lt;&amp;str&gt;`.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="comment">// We can&#39;t impl `Borrow` due to the limitation of lifetimes.</span>
-    <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">clippy::should_implement_trait</span>)]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">borrow</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: `Uri` has a fixed layout, `Uri&lt;&amp;str&gt;` with a capacity is</span>
-        <span class="comment">// always fine and the lifetimes are correct.</span>
-        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="self">self</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span>) }
+    <span class="doccomment">/// Borrows this `Uri&lt;String&gt;` as a reference to `Uri&lt;&amp;str&gt;`.
+    </span><span class="attribute">#[inline]
+    </span><span class="comment">// We can&#39;t impl `Borrow` due to the limitation of lifetimes.
+    </span><span class="attribute">#[allow(clippy::should_implement_trait)]
+    </span><span class="kw">pub fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Uri&lt;<span class="kw-2">&amp;</span>str&gt; {
+        <span class="comment">// SAFETY: `Uri` has a fixed layout, `Uri&lt;&amp;str&gt;` with a capacity is
+        // always fine and the lifetimes are correct.
+        </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(<span class="self">self </span><span class="kw">as </span><span class="kw-2">*const </span>Uri&lt;String&gt; <span class="kw">as </span><span class="kw-2">*const </span>Uri&lt;<span class="kw-2">&amp;</span>str&gt;) }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Clone</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">clone</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">self</span>.<span class="ident">borrow</span>().<span class="ident">to_owned</span>()
+<span class="kw">impl </span>Clone <span class="kw">for </span>Uri&lt;String&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>clone(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="self">Self </span>{
+        <span class="self">self</span>.borrow().to_owned()
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> <span class="ident">Default</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// Creates an empty `Uri`.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">default</span>() -&gt; <span class="self">Self</span> {
-        <span class="ident">Uri</span> {
-            <span class="ident">ptr</span>: <span class="ident">T::Ptr::DANGLING</span>,
-            <span class="ident">data</span>: <span class="ident">Data::INIT</span>,
-            <span class="ident">_marker</span>: <span class="ident">PhantomData</span>,
+<span class="kw">impl</span>&lt;T: Storage&gt; Default <span class="kw">for </span>Uri&lt;T&gt; {
+    <span class="doccomment">/// Creates an empty `Uri`.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        Uri {
+            ptr: T::Ptr::DANGLING,
+            data: Data::INIT,
+            _marker: PhantomData,
         }
     }
 }
 
-<span class="comment">// SAFETY: `&amp;str`, `&amp;mut [u8]` and `String` are all Send and Sync.</span>
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> <span class="ident">Send</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
-<span class="kw">unsafe</span> <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> <span class="ident">Sync</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {}
+<span class="comment">// SAFETY: `&amp;str`, `&amp;mut [u8]` and `String` are all Send and Sync.
+</span><span class="kw">unsafe impl</span>&lt;T: Storage&gt; Send <span class="kw">for </span>Uri&lt;T&gt; {}
+<span class="kw">unsafe impl</span>&lt;T: Storage&gt; Sync <span class="kw">for </span>Uri&lt;T&gt; {}
 
-<span class="doccomment">/// The [scheme] component of URI reference.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [scheme]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.1</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Scheme</span>(<span class="ident">str</span>);
+<span class="doccomment">/// The [scheme] component of URI reference.
+///
+/// [scheme]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.1
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>Scheme(str);
 
-<span class="kw">const</span> <span class="ident">ASCII_CASE_MASK</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">0b010_0000</span>;
+<span class="kw">const </span>ASCII_CASE_MASK: u8 = <span class="number">0b010_0000</span>;
 
-<span class="kw">impl</span> <span class="ident">Scheme</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">scheme</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Scheme</span> {
-        <span class="comment">// SAFETY: Transparency holds.</span>
-        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">scheme</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">str</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">Scheme</span>) }
+<span class="kw">impl </span>Scheme {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>new(scheme: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span>Scheme {
+        <span class="comment">// SAFETY: Transparency holds.
+        </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(scheme <span class="kw">as </span><span class="kw-2">*const </span>str <span class="kw">as </span><span class="kw-2">*const </span>Scheme) }
     }
 
-    <span class="doccomment">/// Returns the scheme as a string slice.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use fluent_uri::Uri;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;HTTP://example.com/&quot;)?;</span>
-    <span class="doccomment">/// let scheme = uri.scheme().unwrap();</span>
-    <span class="doccomment">/// assert_eq!(scheme.as_str(), &quot;HTTP&quot;);</span>
-    <span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0</span>
+    <span class="doccomment">/// Returns the scheme as a string slice.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fluent_uri::Uri;
+    ///
+    /// let uri = Uri::parse(&quot;HTTP://example.com/&quot;)?;
+    /// let scheme = uri.scheme().unwrap();
+    /// assert_eq!(scheme.as_str(), &quot;HTTP&quot;);
+    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="number">0
+    </span>}
+
+    <span class="doccomment">/// Returns the scheme as a string in lower case.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fluent_uri::Uri;
+    ///
+    /// let uri = Uri::parse(&quot;HTTP://example.com/&quot;)?;
+    /// let scheme = uri.scheme().unwrap();
+    /// assert_eq!(scheme.to_lowercase(), &quot;http&quot;);
+    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>to_lowercase(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
+        <span class="kw">let </span>bytes = <span class="self">self</span>.<span class="number">0</span>.bytes().map(|x| x | ASCII_CASE_MASK).collect();
+        <span class="comment">// SAFETY: Setting the sixth bit keeps UTF-8.
+        </span><span class="kw">unsafe </span>{ String::from_utf8_unchecked(bytes) }
     }
 
-    <span class="doccomment">/// Returns the scheme as a string in lower case.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use fluent_uri::Uri;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;HTTP://example.com/&quot;)?;</span>
-    <span class="doccomment">/// let scheme = uri.scheme().unwrap();</span>
-    <span class="doccomment">/// assert_eq!(scheme.to_lowercase(), &quot;http&quot;);</span>
-    <span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">to_lowercase</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">String</span> {
-        <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">bytes</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">|</span> <span class="ident">ASCII_CASE_MASK</span>).<span class="ident">collect</span>();
-        <span class="comment">// SAFETY: Setting the sixth bit keeps UTF-8.</span>
-        <span class="kw">unsafe</span> { <span class="ident">String::from_utf8_unchecked</span>(<span class="ident">bytes</span>) }
-    }
-
-    <span class="doccomment">/// Checks if the scheme equals case-insensitively with a lowercase string.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This method is slightly faster than [`str::eq_ignore_ascii_case`] but will</span>
-    <span class="doccomment">/// always return `false` if there is any uppercase letter in the given string.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use fluent_uri::Uri;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;HTTP://example.com/&quot;)?;</span>
-    <span class="doccomment">/// let scheme = uri.scheme().unwrap();</span>
-    <span class="doccomment">/// assert!(scheme.eq_lowercase(&quot;http&quot;));</span>
-    <span class="doccomment">/// // Always return `false` if there&#39;s any uppercase letter in the given string.</span>
-    <span class="doccomment">/// assert!(!scheme.eq_lowercase(&quot;hTTp&quot;));</span>
-    <span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">eq_lowercase</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">let</span> (<span class="ident">a</span>, <span class="ident">b</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="number">0</span>.<span class="ident">as_bytes</span>(), <span class="ident">other</span>.<span class="ident">as_bytes</span>());
-        <span class="comment">// NOTE: Using iterators results in poor codegen here.</span>
-        <span class="kw">if</span> <span class="ident">a</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">b</span>.<span class="ident">len</span>() {
-            <span class="bool-val">false</span>
-        } <span class="kw">else</span> {
-            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">a</span>.<span class="ident">len</span>() {
-                <span class="comment">// The only characters allowed in a scheme are alphabets, digits, &quot;+&quot;, &quot;-&quot; and &quot;.&quot;,</span>
-                <span class="comment">// the ASCII codes of which allow us to simply set the sixth bit and compare.</span>
-                <span class="kw">if</span> <span class="ident">a</span>[<span class="ident">i</span>] <span class="op">|</span> <span class="ident">ASCII_CASE_MASK</span> <span class="op">!</span><span class="op">=</span> <span class="ident">b</span>[<span class="ident">i</span>] {
-                    <span class="kw">return</span> <span class="bool-val">false</span>;
+    <span class="doccomment">/// Checks if the scheme equals case-insensitively with a lowercase string.
+    ///
+    /// This method is slightly faster than [`str::eq_ignore_ascii_case`] but will
+    /// always return `false` if there is any uppercase letter in the given string.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fluent_uri::Uri;
+    ///
+    /// let uri = Uri::parse(&quot;HTTP://example.com/&quot;)?;
+    /// let scheme = uri.scheme().unwrap();
+    /// assert!(scheme.eq_lowercase(&quot;http&quot;));
+    /// // Always return `false` if there&#39;s any uppercase letter in the given string.
+    /// assert!(!scheme.eq_lowercase(&quot;hTTp&quot;));
+    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>eq_lowercase(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>str) -&gt; bool {
+        <span class="kw">let </span>(a, b) = (<span class="self">self</span>.<span class="number">0</span>.as_bytes(), other.as_bytes());
+        <span class="comment">// NOTE: Using iterators results in poor codegen here.
+        </span><span class="kw">if </span>a.len() != b.len() {
+            <span class="bool-val">false
+        </span>} <span class="kw">else </span>{
+            <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..a.len() {
+                <span class="comment">// The only characters allowed in a scheme are alphabets, digits, &quot;+&quot;, &quot;-&quot; and &quot;.&quot;,
+                // the ASCII codes of which allow us to simply set the sixth bit and compare.
+                </span><span class="kw">if </span>a[i] | ASCII_CASE_MASK != b[i] {
+                    <span class="kw">return </span><span class="bool-val">false</span>;
                 }
             }
-            <span class="bool-val">true</span>
-        }
+            <span class="bool-val">true
+        </span>}
     }
 }
 
-<span class="doccomment">/// The [authority] component of URI reference.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [authority]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> {
-    <span class="ident">uri</span>: <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+<span class="doccomment">/// The [authority] component of URI reference.
+///
+/// [authority]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>Authority&lt;T: Storage&gt; {
+    uri: Uri&lt;T&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">uri</span>: <span class="kw-2">&amp;</span><span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: Transparency holds.</span>
-        <span class="comment">// The caller must ensure that the authority is present and not modified.</span>
-        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">uri</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) }
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, T: Io&lt;<span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>&gt;&gt; Authority&lt;T&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>new(uri: <span class="kw-2">&amp;</span>Uri&lt;T&gt;) -&gt; <span class="kw-2">&amp;</span>Authority&lt;T&gt; {
+        <span class="comment">// SAFETY: Transparency holds.
+        // The caller must ensure that the authority is present and not modified.
+        </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(uri <span class="kw">as </span><span class="kw-2">*const </span>Uri&lt;T&gt; <span class="kw">as </span><span class="kw-2">*const </span>Authority&lt;T&gt;) }
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">AuthData</span> {
-        <span class="comment">// SAFETY: When authority is present, `auth` must be `Some`.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">auth</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap_unchecked</span>() }
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>AuthData {
+        <span class="comment">// SAFETY: When authority is present, `auth` must be `Some`.
+        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.uri.auth.as_ref().unwrap_unchecked() }
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">start</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">data</span>().<span class="ident">start</span>.<span class="ident">get</span>().<span class="ident">get</span>()
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>start(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.data().start.get().get()
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">end</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="kw">if</span> <span class="ident">T::is_mut</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::PORT_TAKEN</span>) {
-            <span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">1</span>
-        } <span class="kw">else</span> {
-            <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>end(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="kw">if </span>T::is_mut() &amp;&amp; <span class="self">self</span>.uri.tag.contains(Tag::PORT_TAKEN) {
+            <span class="self">self</span>.host_bounds().<span class="number">1
+        </span>} <span class="kw">else </span>{
+            <span class="self">self</span>.uri.path_bounds.<span class="number">0
+        </span>}
+    }
+
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>host_bounds(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (u32, u32) {
+        <span class="self">self</span>.data().host_bounds
+    }
+
+    <span class="doccomment">/// Returns the authority as a string slice.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the host subcomponent is already taken.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fluent_uri::Uri;
+    ///
+    /// let uri = Uri::parse(&quot;ftp://user@[fe80::abcd]:6780/&quot;)?;
+    /// let authority = uri.authority().unwrap();
+    /// assert_eq!(authority.as_str(), &quot;user@[fe80::abcd]:6780&quot;);
+    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>str {
+        <span class="kw">if </span>T::is_mut() &amp;&amp; <span class="self">self</span>.uri.tag.contains(Tag::HOST_TAKEN) {
+            component_taken();
         }
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.uri.slice(<span class="self">self</span>.start(), <span class="self">self</span>.end()) }
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">host_bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="ident">u32</span>, <span class="ident">u32</span>) {
-        <span class="self">self</span>.<span class="ident">data</span>().<span class="ident">host_bounds</span>
+    <span class="doccomment">/// Returns the [userinfo] subcomponent.
+    ///
+    /// [userinfo]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.1
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fluent_uri::Uri;
+    ///
+    /// let uri = Uri::parse(&quot;ftp://user@192.168.1.24/&quot;)?;
+    /// let authority = uri.authority().unwrap();
+    /// assert_eq!(authority.userinfo().unwrap(), &quot;user&quot;);
+    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>userinfo(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>EStr&gt; {
+        <span class="kw">let </span>(start, host_start) = (<span class="self">self</span>.start(), <span class="self">self</span>.host_bounds().<span class="number">0</span>);
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span>(start != host_start).then(|| <span class="kw">unsafe </span>{ <span class="self">self</span>.uri.eslice(start, host_start - <span class="number">1</span>) })
     }
 
-    <span class="doccomment">/// Returns the authority as a string slice.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the host subcomponent is already taken.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use fluent_uri::Uri;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;ftp://user@[fe80::abcd]:6780/&quot;)?;</span>
-    <span class="doccomment">/// let authority = uri.authority().unwrap();</span>
-    <span class="doccomment">/// assert_eq!(authority.as_str(), &quot;user@[fe80::abcd]:6780&quot;);</span>
-    <span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span> {
-        <span class="kw">if</span> <span class="ident">T::is_mut</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
-            <span class="ident">component_taken</span>();
+    <span class="doccomment">/// Returns the [host] subcomponent.
+    ///
+    /// [host]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2
+    ///
+    /// # Panics
+    ///
+    /// Panics if the host subcomponent is already taken.
+    </span><span class="kw">pub fn </span>host(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Host&lt;T&gt; {
+        <span class="kw">if </span>T::is_mut() &amp;&amp; <span class="self">self</span>.uri.tag.contains(Tag::HOST_TAKEN) {
+            component_taken();
         }
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">slice</span>(<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">end</span>()) }
+        <span class="comment">// SAFETY: The host is not modified.
+        </span><span class="kw">unsafe </span>{ Host::new(<span class="self">self</span>) }
     }
 
-    <span class="doccomment">/// Returns the [userinfo] subcomponent.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [userinfo]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.1</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use fluent_uri::Uri;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;ftp://user@192.168.1.24/&quot;)?;</span>
-    <span class="doccomment">/// let authority = uri.authority().unwrap();</span>
-    <span class="doccomment">/// assert_eq!(authority.userinfo().unwrap(), &quot;user&quot;);</span>
-    <span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">userinfo</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">EStr</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> (<span class="ident">start</span>, <span class="ident">host_start</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">start</span>(), <span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">0</span>);
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        (<span class="ident">start</span> <span class="op">!</span><span class="op">=</span> <span class="ident">host_start</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">eslice</span>(<span class="ident">start</span>, <span class="ident">host_start</span> <span class="op">-</span> <span class="number">1</span>) })
-    }
-
-    <span class="doccomment">/// Returns the [host] subcomponent.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [host]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if the host subcomponent is already taken.</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">host</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Host</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">T::is_mut</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_TAKEN</span>) {
-            <span class="ident">component_taken</span>();
+    <span class="doccomment">/// Returns the [port] subcomponent.
+    ///
+    /// [port]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.3
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fluent_uri::Uri;
+    ///
+    /// let uri = Uri::parse(&quot;ssh://device.local:4673/&quot;)?;
+    /// let authority = uri.authority().unwrap();
+    /// assert_eq!(authority.port(), Some(&quot;4673&quot;));
+    ///
+    /// let uri = Uri::parse(&quot;ssh://device.local:/&quot;)?;
+    /// let authority = uri.authority().unwrap();
+    /// assert_eq!(authority.port(), Some(&quot;&quot;));
+    ///
+    /// let uri = Uri::parse(&quot;ssh://device.local/&quot;)?;
+    /// let authority = uri.authority().unwrap();
+    /// assert_eq!(authority.port(), None);
+    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>port(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>str&gt; {
+        <span class="kw">if </span>T::is_mut() &amp;&amp; <span class="self">self</span>.uri.tag.contains(Tag::PORT_TAKEN) {
+            <span class="kw">return </span><span class="prelude-val">None</span>;
         }
-        <span class="comment">// SAFETY: The host is not modified.</span>
-        <span class="kw">unsafe</span> { <span class="ident">Host::new</span>(<span class="self">self</span>) }
-    }
-
-    <span class="doccomment">/// Returns the [port] subcomponent.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [port]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.3</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use fluent_uri::Uri;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;ssh://device.local:4673/&quot;)?;</span>
-    <span class="doccomment">/// let authority = uri.authority().unwrap();</span>
-    <span class="doccomment">/// assert_eq!(authority.port(), Some(&quot;4673&quot;));</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;ssh://device.local:/&quot;)?;</span>
-    <span class="doccomment">/// let authority = uri.authority().unwrap();</span>
-    <span class="doccomment">/// assert_eq!(authority.port(), Some(&quot;&quot;));</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;ssh://device.local/&quot;)?;</span>
-    <span class="doccomment">/// let authority = uri.authority().unwrap();</span>
-    <span class="doccomment">/// assert_eq!(authority.port(), None);</span>
-    <span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">port</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span><span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="ident">T::is_mut</span>() <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::PORT_TAKEN</span>) {
-            <span class="kw">return</span> <span class="prelude-val">None</span>;
-        }
-        <span class="kw">let</span> (<span class="ident">host_end</span>, <span class="ident">end</span>) <span class="op">=</span> (<span class="self">self</span>.<span class="ident">host_bounds</span>().<span class="number">1</span>, <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">path_bounds</span>.<span class="number">0</span>);
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        (<span class="ident">host_end</span> <span class="op">!</span><span class="op">=</span> <span class="ident">end</span>).<span class="ident">then</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">uri</span>.<span class="ident">slice</span>(<span class="ident">host_end</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">end</span>) })
+        <span class="kw">let </span>(host_end, end) = (<span class="self">self</span>.host_bounds().<span class="number">1</span>, <span class="self">self</span>.uri.path_bounds.<span class="number">0</span>);
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span>(host_end != end).then(|| <span class="kw">unsafe </span>{ <span class="self">self</span>.uri.slice(host_end + <span class="number">1</span>, end) })
     }
 }
 
-<span class="doccomment">/// The [host] subcomponent of authority.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [host]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Host</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> {
-    <span class="ident">auth</span>: <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>,
+<span class="doccomment">/// The [host] subcomponent of authority.
+///
+/// [host]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>Host&lt;T: Storage&gt; {
+    auth: Authority&lt;T&gt;,
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, <span class="ident">T</span>: <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="ident">Host</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">auth</span>: <span class="kw-2">&amp;</span><span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Host</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-        <span class="comment">// SAFETY: Transparency holds.</span>
-        <span class="comment">// The caller must ensure that the host is not modified.</span>
-        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">auth</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">Authority</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">Host</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span>) }
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>, T: Io&lt;<span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>&gt;&gt; Host&lt;T&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>new(auth: <span class="kw-2">&amp;</span>Authority&lt;T&gt;) -&gt; <span class="kw-2">&amp;</span>Host&lt;T&gt; {
+        <span class="comment">// SAFETY: Transparency holds.
+        // The caller must ensure that the host is not modified.
+        </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(auth <span class="kw">as </span><span class="kw-2">*const </span>Authority&lt;T&gt; <span class="kw">as </span><span class="kw-2">*const </span>Host&lt;T&gt;) }
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">bounds</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="ident">u32</span>, <span class="ident">u32</span>) {
-        <span class="self">self</span>.<span class="ident">auth</span>.<span class="ident">host_bounds</span>()
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>bounds(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (u32, u32) {
+        <span class="self">self</span>.auth.host_bounds()
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">raw_data</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">RawHostData</span> {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">auth</span>.<span class="ident">data</span>().<span class="ident">host_data</span>
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>raw_data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>RawHostData {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.auth.data().host_data
     }
 
-    <span class="doccomment">/// Returns the host as a string slice.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use fluent_uri::Uri;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;ftp://user@[::1]/&quot;)?;</span>
-    <span class="doccomment">/// let authority = uri.authority().unwrap();</span>
-    <span class="doccomment">/// assert_eq!(authority.host().as_str(), &quot;[::1]&quot;);</span>
-    <span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o</span> <span class="ident">str</span> {
-        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-        <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">auth</span>.<span class="ident">uri</span>.<span class="ident">slice</span>(<span class="self">self</span>.<span class="ident">bounds</span>().<span class="number">0</span>, <span class="self">self</span>.<span class="ident">bounds</span>().<span class="number">1</span>) }
+    <span class="doccomment">/// Returns the host as a string slice.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fluent_uri::Uri;
+    ///
+    /// let uri = Uri::parse(&quot;ftp://user@[::1]/&quot;)?;
+    /// let authority = uri.authority().unwrap();
+    /// assert_eq!(authority.host().as_str(), &quot;[::1]&quot;);
+    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;o </span>str {
+        <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+        </span><span class="kw">unsafe </span>{ <span class="self">self</span>.auth.uri.slice(<span class="self">self</span>.bounds().<span class="number">0</span>, <span class="self">self</span>.bounds().<span class="number">1</span>) }
     }
 
-    <span class="doccomment">/// Returns the structured host data.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">data</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="self">self</span>) -&gt; <span class="ident">HostData</span><span class="op">&lt;</span><span class="lifetime">&#39;o</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">raw_data</span>();
-        <span class="kw">let</span> <span class="ident">tag</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">auth</span>.<span class="ident">uri</span>.<span class="ident">tag</span>;
-        <span class="comment">// SAFETY: We only access the union after checking the tag.</span>
-        <span class="kw">unsafe</span> {
-            <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_REG_NAME</span>) {
-                <span class="comment">// SAFETY: The validation is done.</span>
-                <span class="kw">return</span> <span class="ident">HostData::RegName</span>(<span class="ident">EStr::new_unchecked</span>(<span class="self">self</span>.<span class="ident">as_str</span>().<span class="ident">as_bytes</span>()));
-            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_IPV4</span>) {
-                <span class="kw">return</span> <span class="ident">HostData::Ipv4</span>(<span class="ident">data</span>.<span class="ident">ipv4_addr</span>);
+    <span class="doccomment">/// Returns the structured host data.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>data(<span class="kw-2">&amp;</span><span class="lifetime">&#39;i </span><span class="self">self</span>) -&gt; HostData&lt;<span class="lifetime">&#39;o</span>&gt; {
+        <span class="kw">let </span>data = <span class="self">self</span>.raw_data();
+        <span class="kw">let </span>tag = <span class="self">self</span>.auth.uri.tag;
+        <span class="comment">// SAFETY: We only access the union after checking the tag.
+        </span><span class="kw">unsafe </span>{
+            <span class="kw">if </span>tag.contains(Tag::HOST_REG_NAME) {
+                <span class="comment">// SAFETY: The validation is done.
+                </span><span class="kw">return </span>HostData::RegName(EStr::new_unchecked(<span class="self">self</span>.as_str().as_bytes()));
+            } <span class="kw">else if </span>tag.contains(Tag::HOST_IPV4) {
+                <span class="kw">return </span>HostData::Ipv4(data.ipv4_addr);
             }
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">tag</span>.<span class="ident">contains</span>(<span class="ident">Tag::HOST_IPV6</span>) {
-                <span class="kw">let</span> <span class="ident">dot_i</span> <span class="op">=</span> <span class="ident">data</span>.<span class="ident">ipv_future_dot_i</span>;
-                <span class="kw">let</span> <span class="ident">bounds</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">bounds</span>();
-                <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-                <span class="kw">return</span> <span class="ident">HostData::IpvFuture</span> {
-                    <span class="ident">ver</span>: <span class="self">self</span>.<span class="ident">auth</span>.<span class="ident">uri</span>.<span class="ident">slice</span>(<span class="ident">bounds</span>.<span class="number">0</span> <span class="op">+</span> <span class="number">2</span>, <span class="ident">dot_i</span>),
-                    <span class="ident">addr</span>: <span class="self">self</span>.<span class="ident">auth</span>.<span class="ident">uri</span>.<span class="ident">slice</span>(<span class="ident">dot_i</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">bounds</span>.<span class="number">1</span> <span class="op">-</span> <span class="number">1</span>),
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;ipv_future&quot;</span>)]
+            </span><span class="kw">if </span>!tag.contains(Tag::HOST_IPV6) {
+                <span class="kw">let </span>dot_i = data.ipv_future_dot_i;
+                <span class="kw">let </span>bounds = <span class="self">self</span>.bounds();
+                <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+                </span><span class="kw">return </span>HostData::IpvFuture {
+                    ver: <span class="self">self</span>.auth.uri.slice(bounds.<span class="number">0 </span>+ <span class="number">2</span>, dot_i),
+                    addr: <span class="self">self</span>.auth.uri.slice(dot_i + <span class="number">1</span>, bounds.<span class="number">1 </span>- <span class="number">1</span>),
                 };
             }
-            <span class="ident">HostData::Ipv6</span> {
-                <span class="ident">addr</span>: <span class="ident">data</span>.<span class="ident">ipv6</span>.<span class="ident">addr</span>,
-                <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.</span>
-                <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rfc6874bis&quot;</span>)]</span>
-                <span class="ident">zone_id</span>: <span class="ident">data</span>
-                    .<span class="ident">ipv6</span>
-                    .<span class="ident">zone_id_start</span>
-                    .<span class="ident">map</span>(<span class="op">|</span><span class="ident">start</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">auth</span>.<span class="ident">uri</span>.<span class="ident">slice</span>(<span class="ident">start</span>.<span class="ident">get</span>(), <span class="self">self</span>.<span class="ident">bounds</span>().<span class="number">1</span> <span class="op">-</span> <span class="number">1</span>)),
+            HostData::Ipv6 {
+                addr: data.ipv6.addr,
+                <span class="comment">// SAFETY: The indexes are within bounds and the validation is done.
+                </span><span class="attribute">#[cfg(feature = <span class="string">&quot;rfc6874bis&quot;</span>)]
+                </span>zone_id: data
+                    .ipv6
+                    .zone_id_start
+                    .map(|start| <span class="self">self</span>.auth.uri.slice(start.get(), <span class="self">self</span>.bounds().<span class="number">1 </span>- <span class="number">1</span>)),
             }
         }
     }
 }
 
-<span class="doccomment">/// Structured host data.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">HostData</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
-    <span class="doccomment">/// An IPv4 address.</span>
-    <span class="ident">Ipv4</span>(<span class="ident">Ipv4Addr</span>),
-    <span class="doccomment">/// An IPv6 address.</span>
-    <span class="ident">Ipv6</span> {
-        <span class="doccomment">/// The address.</span>
-        <span class="ident">addr</span>: <span class="ident">Ipv6Addr</span>,
-        <span class="doccomment">/// An optional zone identifier.</span>
-        <span class="doccomment">///</span>
-        <span class="doccomment">/// This is supported on **crate feature `rfc6874bis`** only.</span>
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rfc6874bis&quot;</span>)]</span>
-        <span class="ident">zone_id</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span><span class="op">&gt;</span>,
+<span class="doccomment">/// Structured host data.
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">pub enum </span>HostData&lt;<span class="lifetime">&#39;a</span>&gt; {
+    <span class="doccomment">/// An IPv4 address.
+    </span>Ipv4(Ipv4Addr),
+    <span class="doccomment">/// An IPv6 address.
+    </span>Ipv6 {
+        <span class="doccomment">/// The address.
+        </span>addr: Ipv6Addr,
+        <span class="doccomment">/// An optional zone identifier.
+        ///
+        /// This is supported on **crate feature `rfc6874bis`** only.
+        </span><span class="attribute">#[cfg(feature = <span class="string">&quot;rfc6874bis&quot;</span>)]
+        </span>zone_id: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str&gt;,
     },
-    <span class="doccomment">/// An IP address of future version.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// This is supported on **crate feature `ipv_future`** only.</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
-    <span class="ident">IpvFuture</span> {
-        <span class="doccomment">/// The version.</span>
-        <span class="ident">ver</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
-        <span class="doccomment">/// The address.</span>
-        <span class="ident">addr</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span>,
+    <span class="doccomment">/// An IP address of future version.
+    ///
+    /// This is supported on **crate feature `ipv_future`** only.
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;ipv_future&quot;</span>)]
+    </span>IpvFuture {
+        <span class="doccomment">/// The version.
+        </span>ver: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
+        <span class="doccomment">/// The address.
+        </span>addr: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str,
     },
-    <span class="doccomment">/// A registered name.</span>
-    <span class="ident">RegName</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">EStr</span>),
+    <span class="doccomment">/// A registered name.
+    </span>RegName(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>EStr),
 }
 
-<span class="doccomment">/// The [path] component of URI reference.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// [path]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.3</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">transparent</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Path</span> {
-    <span class="ident">inner</span>: <span class="ident">EStr</span>,
+<span class="doccomment">/// The [path] component of URI reference.
+///
+/// [path]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.3
+</span><span class="attribute">#[repr(transparent)]
+</span><span class="kw">pub struct </span>Path {
+    inner: EStr,
 }
 
-<span class="kw">impl</span> <span class="ident">Path</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">EStr</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Path</span> {
-        <span class="comment">// SAFETY: Transparency holds.</span>
-        <span class="kw">unsafe</span> { <span class="kw-2">&amp;</span><span class="kw-2">*</span>(<span class="ident">path</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">EStr</span> <span class="kw">as</span> <span class="kw-2">*const</span> <span class="ident">Path</span>) }
+<span class="kw">impl </span>Path {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>new(path: <span class="kw-2">&amp;</span>EStr) -&gt; <span class="kw-2">&amp;</span>Path {
+        <span class="comment">// SAFETY: Transparency holds.
+        </span><span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(path <span class="kw">as </span><span class="kw-2">*const </span>EStr <span class="kw">as </span><span class="kw-2">*const </span>Path) }
     }
 
-    <span class="doccomment">/// Yields the underlying [`EStr`].</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_estr</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">EStr</span> {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">inner</span>
+    <span class="doccomment">/// Yields the underlying [`EStr`].
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>as_estr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>EStr {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.inner
     }
 
-    <span class="doccomment">/// Returns the path as a string slice.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">str</span> {
-        <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">as_str</span>()
+    <span class="doccomment">/// Returns the path as a string slice.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="self">self</span>.inner.as_str()
     }
 
-    <span class="doccomment">/// Returns `true` if the path is absolute, i.e., beginning with &quot;/&quot;.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_absolute</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">as_str</span>().<span class="ident">starts_with</span>(<span class="string">&#39;/&#39;</span>)
+    <span class="doccomment">/// Returns `true` if the path is absolute, i.e., beginning with &quot;/&quot;.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_absolute(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.as_str().starts_with(<span class="string">&#39;/&#39;</span>)
     }
 
-    <span class="doccomment">/// Returns `true` if the path is rootless, i.e., not beginning with &quot;/&quot;.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_rootless</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="op">!</span><span class="self">self</span>.<span class="ident">is_absolute</span>()
+    <span class="doccomment">/// Returns `true` if the path is rootless, i.e., not beginning with &quot;/&quot;.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>is_rootless(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        !<span class="self">self</span>.is_absolute()
     }
 
-    <span class="doccomment">/// Returns an iterator over the path [segments].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [segments]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.3</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use fluent_uri::Uri;</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// // An empty path has no segments.</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;&quot;)?;</span>
-    <span class="doccomment">/// assert_eq!(uri.path().segments().next(), None);</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;a/b/c&quot;)?;</span>
-    <span class="doccomment">/// assert!(uri.path().segments().eq([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]));</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// // The empty string before a preceding &quot;/&quot; is not a segment.</span>
-    <span class="doccomment">/// // However, segments can be empty in the other cases.</span>
-    <span class="doccomment">/// let uri = Uri::parse(&quot;/path/to//dir/&quot;)?;</span>
-    <span class="doccomment">/// assert!(uri.path().segments().eq([&quot;path&quot;, &quot;to&quot;, &quot;&quot;, &quot;dir&quot;, &quot;&quot;]));</span>
-    <span class="doccomment">/// # Ok::&lt;_, fluent_uri::ParseError&gt;(())</span>
-    <span class="doccomment">/// ```</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">segments</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">Split</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">as_str</span>();
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_absolute</span>() {
-            <span class="comment">// SAFETY: Skipping &quot;/&quot; is fine.</span>
-            <span class="ident">path</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">path</span>.<span class="ident">get_unchecked</span>(<span class="number">1</span>..) };
+    <span class="doccomment">/// Returns an iterator over the path [segments].
+    ///
+    /// [segments]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.3
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fluent_uri::Uri;
+    ///
+    /// // An empty path has no segments.
+    /// let uri = Uri::parse(&quot;&quot;)?;
+    /// assert_eq!(uri.path().segments().next(), None);
+    ///
+    /// let uri = Uri::parse(&quot;a/b/c&quot;)?;
+    /// assert!(uri.path().segments().eq([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]));
+    ///
+    /// // The empty string before a preceding &quot;/&quot; is not a segment.
+    /// // However, segments can be empty in the other cases.
+    /// let uri = Uri::parse(&quot;/path/to//dir/&quot;)?;
+    /// assert!(uri.path().segments().eq([&quot;path&quot;, &quot;to&quot;, &quot;&quot;, &quot;dir&quot;, &quot;&quot;]));
+    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// ```
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Split&lt;<span class="lifetime">&#39;_</span>&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>path = <span class="self">self</span>.inner.as_str();
+        <span class="kw">if </span><span class="self">self</span>.is_absolute() {
+            <span class="comment">// SAFETY: Skipping &quot;/&quot; is fine.
+            </span>path = <span class="kw">unsafe </span>{ path.get_unchecked(<span class="number">1</span>..) };
         }
-        <span class="comment">// SAFETY: The validation is done.</span>
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">EStr::new_unchecked</span>(<span class="ident">path</span>.<span class="ident">as_bytes</span>()) };
+        <span class="comment">// SAFETY: The validation is done.
+        </span><span class="kw">let </span>path = <span class="kw">unsafe </span>{ EStr::new_unchecked(path.as_bytes()) };
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">split</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">split</span>(<span class="string">&#39;/&#39;</span>);
-        <span class="ident">split</span>.<span class="ident">finished</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">as_str</span>().<span class="ident">is_empty</span>();
-        <span class="ident">split</span>
+        <span class="kw">let </span><span class="kw-2">mut </span>split = path.split(<span class="string">&#39;/&#39;</span>);
+        split.finished = <span class="self">self</span>.as_str().is_empty();
+        split
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (20ffea693 2022-08-11)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (bc4b39c27 2022-08-29)" ></div></body></html>

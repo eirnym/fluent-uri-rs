@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/enc/table.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>table.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../fluent_uri/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/enc/table.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>table.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../fluent_uri/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -164,171 +164,185 @@
 <span id="164">164</span>
 <span id="165">165</span>
 <span id="166">166</span>
-</pre><pre class="rust"><code><span class="doccomment">//! Byte pattern tables from RFC 3986.</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+</pre><pre class="rust"><code><span class="doccomment">//! Byte pattern tables from RFC 3986.
+//!
+//! The predefined table constants in this module are documented with
+//! the ABNF notation of [RFC 2234].
+//!
+//! [RFC 2234]: https://datatracker.ietf.org/doc/html/rfc2234/
 
-<span class="doccomment">/// A table determining the byte patterns allowed in a string.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// It is guaranteed that the unencoded bytes allowed are ASCII and that</span>
-<span class="doccomment">/// an unencoded `%` is not allowed.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Table</span> {
-    <span class="ident">arr</span>: [<span class="ident">u8</span>; <span class="number">256</span>],
-    <span class="ident">allows_enc</span>: <span class="ident">bool</span>,
+/// A table determining the byte patterns allowed in a string.
+///
+/// It is guaranteed that the unencoded bytes allowed are ASCII and that
+/// an unencoded `%` is not allowed.
+</span><span class="attribute">#[derive(Clone, Copy, Debug)]
+</span><span class="kw">pub struct </span>Table {
+    arr: [u8; <span class="number">256</span>],
+    allows_enc: bool,
 }
 
-<span class="kw">impl</span> <span class="ident">Table</span> {
-    <span class="doccomment">/// Generates a table that only allows the given unencoded bytes.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Panics</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Panics if any of the bytes is not ASCII or is `%`.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">gen</span>(<span class="kw-2">mut</span> <span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="ident">Table</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">arr</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">256</span>];
-        <span class="kw">while</span> <span class="kw">let</span> [<span class="ident">cur</span>, <span class="ident">rem</span> @ ..] <span class="op">=</span> <span class="ident">bytes</span> {
-            <span class="macro">assert!</span>(<span class="ident">cur</span>.<span class="ident">is_ascii</span>() <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">cur</span> <span class="op">!</span><span class="op">=</span> <span class="string">b&#39;%&#39;</span>, <span class="string">&quot;non-ASCII or %&quot;</span>);
-            <span class="ident">arr</span>[<span class="kw-2">*</span><span class="ident">cur</span> <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">=</span> <span class="number">1</span>;
-            <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">rem</span>;
+<span class="kw">impl </span>Table {
+    <span class="doccomment">/// Generates a table that only allows the given unencoded bytes.
+    ///
+    /// # Panics
+    ///
+    /// Panics if any of the bytes is not ASCII or is `%`.
+    </span><span class="kw">pub const fn </span>gen(<span class="kw-2">mut </span>bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; Table {
+        <span class="kw">let </span><span class="kw-2">mut </span>arr = [<span class="number">0</span>; <span class="number">256</span>];
+        <span class="kw">while let </span>[cur, rem @ ..] = bytes {
+            <span class="macro">assert!</span>(cur.is_ascii() &amp;&amp; <span class="kw-2">*</span>cur != <span class="string">b&#39;%&#39;</span>, <span class="string">&quot;non-ASCII or %&quot;</span>);
+            arr[<span class="kw-2">*</span>cur <span class="kw">as </span>usize] = <span class="number">1</span>;
+            bytes = rem;
         }
-        <span class="ident">Table</span> {
-            <span class="ident">arr</span>,
-            <span class="ident">allows_enc</span>: <span class="bool-val">false</span>,
+        Table {
+            arr,
+            allows_enc: <span class="bool-val">false</span>,
         }
     }
 
-    <span class="doccomment">/// Marks this table as allowing percent-encoded octets.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">enc</span>(<span class="kw-2">mut</span> <span class="self">self</span>) -&gt; <span class="ident">Table</span> {
-        <span class="self">self</span>.<span class="ident">allows_enc</span> <span class="op">=</span> <span class="bool-val">true</span>;
-        <span class="self">self</span>
-    }
+    <span class="doccomment">/// Marks this table as allowing percent-encoded octets.
+    </span><span class="kw">pub const fn </span>enc(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; Table {
+        <span class="self">self</span>.allows_enc = <span class="bool-val">true</span>;
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Combines two tables into one.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns a new table that allows all the byte patterns allowed</span>
-    <span class="doccomment">/// either by `self` or by `other`.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">or</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span>) -&gt; <span class="ident">Table</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="number">128</span> {
-            <span class="self">self</span>.<span class="ident">arr</span>[<span class="ident">i</span>] <span class="op">|</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">arr</span>[<span class="ident">i</span>];
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+    <span class="doccomment">/// Combines two tables into one.
+    ///
+    /// Returns a new table that allows all the byte patterns allowed
+    /// either by `self` or by `other`.
+    </span><span class="kw">pub const fn </span>or(<span class="kw-2">mut </span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Table) -&gt; Table {
+        <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+        <span class="kw">while </span>i &lt; <span class="number">128 </span>{
+            <span class="self">self</span>.arr[i] |= other.arr[i];
+            i += <span class="number">1</span>;
         }
-        <span class="self">self</span>.<span class="ident">allows_enc</span> <span class="op">|</span><span class="op">=</span> <span class="ident">other</span>.<span class="ident">allows_enc</span>;
-        <span class="self">self</span>
-    }
+        <span class="self">self</span>.allows_enc |= other.allows_enc;
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Subtracts from this table.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Returns a new table that allows all the byte patterns allowed</span>
-    <span class="doccomment">/// by `self` but not allowed by `other`.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">sub</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span>) -&gt; <span class="ident">Table</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="number">128</span> {
-            <span class="kw">if</span> <span class="ident">other</span>.<span class="ident">arr</span>[<span class="ident">i</span>] <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-                <span class="self">self</span>.<span class="ident">arr</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="number">0</span>;
+    <span class="doccomment">/// Subtracts from this table.
+    ///
+    /// Returns a new table that allows all the byte patterns allowed
+    /// by `self` but not allowed by `other`.
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+    </span><span class="kw">pub const fn </span>sub(<span class="kw-2">mut </span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Table) -&gt; Table {
+        <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+        <span class="kw">while </span>i &lt; <span class="number">128 </span>{
+            <span class="kw">if </span>other.arr[i] != <span class="number">0 </span>{
+                <span class="self">self</span>.arr[i] = <span class="number">0</span>;
             }
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            i += <span class="number">1</span>;
         }
-        <span class="kw">if</span> <span class="ident">other</span>.<span class="ident">allows_enc</span> {
-            <span class="self">self</span>.<span class="ident">allows_enc</span> <span class="op">=</span> <span class="bool-val">false</span>;
+        <span class="kw">if </span>other.allows_enc {
+            <span class="self">self</span>.allows_enc = <span class="bool-val">false</span>;
         }
-        <span class="self">self</span>
-    }
+        <span class="self">self
+    </span>}
 
-    <span class="doccomment">/// Returns `true` if the table is a subset of another, i.e., `other`</span>
-    <span class="doccomment">/// allows at least all the byte patterns allowed by `self`.</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">is_subset</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">other</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="number">128</span> {
-            <span class="kw">if</span> <span class="self">self</span>.<span class="ident">arr</span>[<span class="ident">i</span>] <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">other</span>.<span class="ident">arr</span>[<span class="ident">i</span>] <span class="op">==</span> <span class="number">0</span> {
-                <span class="kw">return</span> <span class="bool-val">false</span>;
+    <span class="doccomment">/// Returns `true` if the table is a subset of another, i.e., `other`
+    /// allows at least all the byte patterns allowed by `self`.
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+    </span><span class="kw">pub const fn </span>is_subset(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Table) -&gt; bool {
+        <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+        <span class="kw">while </span>i &lt; <span class="number">128 </span>{
+            <span class="kw">if </span><span class="self">self</span>.arr[i] != <span class="number">0 </span>&amp;&amp; other.arr[i] == <span class="number">0 </span>{
+                <span class="kw">return </span><span class="bool-val">false</span>;
             }
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            i += <span class="number">1</span>;
         }
-        <span class="op">!</span><span class="self">self</span>.<span class="ident">allows_enc</span> <span class="op">|</span><span class="op">|</span> <span class="ident">other</span>.<span class="ident">allows_enc</span>
+        !<span class="self">self</span>.allows_enc || other.allows_enc
     }
 
-    <span class="doccomment">/// Shifts the table values left.</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">shl</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">n</span>: <span class="ident">u8</span>) -&gt; <span class="ident">Table</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="number">128</span> {
-            <span class="self">self</span>.<span class="ident">arr</span>[<span class="ident">i</span>] <span class="op">&lt;</span><span class="op">&lt;</span><span class="op">=</span> <span class="ident">n</span>;
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+    <span class="doccomment">/// Shifts the table values left.
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>shl(<span class="kw-2">mut </span><span class="self">self</span>, n: u8) -&gt; Table {
+        <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+        <span class="kw">while </span>i &lt; <span class="number">128 </span>{
+            <span class="self">self</span>.arr[i] &lt;&lt;= n;
+            i += <span class="number">1</span>;
         }
-        <span class="self">self</span>
+        <span class="self">self
+    </span>}
+
+    <span class="doccomment">/// Returns the specified table value.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, x: u8) -&gt; u8 {
+        <span class="self">self</span>.arr[x <span class="kw">as </span>usize]
     }
 
-    <span class="doccomment">/// Returns the specified table value.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u8</span>) -&gt; <span class="ident">u8</span> {
-        <span class="self">self</span>.<span class="ident">arr</span>[<span class="ident">x</span> <span class="kw">as</span> <span class="ident">usize</span>]
-    }
+    <span class="doccomment">/// Returns `true` if an unencoded byte is allowed by the table.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub const fn </span>allows(<span class="kw-2">&amp;</span><span class="self">self</span>, x: u8) -&gt; bool {
+        <span class="self">self</span>.get(x) != <span class="number">0
+    </span>}
 
-    <span class="doccomment">/// Returns `true` if an unencoded byte is allowed by the table.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">allows</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">x</span>: <span class="ident">u8</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">x</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>
-    }
-
-    <span class="doccomment">/// Returns `true` if percent-encoded octets are allowed by the table.</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">allows_enc</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">allows_enc</span>
+    <span class="doccomment">/// Returns `true` if percent-encoded octets are allowed by the table.
+    </span><span class="attribute">#[inline]
+    </span><span class="kw">pub const fn </span>allows_enc(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.allows_enc
     }
 }
 
-<span class="kw">const</span> <span class="kw">fn</span> <span class="ident">gen</span>(<span class="ident">bytes</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="ident">Table</span> {
-    <span class="ident">Table::gen</span>(<span class="ident">bytes</span>)
+<span class="kw">const fn </span>gen(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; Table {
+    Table::gen(bytes)
 }
 
-<span class="doccomment">/// ALPHA = A-Z / a-z</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ALPHA</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;</span>);
+<span class="doccomment">/// ALPHA = A-Z / a-z
+</span><span class="kw">pub const </span>ALPHA: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>gen(<span class="string">b&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz&quot;</span>);
 
-<span class="doccomment">/// DIGIT = 0-9</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">DIGIT</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;0123456789&quot;</span>);
+<span class="doccomment">/// DIGIT = 0-9
+</span><span class="kw">pub const </span>DIGIT: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>gen(<span class="string">b&quot;0123456789&quot;</span>);
 
-<span class="doccomment">/// HEXDIG = DIGIT / &quot;A&quot; / &quot;B&quot; / &quot;C&quot; / &quot;D&quot; / &quot;E&quot; / &quot;F&quot;</span>
-<span class="doccomment">///                / &quot;a&quot; / &quot;b&quot; / &quot;c&quot; / &quot;d&quot; / &quot;e&quot; / &quot;f&quot;</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">HEXDIG</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">DIGIT</span>.<span class="ident">or</span>(<span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;ABCDEFabcdef&quot;</span>));
+<span class="doccomment">/// HEXDIG = DIGIT / &quot;A&quot; / &quot;B&quot; / &quot;C&quot; / &quot;D&quot; / &quot;E&quot; / &quot;F&quot;
+///                / &quot;a&quot; / &quot;b&quot; / &quot;c&quot; / &quot;d&quot; / &quot;e&quot; / &quot;f&quot;
+</span><span class="kw">pub const </span>HEXDIG: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>DIGIT.or(<span class="kw-2">&amp;</span>gen(<span class="string">b&quot;ABCDEFabcdef&quot;</span>));
 
-<span class="doccomment">/// reserved = gen-delims / sub-delims</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">RESERVED</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">GEN_DELIMS</span>.<span class="ident">or</span>(<span class="ident">SUB_DELIMS</span>);
+<span class="doccomment">/// reserved = gen-delims / sub-delims
+</span><span class="kw">pub const </span>RESERVED: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>GEN_DELIMS.or(SUB_DELIMS);
 
-<span class="doccomment">/// gen-delims = &quot;:&quot; / &quot;/&quot; / &quot;?&quot; / &quot;#&quot; / &quot;[&quot; / &quot;]&quot; / &quot;@&quot;</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">GEN_DELIMS</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;:/?#[]@&quot;</span>);
+<span class="doccomment">/// gen-delims = &quot;:&quot; / &quot;/&quot; / &quot;?&quot; / &quot;#&quot; / &quot;[&quot; / &quot;]&quot; / &quot;@&quot;
+</span><span class="kw">pub const </span>GEN_DELIMS: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>gen(<span class="string">b&quot;:/?#[]@&quot;</span>);
 
-<span class="doccomment">/// sub-delims = &quot;!&quot; / &quot;$&quot; / &quot;&amp;&quot; / &quot;&#39;&quot; / &quot;(&quot; / &quot;)&quot;</span>
-<span class="doccomment">///            / &quot;*&quot; / &quot;+&quot; / &quot;,&quot; / &quot;;&quot; / &quot;=&quot;</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">SUB_DELIMS</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;!$&amp;&#39;()*+,;=&quot;</span>);
+<span class="doccomment">/// sub-delims = &quot;!&quot; / &quot;$&quot; / &quot;&amp;&quot; / &quot;&#39;&quot; / &quot;(&quot; / &quot;)&quot;
+///            / &quot;*&quot; / &quot;+&quot; / &quot;,&quot; / &quot;;&quot; / &quot;=&quot;
+</span><span class="kw">pub const </span>SUB_DELIMS: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>gen(<span class="string">b&quot;!$&amp;&#39;()*+,;=&quot;</span>);
 
-<span class="doccomment">/// unreserved = ALPHA / DIGIT / &quot;-&quot; / &quot;.&quot; / &quot;_&quot; / &quot;~&quot;</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">UNRESERVED</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">ALPHA</span>.<span class="ident">or</span>(<span class="ident">DIGIT</span>).<span class="ident">or</span>(<span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;-._~&quot;</span>));
+<span class="doccomment">/// unreserved = ALPHA / DIGIT / &quot;-&quot; / &quot;.&quot; / &quot;_&quot; / &quot;~&quot;
+</span><span class="kw">pub const </span>UNRESERVED: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>ALPHA.or(DIGIT).or(<span class="kw-2">&amp;</span>gen(<span class="string">b&quot;-._~&quot;</span>));
 
-<span class="doccomment">/// pchar = unreserved / pct-encoded / sub-delims / &quot;:&quot; / &quot;@&quot;</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PCHAR</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">UNRESERVED</span>.<span class="ident">or</span>(<span class="ident">SUB_DELIMS</span>).<span class="ident">or</span>(<span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;:@&quot;</span>)).<span class="ident">enc</span>();
+<span class="doccomment">/// pchar = unreserved / pct-encoded / sub-delims / &quot;:&quot; / &quot;@&quot;
+</span><span class="kw">pub const </span>PCHAR: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).or(<span class="kw-2">&amp;</span>gen(<span class="string">b&quot;:@&quot;</span>)).enc();
 
-<span class="doccomment">/// segment-nz-nc = 1*( unreserved / pct-encoded / sub-delims / &quot;@&quot; )</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">SEGMENT_NC</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">UNRESERVED</span>.<span class="ident">or</span>(<span class="ident">SUB_DELIMS</span>).<span class="ident">or</span>(<span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;@&quot;</span>)).<span class="ident">enc</span>();
+<span class="doccomment">/// segment-nz-nc = 1*( unreserved / pct-encoded / sub-delims / &quot;@&quot; )
+</span><span class="kw">pub const </span>SEGMENT_NC: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).or(<span class="kw-2">&amp;</span>gen(<span class="string">b&quot;@&quot;</span>)).enc();
 
-<span class="doccomment">/// scheme = ALPHA *( ALPHA / DIGIT / &quot;+&quot; / &quot;-&quot; / &quot;.&quot; )</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">SCHEME</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">ALPHA</span>.<span class="ident">or</span>(<span class="ident">DIGIT</span>).<span class="ident">or</span>(<span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;+-.&quot;</span>));
+<span class="doccomment">/// scheme = ALPHA *( ALPHA / DIGIT / &quot;+&quot; / &quot;-&quot; / &quot;.&quot; )
+</span><span class="kw">pub const </span>SCHEME: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>ALPHA.or(DIGIT).or(<span class="kw-2">&amp;</span>gen(<span class="string">b&quot;+-.&quot;</span>));
 
-<span class="doccomment">/// userinfo = *( unreserved / pct-encoded / sub-delims / &quot;:&quot; )</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">USERINFO</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">UNRESERVED</span>.<span class="ident">or</span>(<span class="ident">SUB_DELIMS</span>).<span class="ident">or</span>(<span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;:&quot;</span>)).<span class="ident">enc</span>();
+<span class="doccomment">/// userinfo = *( unreserved / pct-encoded / sub-delims / &quot;:&quot; )
+</span><span class="kw">pub const </span>USERINFO: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).or(<span class="kw-2">&amp;</span>gen(<span class="string">b&quot;:&quot;</span>)).enc();
 
-<span class="doccomment">/// IPvFuture = &quot;v&quot; 1\*HEXDIG &quot;.&quot; 1\*( unreserved / sub-delims / &quot;:&quot; )</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">IPV_FUTURE</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">UNRESERVED</span>.<span class="ident">or</span>(<span class="ident">SUB_DELIMS</span>).<span class="ident">or</span>(<span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;:&quot;</span>));
+<span class="doccomment">/// IPvFuture = &quot;v&quot; 1\*HEXDIG &quot;.&quot; 1\*( unreserved / sub-delims / &quot;:&quot; )
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;ipv_future&quot;</span>)]
+</span><span class="kw">pub const </span>IPV_FUTURE: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).or(<span class="kw-2">&amp;</span>gen(<span class="string">b&quot;:&quot;</span>));
 
-<span class="doccomment">/// reg-name = *( unreserved / pct-encoded / sub-delims )</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">REG_NAME</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">UNRESERVED</span>.<span class="ident">or</span>(<span class="ident">SUB_DELIMS</span>).<span class="ident">enc</span>();
+<span class="doccomment">/// reg-name = *( unreserved / pct-encoded / sub-delims )
+</span><span class="kw">pub const </span>REG_NAME: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).enc();
 
-<span class="doccomment">/// path = *( pchar / &quot;/&quot; )</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">PATH</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">PCHAR</span>.<span class="ident">or</span>(<span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;/&quot;</span>));
+<span class="doccomment">/// path = *( pchar / &quot;/&quot; )
+</span><span class="kw">pub const </span>PATH: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>PCHAR.or(<span class="kw-2">&amp;</span>gen(<span class="string">b&quot;/&quot;</span>));
 
-<span class="doccomment">/// query = fragment = *( pchar / &quot;/&quot; / &quot;?&quot; )</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">QUERY_FRAGMENT</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">PCHAR</span>.<span class="ident">or</span>(<span class="kw-2">&amp;</span><span class="ident">gen</span>(<span class="string">b&quot;/?&quot;</span>));
+<span class="doccomment">/// query = fragment = *( pchar / &quot;/&quot; / &quot;?&quot; )
+</span><span class="kw">pub const </span>QUERY_FRAGMENT: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>PCHAR.or(<span class="kw-2">&amp;</span>gen(<span class="string">b&quot;/?&quot;</span>));
 
-<span class="doccomment">/// RFC 6874bis: ZoneID = 1*( unreserved )</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rfc6874bis&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">const</span> <span class="ident">ZONE_ID</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span> <span class="op">=</span> <span class="ident">UNRESERVED</span>;
+<span class="doccomment">/// RFC 6874bis: ZoneID = 1*( unreserved )
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;rfc6874bis&quot;</span>)]
+</span><span class="kw">pub const </span>ZONE_ID: <span class="kw-2">&amp;</span>Table = UNRESERVED;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (20ffea693 2022-08-11)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (bc4b39c27 2022-08-29)" ></div></body></html>

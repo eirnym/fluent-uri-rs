@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/enc/imp.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>imp.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../fluent_uri/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/enc/imp.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>imp.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../fluent_uri/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -503,510 +503,528 @@
 <span id="503">503</span>
 <span id="504">504</span>
 <span id="505">505</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">super</span>::table</span>::{<span class="self">self</span>, <span class="ident">Table</span>};
+<span id="506">506</span>
+<span id="507">507</span>
+<span id="508">508</span>
+<span id="509">509</span>
+<span id="510">510</span>
+<span id="511">511</span>
+<span id="512">512</span>
+<span id="513">513</span>
+<span id="514">514</span>
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">super</span>::table;
 
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt</span>, <span class="ident">ptr</span>};
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">super</span>::table::Table;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">borrow::Cow</span>, <span class="ident">str</span>};
+<span class="kw">use </span>std::{fmt, ptr};
 
-<span class="doccomment">/// Returns immediately with an encoding error.</span>
-<span class="macro">macro_rules!</span> <span class="ident">err</span> {
-    (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>:<span class="ident">expr</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>:<span class="ident">ident</span>) =&gt; {
-        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident"><span class="kw">crate</span>::enc::imp::EncodingError</span> {
-            <span class="ident">index</span>: <span class="macro-nonterminal">$</span><span class="macro-nonterminal">index</span>,
-            <span class="ident">kind</span>: <span class="ident"><span class="kw">crate</span>::enc::imp::EncodingErrorKind</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">kind</span>,
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">use </span>std::{borrow::Cow, str};
+
+<span class="doccomment">/// Returns immediately with an encoding error.
+</span><span class="macro">macro_rules! </span>err {
+    (<span class="macro-nonterminal">$index</span>:expr, <span class="macro-nonterminal">$kind</span>:ident) =&gt; {
+        <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="kw">crate</span>::enc::imp::EncodingError {
+            index: <span class="macro-nonterminal">$index</span>,
+            kind: <span class="kw">crate</span>::enc::imp::EncodingErrorKind::<span class="macro-nonterminal">$kind</span>,
         })
     };
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use</span> <span class="ident">err</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">use </span>err;
 
-<span class="doccomment">/// Detailed cause of an [`EncodingError`].</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">EncodingErrorKind</span> {
-    <span class="doccomment">/// Invalid percent-encoded octet that is either non-hexadecimal or incomplete.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The error index points to the percent character &quot;%&quot; of the octet.</span>
-    <span class="ident">InvalidOctet</span>,
-    <span class="doccomment">/// Unexpected character that is not allowed by the URI syntax.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The error index points to the character.</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-    <span class="ident">UnexpectedChar</span>,
+<span class="doccomment">/// Detailed cause of an [`EncodingError`].
+</span><span class="attribute">#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+</span><span class="kw">pub enum </span>EncodingErrorKind {
+    <span class="doccomment">/// Invalid percent-encoded octet that is either non-hexadecimal or incomplete.
+    ///
+    /// The error index points to the percent character &quot;%&quot; of the octet.
+    </span>InvalidOctet,
+    <span class="doccomment">/// Unexpected character that is not allowed by the URI syntax.
+    ///
+    /// The error index points to the character.
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+    </span>UnexpectedChar,
 }
 
-<span class="doccomment">/// An error occurred when decoding or validating strings.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">EncodingError</span> {
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">index</span>: <span class="ident">usize</span>,
-    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="ident">kind</span>: <span class="ident">EncodingErrorKind</span>,
+<span class="doccomment">/// An error occurred when decoding or validating strings.
+</span><span class="attribute">#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+</span><span class="kw">pub struct </span>EncodingError {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) index: usize,
+    <span class="kw">pub</span>(<span class="kw">crate</span>) kind: EncodingErrorKind,
 }
 
-<span class="kw">impl</span> <span class="ident">EncodingError</span> {
-    <span class="doccomment">/// Returns the index where the error occurred in the input string.</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">index</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">usize</span> {
-        <span class="self">self</span>.<span class="ident">index</span>
+<span class="kw">impl </span>EncodingError {
+    <span class="doccomment">/// Returns the index where the error occurred in the input string.
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+    #[inline]
+    </span><span class="kw">pub fn </span>index(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.index
     }
 
-    <span class="doccomment">/// Returns the detailed cause of the error.</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">kind</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">EncodingErrorKind</span> {
-        <span class="self">self</span>.<span class="ident">kind</span>
+    <span class="doccomment">/// Returns the detailed cause of the error.
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+    #[inline]
+    </span><span class="kw">pub fn </span>kind(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; EncodingErrorKind {
+        <span class="self">self</span>.kind
     }
 }
 
-<span class="kw">impl</span> <span class="ident">std::error::Error</span> <span class="kw">for</span> <span class="ident">EncodingError</span> {}
+<span class="kw">impl </span>std::error::Error <span class="kw">for </span>EncodingError {}
 
-<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">EncodingError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;mut</span> <span class="ident">fmt::Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="ident">fmt::Result</span> {
-        <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="kw">match</span> <span class="self">self</span>.<span class="ident">kind</span> {
-            <span class="ident">EncodingErrorKind::InvalidOctet</span> =&gt; <span class="string">&quot;invalid percent-encoded octet at index &quot;</span>,
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-            <span class="ident">EncodingErrorKind::UnexpectedChar</span> =&gt; <span class="string">&quot;unexpected character at index &quot;</span>,
+<span class="kw">impl </span>fmt::Display <span class="kw">for </span>EncodingError {
+    <span class="kw">fn </span>fmt(<span class="kw-2">&amp;</span><span class="self">self</span>, f: <span class="kw-2">&amp;mut </span>fmt::Formatter&lt;<span class="lifetime">&#39;_</span>&gt;) -&gt; fmt::Result {
+        <span class="kw">let </span>msg = <span class="kw">match </span><span class="self">self</span>.kind {
+            EncodingErrorKind::InvalidOctet =&gt; <span class="string">&quot;invalid percent-encoded octet at index &quot;</span>,
+            <span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+            </span>EncodingErrorKind::UnexpectedChar =&gt; <span class="string">&quot;unexpected character at index &quot;</span>,
         };
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}{}&quot;</span>, <span class="ident">msg</span>, <span class="self">self</span>.<span class="ident">index</span>)
+        <span class="macro">write!</span>(f, <span class="string">&quot;{}{}&quot;</span>, msg, <span class="self">self</span>.index)
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span> <span class="op">=</span> <span class="ident">EncodingError</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">std::result::Result</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">E</span><span class="op">&gt;</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">type </span><span class="prelude-ty">Result</span>&lt;T, E = EncodingError&gt; = std::result::Result&lt;T, E&gt;;
 
-<span class="kw">const</span> <span class="kw">fn</span> <span class="ident">gen_hex_table</span>() -&gt; [<span class="ident">u8</span>; <span class="number">512</span>] {
-    <span class="kw">const</span> <span class="ident">HEX_DIGITS</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>; <span class="number">16</span>] <span class="op">=</span> <span class="string">b&quot;0123456789ABCDEF&quot;</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">const fn </span>gen_hex_table() -&gt; [u8; <span class="number">512</span>] {
+    <span class="kw">const </span>HEX_DIGITS: <span class="kw-2">&amp;</span>[u8; <span class="number">16</span>] = <span class="string">b&quot;0123456789ABCDEF&quot;</span>;
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">512</span>];
-    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="number">256</span> {
-        <span class="ident">out</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">2</span>] <span class="op">=</span> <span class="ident">HEX_DIGITS</span>[<span class="ident">i</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">4</span>];
-        <span class="ident">out</span>[<span class="ident">i</span> <span class="op">*</span> <span class="number">2</span> <span class="op">+</span> <span class="number">1</span>] <span class="op">=</span> <span class="ident">HEX_DIGITS</span>[<span class="ident">i</span> <span class="op">&amp;</span> <span class="number">15</span>];
-        <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>out = [<span class="number">0</span>; <span class="number">512</span>];
+    <span class="kw">while </span>i &lt; <span class="number">256 </span>{
+        out[i * <span class="number">2</span>] = HEX_DIGITS[i &gt;&gt; <span class="number">4</span>];
+        out[i * <span class="number">2 </span>+ <span class="number">1</span>] = HEX_DIGITS[i &amp; <span class="number">15</span>];
+        i += <span class="number">1</span>;
     }
-    <span class="ident">out</span>
+    out
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="ident">HEX_TABLE</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>; <span class="number">512</span>] <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">gen_hex_table</span>();
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>HEX_TABLE: <span class="kw-2">&amp;</span>[u8; <span class="number">512</span>] = <span class="kw-2">&amp;</span>gen_hex_table();
 
-<span class="kw">const</span> <span class="kw">fn</span> <span class="ident">gen_octet_table</span>(<span class="ident">hi</span>: <span class="ident">bool</span>) -&gt; [<span class="ident">u8</span>; <span class="number">256</span>] {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">out</span> <span class="op">=</span> [<span class="number">0xFF</span>; <span class="number">256</span>];
-    <span class="kw">let</span> <span class="ident">shift</span> <span class="op">=</span> (<span class="ident">hi</span> <span class="kw">as</span> <span class="ident">u8</span>) <span class="op">*</span> <span class="number">4</span>;
+<span class="kw">const fn </span>gen_octet_table(hi: bool) -&gt; [u8; <span class="number">256</span>] {
+    <span class="kw">let </span><span class="kw-2">mut </span>out = [<span class="number">0xFF</span>; <span class="number">256</span>];
+    <span class="kw">let </span>shift = (hi <span class="kw">as </span>u8) * <span class="number">4</span>;
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="number">10</span> {
-        <span class="ident">out</span>[(<span class="ident">i</span> <span class="op">+</span> <span class="string">b&#39;0&#39;</span>) <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">=</span> <span class="ident">i</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>;
-        <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+    <span class="kw">while </span>i &lt; <span class="number">10 </span>{
+        out[(i + <span class="string">b&#39;0&#39;</span>) <span class="kw">as </span>usize] = i &lt;&lt; shift;
+        i += <span class="number">1</span>;
     }
-    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="number">16</span> {
-        <span class="ident">out</span>[(<span class="ident">i</span> <span class="op">-</span> <span class="number">10</span> <span class="op">+</span> <span class="string">b&#39;A&#39;</span>) <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">=</span> <span class="ident">i</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>;
-        <span class="ident">out</span>[(<span class="ident">i</span> <span class="op">-</span> <span class="number">10</span> <span class="op">+</span> <span class="string">b&#39;a&#39;</span>) <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">=</span> <span class="ident">i</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">shift</span>;
-        <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+    <span class="kw">while </span>i &lt; <span class="number">16 </span>{
+        out[(i - <span class="number">10 </span>+ <span class="string">b&#39;A&#39;</span>) <span class="kw">as </span>usize] = i &lt;&lt; shift;
+        out[(i - <span class="number">10 </span>+ <span class="string">b&#39;a&#39;</span>) <span class="kw">as </span>usize] = i &lt;&lt; shift;
+        i += <span class="number">1</span>;
     }
-    <span class="ident">out</span>
+    out
 }
 
-<span class="kw">const</span> <span class="ident">OCTET_TABLE_HI</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>; <span class="number">256</span>] <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">gen_octet_table</span>(<span class="bool-val">true</span>);
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const</span> <span class="ident">OCTET_TABLE_LO</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>; <span class="number">256</span>] <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">gen_octet_table</span>(<span class="bool-val">false</span>);
+<span class="kw">const </span>OCTET_TABLE_HI: <span class="kw-2">&amp;</span>[u8; <span class="number">256</span>] = <span class="kw-2">&amp;</span>gen_octet_table(<span class="bool-val">true</span>);
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>OCTET_TABLE_LO: <span class="kw-2">&amp;</span>[u8; <span class="number">256</span>] = <span class="kw-2">&amp;</span>gen_octet_table(<span class="bool-val">false</span>);
 
-<span class="doccomment">/// Decodes a percent-encoded octet assuming validity.</span>
-<span class="kw">fn</span> <span class="ident">decode_octet_unchecked</span>(<span class="ident">hi</span>: <span class="ident">u8</span>, <span class="ident">lo</span>: <span class="ident">u8</span>) -&gt; <span class="ident">u8</span> {
-    <span class="ident">OCTET_TABLE_HI</span>[<span class="ident">hi</span> <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">|</span> <span class="ident">OCTET_TABLE_LO</span>[<span class="ident">lo</span> <span class="kw">as</span> <span class="ident">usize</span>]
+<span class="doccomment">/// Decodes a percent-encoded octet assuming validity.
+</span><span class="kw">fn </span>decode_octet_unchecked(hi: u8, lo: u8) -&gt; u8 {
+    OCTET_TABLE_HI[hi <span class="kw">as </span>usize] | OCTET_TABLE_LO[lo <span class="kw">as </span>usize]
 }
 
-<span class="doccomment">/// Decodes a percent-encoded octet.</span>
-<span class="kw">fn</span> <span class="ident">decode_octet</span>(<span class="kw-2">mut</span> <span class="ident">hi</span>: <span class="ident">u8</span>, <span class="kw-2">mut</span> <span class="ident">lo</span>: <span class="ident">u8</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-    <span class="ident">hi</span> <span class="op">=</span> <span class="ident">OCTET_TABLE_HI</span>[<span class="ident">hi</span> <span class="kw">as</span> <span class="ident">usize</span>];
-    <span class="ident">lo</span> <span class="op">=</span> <span class="ident">OCTET_TABLE_LO</span>[<span class="ident">lo</span> <span class="kw">as</span> <span class="ident">usize</span>];
-    <span class="kw">if</span> <span class="ident">hi</span> <span class="op">&amp;</span> <span class="number">1</span> <span class="op">==</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">lo</span> <span class="op">&amp;</span> <span class="number">0x80</span> <span class="op">==</span> <span class="number">0</span> {
-        <span class="prelude-val">Some</span>(<span class="ident">hi</span> <span class="op">|</span> <span class="ident">lo</span>)
-    } <span class="kw">else</span> {
-        <span class="prelude-val">None</span>
-    }
+<span class="doccomment">/// Decodes a percent-encoded octet.
+</span><span class="kw">fn </span>decode_octet(<span class="kw-2">mut </span>hi: u8, <span class="kw-2">mut </span>lo: u8) -&gt; <span class="prelude-ty">Option</span>&lt;u8&gt; {
+    hi = OCTET_TABLE_HI[hi <span class="kw">as </span>usize];
+    lo = OCTET_TABLE_LO[lo <span class="kw">as </span>usize];
+    <span class="kw">if </span>hi &amp; <span class="number">1 </span>== <span class="number">0 </span>&amp;&amp; lo &amp; <span class="number">0x80 </span>== <span class="number">0 </span>{
+        <span class="prelude-val">Some</span>(hi | lo)
+    } <span class="kw">else </span>{
+        <span class="prelude-val">None
+    </span>}
 }
 
-<span class="kw">fn</span> <span class="ident">calc_capacity</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">triple</span>: <span class="ident">bool</span>) -&gt; <span class="ident">usize</span> {
-    <span class="attribute">#[<span class="ident">cold</span>]</span>
-    <span class="kw">fn</span> <span class="ident">capacity_overflow</span>() -&gt; <span class="op">!</span> {
+<span class="kw">fn </span>calc_capacity(s: <span class="kw-2">&amp;</span>[u8], triple: bool) -&gt; usize {
+    <span class="attribute">#[cold]
+    </span><span class="kw">fn </span>capacity_overflow() -&gt; ! {
         <span class="macro">panic!</span>(<span class="string">&quot;capacity overflow&quot;</span>)
     }
 
-    <span class="kw">if</span> <span class="ident">triple</span> {
-        <span class="kw">if</span> <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="ident">isize::MAX</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">/</span> <span class="number">3</span> {
-            <span class="ident">capacity_overflow</span>();
+    <span class="kw">if </span>triple {
+        <span class="kw">if </span>s.len() &gt; isize::MAX <span class="kw">as </span>usize / <span class="number">3 </span>{
+            capacity_overflow();
         }
-        <span class="ident">s</span>.<span class="ident">len</span>() <span class="op">*</span> <span class="number">3</span>
-    } <span class="kw">else</span> {
-        <span class="ident">s</span>.<span class="ident">len</span>()
+        s.len() * <span class="number">3
+    </span>} <span class="kw">else </span>{
+        s.len()
     }
 }
 
-<span class="doccomment">/// Copies the first `i` bytes from `s` into a new buffer.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Set `triple` to `true` if triple capacity is needed.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// `i` must not exceed `s.len()`.</span>
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy_new</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">i</span>: <span class="ident">usize</span>, <span class="ident">triple</span>: <span class="ident">bool</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">cap</span> <span class="op">=</span> <span class="ident">calc_capacity</span>(<span class="ident">s</span>, <span class="ident">triple</span>);
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="ident">cap</span>);
+<span class="doccomment">/// Copies the first `i` bytes from `s` into a new buffer.
+///
+/// Set `triple` to `true` if triple capacity is needed.
+///
+/// # Safety
+///
+/// `i` must not exceed `s.len()`.
+</span><span class="kw">unsafe fn </span>copy_new(s: <span class="kw-2">&amp;</span>[u8], i: usize, triple: bool) -&gt; Vec&lt;u8&gt; {
+    <span class="kw">let </span>cap = calc_capacity(s, triple);
+    <span class="kw">let </span><span class="kw-2">mut </span>buf = Vec::with_capacity(cap);
 
-    <span class="kw">unsafe</span> {
-        <span class="comment">// SAFETY: Since `i &lt;= s.len() &lt;= buf.capacity()`, `s` is valid</span>
-        <span class="comment">// for reads of `i` bytes, and `buf` is valid for writes of `i` bytes.</span>
-        <span class="comment">// Newly allocated `buf` cannot overlap with `s`.</span>
-        <span class="ident">ptr::copy_nonoverlapping</span>(<span class="ident">s</span>.<span class="ident">as_ptr</span>(), <span class="ident">buf</span>.<span class="ident">as_mut_ptr</span>(), <span class="ident">i</span>);
-        <span class="comment">// The first `i` bytes are now initialized so it&#39;s safe to set the length.</span>
-        <span class="ident">buf</span>.<span class="ident">set_len</span>(<span class="ident">i</span>);
+    <span class="kw">unsafe </span>{
+        <span class="comment">// SAFETY: Since `i &lt;= s.len() &lt;= buf.capacity()`, `s` is valid
+        // for reads of `i` bytes, and `buf` is valid for writes of `i` bytes.
+        // Newly allocated `buf` cannot overlap with `s`.
+        </span>ptr::copy_nonoverlapping(s.as_ptr(), buf.as_mut_ptr(), i);
+        <span class="comment">// The first `i` bytes are now initialized so it&#39;s safe to set the length.
+        </span>buf.set_len(i);
     }
-    <span class="ident">buf</span>
+    buf
 }
 
-<span class="doccomment">/// Copies the first `i` bytes from `s` into a buffer.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Set `triple` to `true` if triple capacity is needed.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// `i` must not exceed `s.len()`.</span>
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">copy</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">i</span>: <span class="ident">usize</span>, <span class="ident">triple</span>: <span class="ident">bool</span>) {
-    <span class="kw">let</span> <span class="ident">cap</span> <span class="op">=</span> <span class="ident">calc_capacity</span>(<span class="ident">s</span>, <span class="ident">triple</span>);
-    <span class="ident">buf</span>.<span class="ident">reserve</span>(<span class="ident">cap</span>);
+<span class="doccomment">/// Copies the first `i` bytes from `s` into a buffer.
+///
+/// Set `triple` to `true` if triple capacity is needed.
+///
+/// # Safety
+///
+/// `i` must not exceed `s.len()`.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">unsafe fn </span>copy(s: <span class="kw-2">&amp;</span>[u8], buf: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;, i: usize, triple: bool) {
+    <span class="kw">let </span>cap = calc_capacity(s, triple);
+    buf.reserve(cap);
 
-    <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">dst</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">as_mut_ptr</span>().<span class="ident">add</span>(<span class="ident">buf</span>.<span class="ident">len</span>());
-        <span class="comment">// SAFETY: Since `i &lt;= s.len() &lt;= buf.capacity() - buf.len()`, `s` is valid</span>
-        <span class="comment">// for reads of `i` bytes, and `dst` is valid for writes of `i` bytes.</span>
-        <span class="comment">// Mutable reference `buf` cannot overlap with immutable `s`.</span>
-        <span class="ident">ptr::copy_nonoverlapping</span>(<span class="ident">s</span>.<span class="ident">as_ptr</span>(), <span class="ident">dst</span>, <span class="ident">i</span>);
-        <span class="comment">// The appended `i` bytes are now initialized so it&#39;s safe to set the length.</span>
-        <span class="ident">buf</span>.<span class="ident">set_len</span>(<span class="ident">buf</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="ident">i</span>);
-    }
-}
-
-<span class="doccomment">/// Pushes a raw byte without checking bounds.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// `v.len() + 1` must not exceed `v.capacity()`.</span>
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">push</span>(<span class="ident">v</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">x</span>: <span class="ident">u8</span>) {
-    <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">len</span>();
-    <span class="macro">debug_assert!</span>(<span class="ident">len</span> <span class="op">&lt;</span> <span class="ident">v</span>.<span class="ident">capacity</span>());
-    <span class="comment">// SAFETY: The caller must ensure that the capacity is enough.</span>
-    <span class="kw">unsafe</span> {
-        <span class="kw-2">*</span><span class="ident">v</span>.<span class="ident">as_mut_ptr</span>().<span class="ident">add</span>(<span class="ident">len</span>) <span class="op">=</span> <span class="ident">x</span>;
-        <span class="ident">v</span>.<span class="ident">set_len</span>(<span class="ident">len</span> <span class="op">+</span> <span class="number">1</span>);
+    <span class="kw">unsafe </span>{
+        <span class="kw">let </span>dst = buf.as_mut_ptr().add(buf.len());
+        <span class="comment">// SAFETY: Since `i &lt;= s.len() &lt;= buf.capacity() - buf.len()`, `s` is valid
+        // for reads of `i` bytes, and `dst` is valid for writes of `i` bytes.
+        // Mutable reference `buf` cannot overlap with immutable `s`.
+        </span>ptr::copy_nonoverlapping(s.as_ptr(), dst, i);
+        <span class="comment">// The appended `i` bytes are now initialized so it&#39;s safe to set the length.
+        </span>buf.set_len(buf.len() + i);
     }
 }
 
-<span class="doccomment">/// Pushes a percent-encoded byte without checking bounds.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// `v.len() + 3` must not exceed `v.capacity()`.</span>
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">push_pct_encoded</span>(<span class="ident">v</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">x</span>: <span class="ident">u8</span>) {
-    <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">len</span>();
-    <span class="macro">debug_assert!</span>(<span class="ident">len</span> <span class="op">+</span> <span class="number">2</span> <span class="op">&lt;</span> <span class="ident">v</span>.<span class="ident">capacity</span>());
-    <span class="comment">// SAFETY: The caller must ensure that the capacity is enough.</span>
-    <span class="kw">unsafe</span> {
-        <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">v</span>.<span class="ident">as_mut_ptr</span>().<span class="ident">add</span>(<span class="ident">len</span>);
-        <span class="kw-2">*</span><span class="ident">ptr</span> <span class="op">=</span> <span class="string">b&#39;%&#39;</span>;
-        <span class="kw-2">*</span><span class="ident">ptr</span>.<span class="ident">add</span>(<span class="number">1</span>) <span class="op">=</span> <span class="ident">HEX_TABLE</span>[<span class="ident">x</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="number">2</span>];
-        <span class="kw-2">*</span><span class="ident">ptr</span>.<span class="ident">add</span>(<span class="number">2</span>) <span class="op">=</span> <span class="ident">HEX_TABLE</span>[<span class="ident">x</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">*</span> <span class="number">2</span> <span class="op">+</span> <span class="number">1</span>];
-
-        <span class="ident">v</span>.<span class="ident">set_len</span>(<span class="ident">len</span> <span class="op">+</span> <span class="number">3</span>);
+<span class="doccomment">/// Pushes a raw byte without checking bounds.
+///
+/// # Safety
+///
+/// `v.len() + 1` must not exceed `v.capacity()`.
+</span><span class="kw">unsafe fn </span>push(v: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;, x: u8) {
+    <span class="kw">let </span>len = v.len();
+    <span class="macro">debug_assert!</span>(len &lt; v.capacity());
+    <span class="comment">// SAFETY: The caller must ensure that the capacity is enough.
+    </span><span class="kw">unsafe </span>{
+        <span class="kw-2">*</span>v.as_mut_ptr().add(len) = x;
+        v.set_len(len + <span class="number">1</span>);
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">encode</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>], <span class="ident">table</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span>) -&gt; <span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="ident">str</span><span class="op">&gt;</span> {
-    <span class="comment">// Skip the allowed bytes.</span>
-    <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="op">!</span><span class="ident">table</span>.<span class="ident">allows</span>(<span class="ident">x</span>)) {
-        <span class="prelude-val">Some</span>(<span class="ident">i</span>) =&gt; <span class="ident">i</span>,
-        <span class="comment">// SAFETY: All bytes are checked to be less than 128 (ASCII).</span>
-        <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="ident">Cow::Borrowed</span>(<span class="kw">unsafe</span> { <span class="ident">str::from_utf8_unchecked</span>(<span class="ident">s</span>) }),
+<span class="doccomment">/// Pushes a percent-encoded byte without checking bounds.
+///
+/// # Safety
+///
+/// `v.len() + 3` must not exceed `v.capacity()`.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">unsafe fn </span>push_pct_encoded(v: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;, x: u8) {
+    <span class="kw">let </span>len = v.len();
+    <span class="macro">debug_assert!</span>(len + <span class="number">2 </span>&lt; v.capacity());
+    <span class="comment">// SAFETY: The caller must ensure that the capacity is enough.
+    </span><span class="kw">unsafe </span>{
+        <span class="kw">let </span>ptr = v.as_mut_ptr().add(len);
+        <span class="kw-2">*</span>ptr = <span class="string">b&#39;%&#39;</span>;
+        <span class="kw-2">*</span>ptr.add(<span class="number">1</span>) = HEX_TABLE[x <span class="kw">as </span>usize * <span class="number">2</span>];
+        <span class="kw-2">*</span>ptr.add(<span class="number">2</span>) = HEX_TABLE[x <span class="kw">as </span>usize * <span class="number">2 </span>+ <span class="number">1</span>];
+
+        v.set_len(len + <span class="number">3</span>);
+    }
+}
+
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>encode&lt;<span class="lifetime">&#39;a</span>&gt;(s: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8], table: <span class="kw-2">&amp;</span>Table) -&gt; Cow&lt;<span class="lifetime">&#39;a</span>, str&gt; {
+    <span class="comment">// Skip the allowed bytes.
+    </span><span class="kw">let </span>i = <span class="kw">match </span>s.iter().position(|<span class="kw-2">&amp;</span>x| !table.allows(x)) {
+        <span class="prelude-val">Some</span>(i) =&gt; i,
+        <span class="comment">// SAFETY: All bytes are checked to be less than 128 (ASCII).
+        </span><span class="prelude-val">None </span>=&gt; <span class="kw">return </span>Cow::Borrowed(<span class="kw">unsafe </span>{ str::from_utf8_unchecked(s) }),
     };
 
-    <span class="kw">unsafe</span> {
-        <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">copy_new</span>(<span class="ident">s</span>, <span class="ident">i</span>, <span class="bool-val">true</span>);
-        <span class="ident">_encode</span>(<span class="ident">s</span>, <span class="ident">i</span>, <span class="ident">table</span>, <span class="kw-2">&amp;mut</span> <span class="ident">buf</span>);
-        <span class="comment">// SAFETY: The bytes should all be ASCII and thus valid UTF-8.</span>
-        <span class="ident">Cow::Owned</span>(<span class="ident">String::from_utf8_unchecked</span>(<span class="ident">buf</span>))
+    <span class="kw">unsafe </span>{
+        <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.
+        </span><span class="kw">let </span><span class="kw-2">mut </span>buf = copy_new(s, i, <span class="bool-val">true</span>);
+        _encode(s, i, table, <span class="kw-2">&amp;mut </span>buf);
+        <span class="comment">// SAFETY: The bytes should all be ASCII and thus valid UTF-8.
+        </span>Cow::Owned(String::from_utf8_unchecked(buf))
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">encode_to</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">table</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) {
-    <span class="comment">// Skip the allowed bytes.</span>
-    <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="op">!</span><span class="ident">table</span>.<span class="ident">allows</span>(<span class="ident">x</span>)) {
-        <span class="prelude-val">Some</span>(<span class="ident">i</span>) =&gt; <span class="ident">i</span>,
-        <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="ident">buf</span>.<span class="ident">extend_from_slice</span>(<span class="ident">s</span>),
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>encode_to&lt;<span class="lifetime">&#39;a</span>&gt;(s: <span class="kw-2">&amp;</span>[u8], table: <span class="kw-2">&amp;</span>Table, buf: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Vec&lt;u8&gt;) {
+    <span class="comment">// Skip the allowed bytes.
+    </span><span class="kw">let </span>i = <span class="kw">match </span>s.iter().position(|<span class="kw-2">&amp;</span>x| !table.allows(x)) {
+        <span class="prelude-val">Some</span>(i) =&gt; i,
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>buf.extend_from_slice(s),
     };
-    <span class="kw">unsafe</span> {
-        <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.</span>
-        <span class="ident">copy</span>(<span class="ident">s</span>, <span class="ident">buf</span>, <span class="ident">i</span>, <span class="bool-val">true</span>);
-        <span class="ident">_encode</span>(<span class="ident">s</span>, <span class="ident">i</span>, <span class="ident">table</span>, <span class="ident">buf</span>);
+    <span class="kw">unsafe </span>{
+        <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.
+        </span>copy(s, buf, i, <span class="bool-val">true</span>);
+        _encode(s, i, table, buf);
     }
 }
 
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">_encode</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="kw-2">mut</span> <span class="ident">i</span>: <span class="ident">usize</span>, <span class="ident">table</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) {
-    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">s</span>.<span class="ident">len</span>() {
-        <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">s</span>[<span class="ident">i</span>];
-        <span class="comment">// SAFETY: The maximum output length is triple the input length.</span>
-        <span class="kw">unsafe</span> {
-            <span class="kw">if</span> <span class="ident">table</span>.<span class="ident">allows</span>(<span class="ident">x</span>) {
-                <span class="ident">push</span>(<span class="ident">buf</span>, <span class="ident">x</span>);
-            } <span class="kw">else</span> {
-                <span class="ident">push_pct_encoded</span>(<span class="ident">buf</span>, <span class="ident">x</span>);
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">unsafe fn </span>_encode(s: <span class="kw-2">&amp;</span>[u8], <span class="kw-2">mut </span>i: usize, table: <span class="kw-2">&amp;</span>Table, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) {
+    <span class="kw">while </span>i &lt; s.len() {
+        <span class="kw">let </span>x = s[i];
+        <span class="comment">// SAFETY: The maximum output length is triple the input length.
+        </span><span class="kw">unsafe </span>{
+            <span class="kw">if </span>table.allows(x) {
+                push(buf, x);
+            } <span class="kw">else </span>{
+                push_pct_encoded(buf, x);
             }
         }
-        <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        i += <span class="number">1</span>;
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">decode</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Cow</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span>, [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
-    <span class="comment">// Skip bytes that are not &#39;%&#39;.</span>
-    <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">==</span> <span class="string">b&#39;%&#39;</span>) {
-        <span class="prelude-val">Some</span>(<span class="ident">i</span>) =&gt; <span class="ident">i</span>,
-        <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">Cow::Borrowed</span>(<span class="ident">s</span>)),
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>decode(s: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;Cow&lt;<span class="lifetime">&#39;_</span>, [u8]&gt;&gt; {
+    <span class="comment">// Skip bytes that are not &#39;%&#39;.
+    </span><span class="kw">let </span>i = <span class="kw">match </span>s.iter().position(|<span class="kw-2">&amp;</span>x| x == <span class="string">b&#39;%&#39;</span>) {
+        <span class="prelude-val">Some</span>(i) =&gt; i,
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(Cow::Borrowed(s)),
     };
-    <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">copy_new</span>(<span class="ident">s</span>, <span class="ident">i</span>, <span class="bool-val">false</span>) };
+    <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.
+    </span><span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="kw">unsafe </span>{ copy_new(s, i, <span class="bool-val">false</span>) };
 
-    <span class="kw">unsafe</span> { <span class="ident">_decode</span>(<span class="ident">s</span>, <span class="ident">i</span>, <span class="kw-2">&amp;mut</span> <span class="ident">buf</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span> }
-    <span class="prelude-val">Ok</span>(<span class="ident">Cow::Owned</span>(<span class="ident">buf</span>))
+    <span class="kw">unsafe </span>{ _decode(s, i, <span class="kw-2">&amp;mut </span>buf, <span class="bool-val">true</span>)<span class="question-mark">? </span>}
+    <span class="prelude-val">Ok</span>(Cow::Owned(buf))
 }
 
-<span class="doccomment">/// Decodes a percent-encoded string assuming validity.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This function does not check that the string is properly encoded.</span>
-<span class="doccomment">/// Any invalid encoded octet in the string will result in undefined behavior.</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">decode_unchecked</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-    <span class="comment">// Skip bytes that are not &#39;%&#39;.</span>
-    <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">==</span> <span class="string">b&#39;%&#39;</span>) {
-        <span class="prelude-val">Some</span>(<span class="ident">i</span>) =&gt; <span class="ident">i</span>,
-        <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="prelude-val">None</span>,
+<span class="doccomment">/// Decodes a percent-encoded string assuming validity.
+///
+/// # Safety
+///
+/// This function does not check that the string is properly encoded.
+/// Any invalid encoded octet in the string will result in undefined behavior.
+</span><span class="kw">pub unsafe fn </span>decode_unchecked(s: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;u8&gt;&gt; {
+    <span class="comment">// Skip bytes that are not &#39;%&#39;.
+    </span><span class="kw">let </span>i = <span class="kw">match </span>s.iter().position(|<span class="kw-2">&amp;</span>x| x == <span class="string">b&#39;%&#39;</span>) {
+        <span class="prelude-val">Some</span>(i) =&gt; i,
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
     };
-    <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">copy_new</span>(<span class="ident">s</span>, <span class="ident">i</span>, <span class="bool-val">false</span>) };
+    <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.
+    </span><span class="kw">let </span><span class="kw-2">mut </span>buf = <span class="kw">unsafe </span>{ copy_new(s, i, <span class="bool-val">false</span>) };
 
-    <span class="comment">// SAFETY: The caller must ensure that the string is properly encoded.</span>
-    <span class="kw">unsafe</span> { <span class="ident">_decode</span>(<span class="ident">s</span>, <span class="ident">i</span>, <span class="kw-2">&amp;mut</span> <span class="ident">buf</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>() }
-    <span class="prelude-val">Some</span>(<span class="ident">buf</span>)
+    <span class="comment">// SAFETY: The caller must ensure that the string is properly encoded.
+    </span><span class="kw">unsafe </span>{ _decode(s, i, <span class="kw-2">&amp;mut </span>buf, <span class="bool-val">false</span>).unwrap() }
+    <span class="prelude-val">Some</span>(buf)
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">decode_with</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span><span class="op">&gt;</span> {
-    <span class="comment">// Skip bytes that are not &#39;%&#39;.</span>
-    <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">==</span> <span class="string">b&#39;%&#39;</span>) {
-        <span class="prelude-val">Some</span>(<span class="ident">i</span>) =&gt; <span class="ident">i</span>,
-        <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>decode_with&lt;<span class="lifetime">&#39;a</span>&gt;(s: <span class="kw-2">&amp;</span>[u8], buf: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Vec&lt;u8&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt;&gt; {
+    <span class="comment">// Skip bytes that are not &#39;%&#39;.
+    </span><span class="kw">let </span>i = <span class="kw">match </span>s.iter().position(|<span class="kw-2">&amp;</span>x| x == <span class="string">b&#39;%&#39;</span>) {
+        <span class="prelude-val">Some</span>(i) =&gt; i,
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>),
     };
 
-    <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>();
+    <span class="kw">let </span>start = buf.len();
 
-    <span class="kw">unsafe</span> {
-        <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.</span>
-        <span class="ident">copy</span>(<span class="ident">s</span>, <span class="ident">buf</span>, <span class="ident">i</span>, <span class="bool-val">false</span>);
-        <span class="ident">_decode</span>(<span class="ident">s</span>, <span class="ident">i</span>, <span class="ident">buf</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
-        <span class="comment">// SAFETY: The length is non-decreasing.</span>
-        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">buf</span>.<span class="ident">get_unchecked</span>(<span class="ident">start</span>..)))
+    <span class="kw">unsafe </span>{
+        <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.
+        </span>copy(s, buf, i, <span class="bool-val">false</span>);
+        _decode(s, i, buf, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+        <span class="comment">// SAFETY: The length is non-decreasing.
+        </span><span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(buf.get_unchecked(start..)))
     }
 }
 
-<span class="doccomment">/// Decodes a percent-encoded string with a buffer assuming validity.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// If the string needs no decoding, this function returns `None`</span>
-<span class="doccomment">/// and no bytes will be appended to the buffer.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This function does not check that the string is properly encoded.</span>
-<span class="doccomment">/// Any invalid encoded octet in the string will result in undefined behavior.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">decode_with_unchecked</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="kw-2">mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">u8</span>]<span class="op">&gt;</span> {
-    <span class="comment">// Skip bytes that are not &#39;%&#39;.</span>
-    <span class="kw">let</span> <span class="ident">i</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">==</span> <span class="string">b&#39;%&#39;</span>) {
-        <span class="prelude-val">Some</span>(<span class="ident">i</span>) =&gt; <span class="ident">i</span>,
-        <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="prelude-val">None</span>,
+<span class="doccomment">/// Decodes a percent-encoded string with a buffer assuming validity.
+///
+/// If the string needs no decoding, this function returns `None`
+/// and no bytes will be appended to the buffer.
+///
+/// # Safety
+///
+/// This function does not check that the string is properly encoded.
+/// Any invalid encoded octet in the string will result in undefined behavior.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub unsafe fn </span>decode_with_unchecked&lt;<span class="lifetime">&#39;a</span>&gt;(s: <span class="kw-2">&amp;</span>[u8], buf: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="kw-2">mut </span>Vec&lt;u8&gt;) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[u8]&gt; {
+    <span class="comment">// Skip bytes that are not &#39;%&#39;.
+    </span><span class="kw">let </span>i = <span class="kw">match </span>s.iter().position(|<span class="kw-2">&amp;</span>x| x == <span class="string">b&#39;%&#39;</span>) {
+        <span class="prelude-val">Some</span>(i) =&gt; i,
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
     };
 
-    <span class="kw">let</span> <span class="ident">start</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">len</span>();
+    <span class="kw">let </span>start = buf.len();
 
-    <span class="kw">unsafe</span> {
-        <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.</span>
-        <span class="ident">copy</span>(<span class="ident">s</span>, <span class="ident">buf</span>, <span class="ident">i</span>, <span class="bool-val">false</span>);
-        <span class="comment">// SAFETY: The caller must ensure that the string is properly encoded.</span>
-        <span class="ident">_decode</span>(<span class="ident">s</span>, <span class="ident">i</span>, <span class="ident">buf</span>, <span class="bool-val">false</span>).<span class="ident">unwrap</span>();
-        <span class="comment">// SAFETY: The length is non-decreasing.</span>
-        <span class="prelude-val">Some</span>(<span class="ident">buf</span>.<span class="ident">get_unchecked</span>(<span class="ident">start</span>..))
+    <span class="kw">unsafe </span>{
+        <span class="comment">// SAFETY: `i` cannot exceed `s.len()` since `i &lt; s.len()`.
+        </span>copy(s, buf, i, <span class="bool-val">false</span>);
+        <span class="comment">// SAFETY: The caller must ensure that the string is properly encoded.
+        </span>_decode(s, i, buf, <span class="bool-val">false</span>).unwrap();
+        <span class="comment">// SAFETY: The length is non-decreasing.
+        </span><span class="prelude-val">Some</span>(buf.get_unchecked(start..))
     }
 }
 
-<span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">_decode</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="kw-2">mut</span> <span class="ident">i</span>: <span class="ident">usize</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>, <span class="ident">checked</span>: <span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">s</span>.<span class="ident">len</span>() {
-        <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">s</span>[<span class="ident">i</span>];
-        <span class="kw">if</span> <span class="ident">x</span> <span class="op">==</span> <span class="string">b&#39;%&#39;</span> {
-            <span class="kw">let</span> <span class="ident">octet</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">checked</span> {
-                <span class="kw">if</span> <span class="ident">i</span> <span class="op">+</span> <span class="number">2</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">s</span>.<span class="ident">len</span>() {
-                    <span class="macro">err!</span>(<span class="ident">i</span>, <span class="ident">InvalidOctet</span>);
+<span class="kw">unsafe fn </span>_decode(s: <span class="kw-2">&amp;</span>[u8], <span class="kw-2">mut </span>i: usize, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;, checked: bool) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+    <span class="kw">while </span>i &lt; s.len() {
+        <span class="kw">let </span>x = s[i];
+        <span class="kw">if </span>x == <span class="string">b&#39;%&#39; </span>{
+            <span class="kw">let </span>octet = <span class="kw">if </span>checked {
+                <span class="kw">if </span>i + <span class="number">2 </span>&gt;= s.len() {
+                    <span class="macro">err!</span>(i, InvalidOctet);
                 }
-                <span class="comment">// SAFETY: We have checked that `i + 2 &lt; s.len()`.</span>
-                <span class="comment">// Overflow should be impossible because we cannot have that large a slice.</span>
-                <span class="kw">let</span> (<span class="ident">hi</span>, <span class="ident">lo</span>) <span class="op">=</span> <span class="kw">unsafe</span> { (<span class="kw-2">*</span><span class="ident">s</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>), <span class="kw-2">*</span><span class="ident">s</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">2</span>)) };
+                <span class="comment">// SAFETY: We have checked that `i + 2 &lt; s.len()`.
+                // Overflow should be impossible because we cannot have that large a slice.
+                </span><span class="kw">let </span>(hi, lo) = <span class="kw">unsafe </span>{ (<span class="kw-2">*</span>s.get_unchecked(i + <span class="number">1</span>), <span class="kw-2">*</span>s.get_unchecked(i + <span class="number">2</span>)) };
 
-                <span class="kw">match</span> <span class="ident">decode_octet</span>(<span class="ident">hi</span>, <span class="ident">lo</span>) {
-                    <span class="prelude-val">Some</span>(<span class="ident">o</span>) =&gt; <span class="ident">o</span>,
-                    <span class="prelude-val">None</span> =&gt; <span class="macro">err!</span>(<span class="ident">i</span>, <span class="ident">InvalidOctet</span>),
+                <span class="kw">match </span>decode_octet(hi, lo) {
+                    <span class="prelude-val">Some</span>(o) =&gt; o,
+                    <span class="prelude-val">None </span>=&gt; <span class="macro">err!</span>(i, InvalidOctet),
                 }
-            } <span class="kw">else</span> {
-                <span class="comment">// SAFETY: The caller must ensure that the string is properly encoded.</span>
-                <span class="kw">let</span> (<span class="ident">hi</span>, <span class="ident">lo</span>) <span class="op">=</span> <span class="kw">unsafe</span> { (<span class="kw-2">*</span><span class="ident">s</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>), <span class="kw-2">*</span><span class="ident">s</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">2</span>)) };
-                <span class="ident">decode_octet_unchecked</span>(<span class="ident">hi</span>, <span class="ident">lo</span>)
+            } <span class="kw">else </span>{
+                <span class="comment">// SAFETY: The caller must ensure that the string is properly encoded.
+                </span><span class="kw">let </span>(hi, lo) = <span class="kw">unsafe </span>{ (<span class="kw-2">*</span>s.get_unchecked(i + <span class="number">1</span>), <span class="kw-2">*</span>s.get_unchecked(i + <span class="number">2</span>)) };
+                decode_octet_unchecked(hi, lo)
             };
 
-            <span class="comment">// SAFETY: The output will never be longer than the input.</span>
-            <span class="kw">unsafe</span> { <span class="ident">push</span>(<span class="ident">buf</span>, <span class="ident">octet</span>) }
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">3</span>;
-        } <span class="kw">else</span> {
-            <span class="comment">// SAFETY: The output will never be longer than the input.</span>
-            <span class="kw">unsafe</span> { <span class="ident">push</span>(<span class="ident">buf</span>, <span class="ident">x</span>) }
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            <span class="comment">// SAFETY: The output will never be longer than the input.
+            </span><span class="kw">unsafe </span>{ push(buf, octet) }
+            i += <span class="number">3</span>;
+        } <span class="kw">else </span>{
+            <span class="comment">// SAFETY: The output will never be longer than the input.
+            </span><span class="kw">unsafe </span>{ push(buf, x) }
+            i += <span class="number">1</span>;
         }
     }
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="doccomment">/// Decodes a percent-encoded string in-place assuming validity.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// Returns the length of decoded bytes to the left.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Safety</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This function does not check that the string is properly encoded.</span>
-<span class="doccomment">/// Any invalid encoded octet in the string will result in undefined behavior.</span>
-<span class="kw">pub</span> <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">decode_in_place_unchecked</span>(<span class="ident">s</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>]) -&gt; <span class="ident">usize</span> {
-    <span class="comment">// Skip bytes that are not &#39;%&#39;.</span>
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">s</span>.<span class="ident">iter</span>().<span class="ident">position</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">x</span><span class="op">|</span> <span class="ident">x</span> <span class="op">==</span> <span class="string">b&#39;%&#39;</span>) {
-        <span class="prelude-val">Some</span>(<span class="ident">i</span>) =&gt; <span class="ident">i</span>,
-        <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="ident">s</span>.<span class="ident">len</span>(),
+<span class="doccomment">/// Decodes a percent-encoded string in-place assuming validity.
+///
+/// Returns the length of decoded bytes to the left.
+///
+/// # Safety
+///
+/// This function does not check that the string is properly encoded.
+/// Any invalid encoded octet in the string will result in undefined behavior.
+</span><span class="kw">pub unsafe fn </span>decode_in_place_unchecked(s: <span class="kw-2">&amp;mut </span>[u8]) -&gt; usize {
+    <span class="comment">// Skip bytes that are not &#39;%&#39;.
+    </span><span class="kw">let </span><span class="kw-2">mut </span>i = <span class="kw">match </span>s.iter().position(|<span class="kw-2">&amp;</span>x| x == <span class="string">b&#39;%&#39;</span>) {
+        <span class="prelude-val">Some</span>(i) =&gt; i,
+        <span class="prelude-val">None </span>=&gt; <span class="kw">return </span>s.len(),
     };
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">dst</span> <span class="op">=</span> <span class="ident">i</span>;
+    <span class="kw">let </span><span class="kw-2">mut </span>dst = i;
 
-    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">s</span>.<span class="ident">len</span>() {
-        <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">s</span>[<span class="ident">i</span>];
-        <span class="kw">let</span> <span class="ident">octet</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">x</span> <span class="op">==</span> <span class="string">b&#39;%&#39;</span> {
-            <span class="comment">// SAFETY: The caller must ensure that the string is properly encoded.</span>
-            <span class="kw">let</span> (<span class="ident">hi</span>, <span class="ident">lo</span>) <span class="op">=</span> <span class="kw">unsafe</span> { (<span class="kw-2">*</span><span class="ident">s</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>), <span class="kw-2">*</span><span class="ident">s</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">2</span>)) };
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">3</span>;
-            <span class="ident">decode_octet_unchecked</span>(<span class="ident">hi</span>, <span class="ident">lo</span>)
-        } <span class="kw">else</span> {
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-            <span class="ident">x</span>
+    <span class="kw">while </span>i &lt; s.len() {
+        <span class="kw">let </span>x = s[i];
+        <span class="kw">let </span>octet = <span class="kw">if </span>x == <span class="string">b&#39;%&#39; </span>{
+            <span class="comment">// SAFETY: The caller must ensure that the string is properly encoded.
+            </span><span class="kw">let </span>(hi, lo) = <span class="kw">unsafe </span>{ (<span class="kw-2">*</span>s.get_unchecked(i + <span class="number">1</span>), <span class="kw-2">*</span>s.get_unchecked(i + <span class="number">2</span>)) };
+            i += <span class="number">3</span>;
+            decode_octet_unchecked(hi, lo)
+        } <span class="kw">else </span>{
+            i += <span class="number">1</span>;
+            x
         };
-        <span class="comment">// SAFETY: `dst &lt;= i &lt; len` holds.</span>
-        <span class="kw">unsafe</span> { <span class="kw-2">*</span><span class="ident">s</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">dst</span>) <span class="op">=</span> <span class="ident">octet</span> }
-        <span class="ident">dst</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="comment">// SAFETY: `dst &lt;= i &lt; len` holds.
+        </span><span class="kw">unsafe </span>{ <span class="kw-2">*</span>s.get_unchecked_mut(dst) = octet }
+        dst += <span class="number">1</span>;
     }
-    <span class="ident">dst</span>
+    dst
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>)]</span>
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn</span> <span class="ident">validate_enc</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">table</span>: <span class="kw-2">&amp;</span><span class="ident">Table</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">s</span>.<span class="ident">len</span>() {
-        <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">s</span>[<span class="ident">i</span>];
-        <span class="kw">if</span> <span class="ident">x</span> <span class="op">==</span> <span class="string">b&#39;%&#39;</span> {
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">+</span> <span class="number">2</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">s</span>.<span class="ident">len</span>() {
-                <span class="macro">err!</span>(<span class="ident">i</span>, <span class="ident">InvalidOctet</span>);
+<span class="attribute">#[cfg(feature = <span class="string">&quot;unstable&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">fn </span>validate_enc(s: <span class="kw-2">&amp;</span>[u8], table: <span class="kw-2">&amp;</span>Table) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+    <span class="kw">while </span>i &lt; s.len() {
+        <span class="kw">let </span>x = s[i];
+        <span class="kw">if </span>x == <span class="string">b&#39;%&#39; </span>{
+            <span class="kw">if </span>i + <span class="number">2 </span>&gt;= s.len() {
+                <span class="macro">err!</span>(i, InvalidOctet);
             }
-            <span class="comment">// SAFETY: We have checked that `i + 2 &lt; s.len()`.</span>
-            <span class="comment">// Overflow should be impossible because we cannot have that large a slice.</span>
-            <span class="kw">let</span> (<span class="ident">hi</span>, <span class="ident">lo</span>) <span class="op">=</span> <span class="kw">unsafe</span> { (<span class="kw-2">*</span><span class="ident">s</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>), <span class="kw-2">*</span><span class="ident">s</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span> <span class="op">+</span> <span class="number">2</span>)) };
+            <span class="comment">// SAFETY: We have checked that `i + 2 &lt; s.len()`.
+            // Overflow should be impossible because we cannot have that large a slice.
+            </span><span class="kw">let </span>(hi, lo) = <span class="kw">unsafe </span>{ (<span class="kw-2">*</span>s.get_unchecked(i + <span class="number">1</span>), <span class="kw-2">*</span>s.get_unchecked(i + <span class="number">2</span>)) };
 
-            <span class="kw">if</span> <span class="ident">table::HEXDIG</span>.<span class="ident">get</span>(<span class="ident">hi</span>) <span class="op">&amp;</span> <span class="ident">table::HEXDIG</span>.<span class="ident">get</span>(<span class="ident">lo</span>) <span class="op">==</span> <span class="number">0</span> {
-                <span class="macro">err!</span>(<span class="ident">i</span>, <span class="ident">InvalidOctet</span>);
+            <span class="kw">if </span>table::HEXDIG.get(hi) &amp; table::HEXDIG.get(lo) == <span class="number">0 </span>{
+                <span class="macro">err!</span>(i, InvalidOctet);
             }
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">3</span>;
-        } <span class="kw">else</span> {
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">table</span>.<span class="ident">allows</span>(<span class="ident">x</span>) {
-                <span class="macro">err!</span>(<span class="ident">i</span>, <span class="ident">UnexpectedChar</span>);
+            i += <span class="number">3</span>;
+        } <span class="kw">else </span>{
+            <span class="kw">if </span>!table.allows(x) {
+                <span class="macro">err!</span>(i, UnexpectedChar);
             }
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            i += <span class="number">1</span>;
         }
     }
     <span class="prelude-val">Ok</span>(())
 }
 
-<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const</span> <span class="kw">fn</span> <span class="ident">validate_estr</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="ident">bool</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">i</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">while</span> <span class="ident">i</span> <span class="op">&lt;</span> <span class="ident">s</span>.<span class="ident">len</span>() {
-        <span class="kw">let</span> <span class="ident">x</span> <span class="op">=</span> <span class="ident">s</span>[<span class="ident">i</span>];
-        <span class="kw">if</span> <span class="ident">x</span> <span class="op">==</span> <span class="string">b&#39;%&#39;</span> {
-            <span class="kw">if</span> <span class="ident">i</span> <span class="op">+</span> <span class="number">2</span> <span class="op">&gt;</span><span class="op">=</span> <span class="ident">s</span>.<span class="ident">len</span>() {
-                <span class="kw">return</span> <span class="bool-val">false</span>;
+<span class="kw">pub</span>(<span class="kw">super</span>) <span class="kw">const fn </span>validate_estr(s: <span class="kw-2">&amp;</span>[u8]) -&gt; bool {
+    <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+    <span class="kw">while </span>i &lt; s.len() {
+        <span class="kw">let </span>x = s[i];
+        <span class="kw">if </span>x == <span class="string">b&#39;%&#39; </span>{
+            <span class="kw">if </span>i + <span class="number">2 </span>&gt;= s.len() {
+                <span class="kw">return </span><span class="bool-val">false</span>;
             }
-            <span class="kw">let</span> (<span class="ident">hi</span>, <span class="ident">lo</span>) <span class="op">=</span> (<span class="ident">s</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>], <span class="ident">s</span>[<span class="ident">i</span> <span class="op">+</span> <span class="number">2</span>]);
+            <span class="kw">let </span>(hi, lo) = (s[i + <span class="number">1</span>], s[i + <span class="number">2</span>]);
 
-            <span class="kw">if</span> <span class="ident">table::HEXDIG</span>.<span class="ident">get</span>(<span class="ident">hi</span>) <span class="op">&amp;</span> <span class="ident">table::HEXDIG</span>.<span class="ident">get</span>(<span class="ident">lo</span>) <span class="op">==</span> <span class="number">0</span> {
-                <span class="kw">return</span> <span class="bool-val">false</span>;
+            <span class="kw">if </span>table::HEXDIG.get(hi) &amp; table::HEXDIG.get(lo) == <span class="number">0 </span>{
+                <span class="kw">return </span><span class="bool-val">false</span>;
             }
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">3</span>;
-        } <span class="kw">else</span> {
-            <span class="ident">i</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+            i += <span class="number">3</span>;
+        } <span class="kw">else </span>{
+            i += <span class="number">1</span>;
         }
     }
-    <span class="bool-val">true</span>
-}
+    <span class="bool-val">true
+</span>}
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">all</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;unstable&quot;</span>, <span class="ident">test</span>))]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(all(feature = <span class="string">&quot;unstable&quot;</span>, test))]
+</span><span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="kw">const</span> <span class="ident">RAW</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="string">&quot;te😃a 测1`~!@试#$%st^&amp;+=&quot;</span>.<span class="ident">as_bytes</span>();
-    <span class="kw">const</span> <span class="ident">ENCODED</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>] <span class="op">=</span> <span class="string">b&quot;te%F0%9F%98%83a%20%E6%B5%8B1%60~!@%E8%AF%95%23$%25st%5E&amp;+=&quot;</span>;
+    <span class="kw">const </span>RAW: <span class="kw-2">&amp;</span>[u8] = <span class="string">&quot;te😃a 测1`~!@试#$%st^&amp;+=&quot;</span>.as_bytes();
+    <span class="kw">const </span>ENCODED: <span class="kw-2">&amp;</span>[u8] = <span class="string">b&quot;te%F0%9F%98%83a%20%E6%B5%8B1%60~!@%E8%AF%95%23$%25st%5E&amp;+=&quot;</span>;
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">enc_dec_validate</span>() {
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">encode</span>(<span class="ident">RAW</span>, <span class="ident">table::QUERY_FRAGMENT</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">ENCODED</span>, <span class="ident">s</span>.<span class="ident">as_bytes</span>());
+    <span class="attribute">#[test]
+    </span><span class="kw">fn </span>enc_dec_validate() {
+        <span class="kw">let </span>s = encode(RAW, table::QUERY_FRAGMENT);
+        <span class="macro">assert_eq!</span>(ENCODED, s.as_bytes());
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="ident">encode_to</span>(<span class="ident">RAW</span>, <span class="ident">table::QUERY_FRAGMENT</span>, <span class="kw-2">&amp;mut</span> <span class="ident">buf</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">ENCODED</span>, <span class="ident">buf</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = Vec::new();
+        encode_to(RAW, table::QUERY_FRAGMENT, <span class="kw-2">&amp;mut </span>buf);
+        <span class="macro">assert_eq!</span>(ENCODED, buf);
 
-        <span class="macro">assert!</span>(<span class="ident">validate_enc</span>(<span class="ident">s</span>.<span class="ident">as_bytes</span>(), <span class="ident">table::QUERY_FRAGMENT</span>).<span class="ident">is_ok</span>());
+        <span class="macro">assert!</span>(validate_enc(s.as_bytes(), table::QUERY_FRAGMENT).is_ok());
 
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Ok</span>(<span class="ident">RAW</span>), <span class="ident">decode</span>(<span class="ident">ENCODED</span>).<span class="ident">as_deref</span>());
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Ok</span>(RAW), decode(ENCODED).as_deref());
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">RAW</span>)), <span class="ident">decode_with</span>(<span class="ident">ENCODED</span>, <span class="kw-2">&amp;mut</span> <span class="ident">buf</span>));
-        <span class="macro">assert_eq!</span>(<span class="ident">buf</span>, <span class="ident">RAW</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = Vec::new();
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(RAW)), decode_with(ENCODED, <span class="kw-2">&amp;mut </span>buf));
+        <span class="macro">assert_eq!</span>(buf, RAW);
 
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="ident">RAW</span>), <span class="kw">unsafe</span> { <span class="ident">decode_unchecked</span>(<span class="ident">ENCODED</span>).<span class="ident">as_deref</span>() });
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(RAW), <span class="kw">unsafe </span>{ decode_unchecked(ENCODED).as_deref() });
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="ident">RAW</span>), <span class="kw">unsafe</span> {
-            <span class="ident">decode_with_unchecked</span>(<span class="ident">ENCODED</span>, <span class="kw-2">&amp;mut</span> <span class="ident">buf</span>)
+        <span class="kw">let </span><span class="kw-2">mut </span>buf = Vec::new();
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(RAW), <span class="kw">unsafe </span>{
+            decode_with_unchecked(ENCODED, <span class="kw-2">&amp;mut </span>buf)
         });
-        <span class="macro">assert_eq!</span>(<span class="ident">buf</span>, <span class="ident">RAW</span>);
+        <span class="macro">assert_eq!</span>(buf, RAW);
 
-        <span class="macro">assert_eq!</span>(<span class="prelude-val">Ok</span>(<span class="string">b&quot;\x2d\xe6\xb5&quot;</span> <span class="kw">as</span> <span class="kw">_</span>), <span class="ident">decode</span>(<span class="string">b&quot;%2D%E6%B5&quot;</span>).<span class="ident">as_deref</span>());
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Ok</span>(<span class="string">b&quot;\x2d\xe6\xb5&quot; </span><span class="kw">as _</span>), decode(<span class="string">b&quot;%2D%E6%B5&quot;</span>).as_deref());
 
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">b&quot;%2d%&quot;</span>;
-        <span class="macro">assert_eq!</span>(<span class="number">3</span>, <span class="ident">decode</span>(<span class="ident">s</span>).<span class="ident">unwrap_err</span>().<span class="ident">index</span>());
+        <span class="kw">let </span>s = <span class="string">b&quot;%2d%&quot;</span>;
+        <span class="macro">assert_eq!</span>(<span class="number">3</span>, decode(s).unwrap_err().index());
 
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="string">b&quot;%2d%fg&quot;</span>;
-        <span class="macro">assert_eq!</span>(<span class="number">3</span>, <span class="ident">decode</span>(<span class="ident">s</span>).<span class="ident">unwrap_err</span>().<span class="ident">index</span>());
+        <span class="kw">let </span>s = <span class="string">b&quot;%2d%fg&quot;</span>;
+        <span class="macro">assert_eq!</span>(<span class="number">3</span>, decode(s).unwrap_err().index());
 
-        <span class="comment">// We used to use slot 0 to indicate that percent-encoded octets are allowed,</span>
-        <span class="comment">// which was totally wrong since it just allows zero bytes. Glad we fixed it.</span>
-        <span class="macro">assert!</span>(<span class="ident">validate_enc</span>(<span class="string">b&quot;\0&quot;</span>, <span class="ident">table::QUERY_FRAGMENT</span>).<span class="ident">is_err</span>());
+        <span class="comment">// We used to use slot 0 to indicate that percent-encoded octets are allowed,
+        // which was totally wrong since it just allows zero bytes. Glad we fixed it.
+        </span><span class="macro">assert!</span>(validate_enc(<span class="string">b&quot;\0&quot;</span>, table::QUERY_FRAGMENT).is_err());
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (20ffea693 2022-08-11)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (bc4b39c27 2022-08-29)" ></div></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/internal.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>internal.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../fluent_uri/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/internal.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>internal.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../fluent_uri/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../fluent_uri/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -244,251 +244,251 @@
 <span id="244">244</span>
 <span id="245">245</span>
 <span id="246">246</span>
-</pre><pre class="rust"><code><span class="attribute">#![<span class="ident">allow</span>(<span class="ident">missing_debug_implementations</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![allow(missing_debug_implementations)]
 
-<span class="kw">use</span> <span class="ident">std</span>::{
-    <span class="ident">cell::Cell</span>,
-    <span class="ident">mem::MaybeUninit</span>,
-    <span class="ident">num::NonZeroU32</span>,
-    <span class="ident">ops</span>::{<span class="ident">Deref</span>, <span class="ident">DerefMut</span>},
+</span><span class="kw">use </span>std::{
+    cell::Cell,
+    mem::MaybeUninit,
+    num::NonZeroU32,
+    ops::{Deref, DerefMut},
 };
 
-<span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">bitflags::bitflags</span>;
+<span class="kw">use super</span>::<span class="kw-2">*</span>;
+<span class="kw">use </span>bitflags::bitflags;
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Pointer</span> {
-    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">u8</span>;
-    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span>;
-    <span class="doccomment">/// Creates a `Self` from the given (ptr, len, cap) triple.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Safety</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// - The pointer must not be null.</span>
-    <span class="doccomment">/// - The length and capacity must be correct.</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">len</span>: <span class="ident">u32</span>, <span class="ident">cap</span>: <span class="ident">u32</span>) -&gt; <span class="self">Self</span>;
-    <span class="kw">const</span> <span class="ident">DANGLING</span>: <span class="self">Self</span>;
+<span class="kw">pub trait </span>Pointer {
+    <span class="kw">fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>u8;
+    <span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32;
+    <span class="doccomment">/// Creates a `Self` from the given (ptr, len, cap) triple.
+    ///
+    /// # Safety
+    ///
+    /// - The pointer must not be null.
+    /// - The length and capacity must be correct.
+    </span><span class="kw">unsafe fn </span>new(ptr: <span class="kw-2">*mut </span>u8, len: u32, cap: u32) -&gt; <span class="self">Self</span>;
+    <span class="kw">const </span>DANGLING: <span class="self">Self</span>;
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Uncapped</span> {
-    <span class="ident">ptr</span>: <span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
-    <span class="ident">len</span>: <span class="ident">u32</span>,
-    <span class="ident">_pad</span>: <span class="ident">MaybeUninit</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>,
+<span class="attribute">#[derive(Clone, Copy)]
+#[repr(C)]
+</span><span class="kw">pub struct </span>Uncapped {
+    ptr: NonNull&lt;u8&gt;,
+    len: u32,
+    _pad: MaybeUninit&lt;u32&gt;,
 }
 
-<span class="kw">impl</span> <span class="ident">Pointer</span> <span class="kw">for</span> <span class="ident">Uncapped</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">u8</span> {
-        <span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">as_ptr</span>()
+<span class="kw">impl </span>Pointer <span class="kw">for </span>Uncapped {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>u8 {
+        <span class="self">self</span>.ptr.as_ptr()
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">len</span>
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.len
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">len</span>: <span class="ident">u32</span>, <span class="ident">_cap</span>: <span class="ident">u32</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> {
-            <span class="comment">// SAFETY: The caller must ensure that the pointer is not null.</span>
-            <span class="ident">ptr</span>: <span class="kw">unsafe</span> { <span class="ident">NonNull::new_unchecked</span>(<span class="ident">ptr</span>) },
-            <span class="ident">len</span>,
-            <span class="ident">_pad</span>: <span class="ident">MaybeUninit::uninit</span>(),
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>new(ptr: <span class="kw-2">*mut </span>u8, len: u32, _cap: u32) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            <span class="comment">// SAFETY: The caller must ensure that the pointer is not null.
+            </span>ptr: <span class="kw">unsafe </span>{ NonNull::new_unchecked(ptr) },
+            len,
+            _pad: MaybeUninit::uninit(),
         }
     }
 
-    <span class="kw">const</span> <span class="ident">DANGLING</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span> {
-        <span class="ident">ptr</span>: <span class="ident">NonNull::dangling</span>(),
-        <span class="ident">len</span>: <span class="number">0</span>,
-        <span class="ident">_pad</span>: <span class="ident">MaybeUninit::uninit</span>(),
+    <span class="kw">const </span>DANGLING: <span class="self">Self </span>= <span class="self">Self </span>{
+        ptr: NonNull::dangling(),
+        len: <span class="number">0</span>,
+        _pad: MaybeUninit::uninit(),
     };
 }
 
-<span class="attribute">#[<span class="ident">repr</span>(<span class="ident">C</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Capped</span> {
-    <span class="ident">ptr</span>: <span class="ident">NonNull</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
-    <span class="ident">len</span>: <span class="ident">u32</span>,
-    <span class="ident">cap</span>: <span class="ident">u32</span>,
+<span class="attribute">#[repr(C)]
+</span><span class="kw">pub struct </span>Capped {
+    ptr: NonNull&lt;u8&gt;,
+    len: u32,
+    cap: u32,
 }
 
-<span class="kw">impl</span> <span class="ident">Capped</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">into_string</span>(<span class="self">self</span>) -&gt; <span class="ident">String</span> {
-        <span class="kw">let</span> <span class="ident">me</span> <span class="op">=</span> <span class="ident">ManuallyDrop::new</span>(<span class="self">self</span>);
-        <span class="comment">// SAFETY: `Capped` is created from a `String`.</span>
-        <span class="kw">unsafe</span> { <span class="ident">String::from_raw_parts</span>(<span class="ident">me</span>.<span class="ident">ptr</span>.<span class="ident">as_ptr</span>(), <span class="ident">me</span>.<span class="ident">len</span> <span class="kw">as</span> <span class="kw">_</span>, <span class="ident">me</span>.<span class="ident">cap</span> <span class="kw">as</span> <span class="kw">_</span>) }
+<span class="kw">impl </span>Capped {
+    <span class="attribute">#[inline]
+    </span><span class="kw">pub fn </span>into_string(<span class="self">self</span>) -&gt; String {
+        <span class="kw">let </span>me = ManuallyDrop::new(<span class="self">self</span>);
+        <span class="comment">// SAFETY: `Capped` is created from a `String`.
+        </span><span class="kw">unsafe </span>{ String::from_raw_parts(me.ptr.as_ptr(), me.len <span class="kw">as _</span>, me.cap <span class="kw">as _</span>) }
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Pointer</span> <span class="kw">for</span> <span class="ident">Capped</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut</span> <span class="ident">u8</span> {
-        <span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">as_ptr</span>()
+<span class="kw">impl </span>Pointer <span class="kw">for </span>Capped {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">*mut </span>u8 {
+        <span class="self">self</span>.ptr.as_ptr()
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u32</span> {
-        <span class="self">self</span>.<span class="ident">len</span>
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+        <span class="self">self</span>.len
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">ptr</span>: <span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">len</span>: <span class="ident">u32</span>, <span class="ident">cap</span>: <span class="ident">u32</span>) -&gt; <span class="self">Self</span> {
-        <span class="self">Self</span> {
-            <span class="comment">// SAFETY: The caller must ensure that the pointer is not null.</span>
-            <span class="ident">ptr</span>: <span class="kw">unsafe</span> { <span class="ident">NonNull::new_unchecked</span>(<span class="ident">ptr</span>) },
-            <span class="ident">len</span>,
-            <span class="ident">cap</span>,
+    <span class="attribute">#[inline]
+    </span><span class="kw">unsafe fn </span>new(ptr: <span class="kw-2">*mut </span>u8, len: u32, cap: u32) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            <span class="comment">// SAFETY: The caller must ensure that the pointer is not null.
+            </span>ptr: <span class="kw">unsafe </span>{ NonNull::new_unchecked(ptr) },
+            len,
+            cap,
         }
     }
 
-    <span class="kw">const</span> <span class="ident">DANGLING</span>: <span class="self">Self</span> <span class="op">=</span> <span class="self">Self</span> {
-        <span class="ident">ptr</span>: <span class="ident">NonNull::dangling</span>(),
-        <span class="ident">len</span>: <span class="number">0</span>,
-        <span class="ident">cap</span>: <span class="number">0</span>,
+    <span class="kw">const </span>DANGLING: <span class="self">Self </span>= <span class="self">Self </span>{
+        ptr: NonNull::dangling(),
+        len: <span class="number">0</span>,
+        cap: <span class="number">0</span>,
     };
 }
 
-<span class="kw">impl</span> <span class="ident">Drop</span> <span class="kw">for</span> <span class="ident">Capped</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">drop</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
-        <span class="comment">// SAFETY: `Capped` is created from a `String`.</span>
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">String::from_raw_parts</span>(<span class="self">self</span>.<span class="ident">ptr</span>.<span class="ident">as_ptr</span>(), <span class="number">0</span>, <span class="self">self</span>.<span class="ident">cap</span> <span class="kw">as</span> <span class="kw">_</span>) };
+<span class="kw">impl </span>Drop <span class="kw">for </span>Capped {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>drop(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="comment">// SAFETY: `Capped` is created from a `String`.
+        </span><span class="kw">let _ </span>= <span class="kw">unsafe </span>{ String::from_raw_parts(<span class="self">self</span>.ptr.as_ptr(), <span class="number">0</span>, <span class="self">self</span>.cap <span class="kw">as _</span>) };
     }
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Storage</span> {
-    <span class="kw">type</span> <span class="ident">Ptr</span>: <span class="ident">Pointer</span>;
-    <span class="kw">fn</span> <span class="ident">is_mut</span>() -&gt; <span class="ident">bool</span>;
+<span class="kw">pub trait </span>Storage {
+    <span class="kw">type </span>Ptr: Pointer;
+    <span class="kw">fn </span>is_mut() -&gt; bool;
 }
 
-<span class="kw">impl</span> <span class="ident">Storage</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">str</span> {
-    <span class="kw">type</span> <span class="ident">Ptr</span> <span class="op">=</span> <span class="ident">Uncapped</span>;
+<span class="kw">impl </span>Storage <span class="kw">for </span><span class="kw-2">&amp;</span>str {
+    <span class="kw">type </span>Ptr = Uncapped;
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">is_mut</span>() -&gt; <span class="ident">bool</span> {
-        <span class="bool-val">false</span>
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>is_mut() -&gt; bool {
+        <span class="bool-val">false
+    </span>}
+}
+
+<span class="kw">impl </span>Storage <span class="kw">for </span><span class="kw-2">&amp;mut </span>[u8] {
+    <span class="kw">type </span>Ptr = Uncapped;
+
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>is_mut() -&gt; bool {
+        <span class="bool-val">true
+    </span>}
+}
+
+<span class="kw">impl </span>Storage <span class="kw">for </span>String {
+    <span class="kw">type </span>Ptr = Capped;
+
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>is_mut() -&gt; bool {
+        <span class="bool-val">false
+    </span>}
+}
+
+<span class="kw">pub trait </span>Io&lt;<span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span>&gt;: Storage {}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span>&gt; Io&lt;<span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>str {}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Io&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span><span class="kw-2">&amp;mut </span>[u8] {}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">&#39;a</span>&gt; Io&lt;<span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span>&gt; <span class="kw">for </span>String {}
+
+<span class="kw">pub trait </span>IntoOwnedUri {
+    <span class="kw">fn </span>as_raw_parts(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">*mut </span>u8, usize, usize);
+}
+
+<span class="kw">impl </span>IntoOwnedUri <span class="kw">for </span>String {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>as_raw_parts(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">*mut </span>u8, usize, usize) {
+        (<span class="self">self</span>.as_ptr() <span class="kw">as _</span>, <span class="self">self</span>.len(), <span class="self">self</span>.capacity())
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Storage</span> <span class="kw">for</span> <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>] {
-    <span class="kw">type</span> <span class="ident">Ptr</span> <span class="op">=</span> <span class="ident">Uncapped</span>;
-
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">is_mut</span>() -&gt; <span class="ident">bool</span> {
-        <span class="bool-val">true</span>
+<span class="kw">impl </span>IntoOwnedUri <span class="kw">for </span>Vec&lt;u8&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>as_raw_parts(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">*mut </span>u8, usize, usize) {
+        (<span class="self">self</span>.as_ptr() <span class="kw">as _</span>, <span class="self">self</span>.len(), <span class="self">self</span>.capacity())
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Storage</span> <span class="kw">for</span> <span class="ident">String</span> {
-    <span class="kw">type</span> <span class="ident">Ptr</span> <span class="op">=</span> <span class="ident">Capped</span>;
-
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">is_mut</span>() -&gt; <span class="ident">bool</span> {
-        <span class="bool-val">false</span>
-    }
+<span class="attribute">#[derive(Clone)]
+</span><span class="kw">pub struct </span>Data {
+    <span class="kw">pub </span>tag: Tag,
+    <span class="comment">// The index of the trailing colon.
+    </span><span class="kw">pub </span>scheme_end: <span class="prelude-ty">Option</span>&lt;NonZeroU32&gt;,
+    <span class="kw">pub </span>auth: <span class="prelude-ty">Option</span>&lt;AuthData&gt;,
+    <span class="kw">pub </span>path_bounds: (u32, u32),
+    <span class="comment">// One byte past the last byte of query.
+    </span><span class="kw">pub </span>query_end: <span class="prelude-ty">Option</span>&lt;NonZeroU32&gt;,
+    <span class="comment">// One byte past the preceding &#39;#&#39;.
+    </span><span class="kw">pub </span>fragment_start: <span class="prelude-ty">Option</span>&lt;NonZeroU32&gt;,
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;o</span><span class="op">&gt;</span>: <span class="ident">Storage</span> {}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;mut</span> [<span class="ident">u8</span>] {}
-
-<span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Io</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span>, <span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">String</span> {}
-
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">IntoOwnedUri</span> {
-    <span class="kw">fn</span> <span class="ident">as_raw_parts</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">usize</span>, <span class="ident">usize</span>);
-}
-
-<span class="kw">impl</span> <span class="ident">IntoOwnedUri</span> <span class="kw">for</span> <span class="ident">String</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">as_raw_parts</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
-        (<span class="self">self</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw">_</span>, <span class="self">self</span>.<span class="ident">len</span>(), <span class="self">self</span>.<span class="ident">capacity</span>())
-    }
-}
-
-<span class="kw">impl</span> <span class="ident">IntoOwnedUri</span> <span class="kw">for</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">as_raw_parts</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (<span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="ident">usize</span>, <span class="ident">usize</span>) {
-        (<span class="self">self</span>.<span class="ident">as_ptr</span>() <span class="kw">as</span> <span class="kw">_</span>, <span class="self">self</span>.<span class="ident">len</span>(), <span class="self">self</span>.<span class="ident">capacity</span>())
-    }
-}
-
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Data</span> {
-    <span class="kw">pub</span> <span class="ident">tag</span>: <span class="ident">Tag</span>,
-    <span class="comment">// The index of the trailing colon.</span>
-    <span class="kw">pub</span> <span class="ident">scheme_end</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">auth</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">AuthData</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">path_bounds</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>),
-    <span class="comment">// One byte past the last byte of query.</span>
-    <span class="kw">pub</span> <span class="ident">query_end</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
-    <span class="comment">// One byte past the preceding &#39;#&#39;.</span>
-    <span class="kw">pub</span> <span class="ident">fragment_start</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
-}
-
-<span class="kw">impl</span> <span class="ident">Data</span> {
-    <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">INIT</span>: <span class="ident">Data</span> <span class="op">=</span> <span class="ident">Data</span> {
-        <span class="ident">tag</span>: <span class="ident">Tag::empty</span>(),
-        <span class="ident">scheme_end</span>: <span class="prelude-val">None</span>,
-        <span class="ident">auth</span>: <span class="prelude-val">None</span>,
-        <span class="ident">path_bounds</span>: (<span class="number">0</span>, <span class="number">0</span>),
-        <span class="ident">query_end</span>: <span class="prelude-val">None</span>,
-        <span class="ident">fragment_start</span>: <span class="prelude-val">None</span>,
+<span class="kw">impl </span>Data {
+    <span class="kw">pub const </span>INIT: Data = Data {
+        tag: Tag::empty(),
+        scheme_end: <span class="prelude-val">None</span>,
+        auth: <span class="prelude-val">None</span>,
+        path_bounds: (<span class="number">0</span>, <span class="number">0</span>),
+        query_end: <span class="prelude-val">None</span>,
+        fragment_start: <span class="prelude-val">None</span>,
     };
 }
 
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> <span class="ident">Deref</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="kw">type</span> <span class="ident">Target</span> <span class="op">=</span> <span class="ident">Data</span>;
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">deref</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Data</span> {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">data</span>
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">impl</span>&lt;T: Storage&gt; Deref <span class="kw">for </span>Uri&lt;T&gt; {
+    <span class="kw">type </span>Target = Data;
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Data {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.data
     }
 }
 
-<span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Storage</span><span class="op">&gt;</span> <span class="ident">DerefMut</span> <span class="kw">for</span> <span class="ident">Uri</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">fn</span> <span class="ident">deref_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut</span> <span class="ident">Data</span> {
-        <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">data</span>
+<span class="attribute">#[doc(hidden)]
+</span><span class="kw">impl</span>&lt;T: Storage&gt; DerefMut <span class="kw">for </span>Uri&lt;T&gt; {
+    <span class="attribute">#[inline]
+    </span><span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>Data {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.data
     }
 }
 
-<span class="macro">bitflags!</span> {
-    <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Tag</span>: <span class="ident">u32</span> {
-        <span class="kw">const</span> <span class="ident">HOST_REG_NAME</span> <span class="op">=</span> <span class="number">0b00000001</span>;
-        <span class="kw">const</span> <span class="ident">HOST_IPV4</span>     <span class="op">=</span> <span class="number">0b00000010</span>;
-        <span class="kw">const</span> <span class="ident">HOST_IPV6</span>     <span class="op">=</span> <span class="number">0b00000100</span>;
-        <span class="kw">const</span> <span class="ident">AUTH_TAKEN</span>    <span class="op">=</span> <span class="number">0b00001000</span>;
-        <span class="kw">const</span> <span class="ident">HOST_TAKEN</span>    <span class="op">=</span> <span class="number">0b00010000</span>;
-        <span class="kw">const</span> <span class="ident">PORT_TAKEN</span>    <span class="op">=</span> <span class="number">0b00100000</span>;
-        <span class="kw">const</span> <span class="ident">PATH_TAKEN</span>    <span class="op">=</span> <span class="number">0b01000000</span>;
+<span class="macro">bitflags! </span>{
+    <span class="kw">pub struct </span>Tag: u32 {
+        <span class="kw">const </span>HOST_REG_NAME = <span class="number">0b00000001</span>;
+        <span class="kw">const </span>HOST_IPV4     = <span class="number">0b00000010</span>;
+        <span class="kw">const </span>HOST_IPV6     = <span class="number">0b00000100</span>;
+        <span class="kw">const </span>AUTH_TAKEN    = <span class="number">0b00001000</span>;
+        <span class="kw">const </span>HOST_TAKEN    = <span class="number">0b00010000</span>;
+        <span class="kw">const </span>PORT_TAKEN    = <span class="number">0b00100000</span>;
+        <span class="kw">const </span>PATH_TAKEN    = <span class="number">0b01000000</span>;
     }
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">AuthData</span> {
-    <span class="kw">pub</span> <span class="ident">start</span>: <span class="ident">Cell</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
-    <span class="kw">pub</span> <span class="ident">host_bounds</span>: (<span class="ident">u32</span>, <span class="ident">u32</span>),
-    <span class="kw">pub</span> <span class="ident">host_data</span>: <span class="ident">RawHostData</span>,
+<span class="attribute">#[derive(Clone)]
+</span><span class="kw">pub struct </span>AuthData {
+    <span class="kw">pub </span>start: Cell&lt;NonZeroU32&gt;,
+    <span class="kw">pub </span>host_bounds: (u32, u32),
+    <span class="kw">pub </span>host_data: RawHostData,
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-<span class="kw">pub</span> <span class="kw">union</span> <span class="ident">RawHostData</span> {
-    <span class="kw">pub</span> <span class="ident">ipv4_addr</span>: <span class="ident">Ipv4Addr</span>,
-    <span class="kw">pub</span> <span class="ident">ipv6</span>: <span class="ident">Ipv6Data</span>,
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;ipv_future&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">ipv_future_dot_i</span>: <span class="ident">u32</span>,
-    <span class="kw">pub</span> <span class="ident">reg_name</span>: (),
+<span class="attribute">#[derive(Clone, Copy)]
+</span><span class="kw">pub union </span>RawHostData {
+    <span class="kw">pub </span>ipv4_addr: Ipv4Addr,
+    <span class="kw">pub </span>ipv6: Ipv6Data,
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;ipv_future&quot;</span>)]
+    </span><span class="kw">pub </span>ipv_future_dot_i: u32,
+    <span class="kw">pub </span>reg_name: (),
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Ipv6Data</span> {
-    <span class="kw">pub</span> <span class="ident">addr</span>: <span class="ident">Ipv6Addr</span>,
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;rfc6874bis&quot;</span>)]</span>
-    <span class="kw">pub</span> <span class="ident">zone_id_start</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">NonZeroU32</span><span class="op">&gt;</span>,
+<span class="attribute">#[derive(Clone, Copy)]
+</span><span class="kw">pub struct </span>Ipv6Data {
+    <span class="kw">pub </span>addr: Ipv6Addr,
+    <span class="attribute">#[cfg(feature = <span class="string">&quot;rfc6874bis&quot;</span>)]
+    </span><span class="kw">pub </span>zone_id_start: <span class="prelude-ty">Option</span>&lt;NonZeroU32&gt;,
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (20ffea693 2022-08-11)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fluent_uri" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (bc4b39c27 2022-08-29)" ></div></body></html>
