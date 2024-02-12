@@ -339,6 +339,8 @@
 <a href="#337" id="337">337</a>
 <a href="#338" id="338">338</a>
 <a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::{encoder::Encoder, EStr};
 <span class="kw">use </span>alloc::{borrow::ToOwned, string::String};
 <span class="kw">use </span>core::{borrow::Borrow, cmp::Ordering, hash, marker::PhantomData, ops::Deref};
@@ -356,24 +358,24 @@
 ///     EString,
 /// };
 ///
-/// struct QueryData;
+/// struct Data;
 ///
-/// impl Encoder for QueryData {
-///     const TABLE: &amp;'static Table = &amp;table::QUERY.sub(&amp;Table::gen(b"&amp;=+"));
+/// impl Encoder for Data {
+///     const TABLE: &amp;'static Table = &amp;table::UNRESERVED.enc();
 /// }
 ///
 /// let pairs = [("name", "张三"), ("speech", "¡Olé!")];
 /// let mut buf = EString::&lt;Query&gt;::new();
 /// for (k, v) in pairs {
 ///     if !buf.is_empty() {
-///         buf.push_byte(b'&amp;');
+///         buf.encode_byte(b'&amp;');
 ///     }
-///     buf.push_with::&lt;QueryData&gt;(k);
-///     buf.push_byte(b'=');
-///     buf.push_with::&lt;QueryData&gt;(v);
+///     buf.encode_with::&lt;Data&gt;(k);
+///     buf.encode_byte(b'=');
+///     buf.encode_with::&lt;Data&gt;(v);
 /// }
 ///
-/// assert_eq!(buf, "name=%E5%BC%A0%E4%B8%89&amp;speech=%C2%A1Ol%C3%A9!");
+/// assert_eq!(buf, "name=%E5%BC%A0%E4%B8%89&amp;speech=%C2%A1Ol%C3%A9%21");
 /// ```
 </span><span class="attr">#[derive(Clone, Default)]
 </span><span class="kw">pub struct </span>EString&lt;E: Encoder&gt; {
@@ -435,7 +437,7 @@
     /// Panics at compile time if the table specified
     /// by `E` does not allow percent-encoding.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>push&lt;S: AsRef&lt;[u8]&gt; + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>S) {
+    </span><span class="kw">pub fn </span>encode&lt;S: AsRef&lt;[u8]&gt; + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>S) {
         <span class="kw">let _ </span>= <span class="self">Self</span>::ASSERT_ALLOWS_ENC;
 
         <span class="kw">for </span><span class="kw-2">&amp;</span>x <span class="kw">in </span>s.as_ref() {
@@ -454,7 +456,7 @@
     /// Panics at compile time if `SubE` is not a sub-encoder of `E`, or
     /// if the table specified by `SubE` does not allow percent-encoding.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>push_with&lt;SubE: Encoder&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>(<span class="kw">impl </span>AsRef&lt;[u8]&gt; + <span class="question-mark">?</span>Sized)) {
+    </span><span class="kw">pub fn </span>encode_with&lt;SubE: Encoder&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>(<span class="kw">impl </span>AsRef&lt;[u8]&gt; + <span class="question-mark">?</span>Sized)) {
         <span class="kw">struct </span>Assert&lt;SubE: Encoder, E: Encoder&gt; {
             _marker: PhantomData&lt;(SubE, E)&gt;,
         }
@@ -479,13 +481,15 @@
     /// Panics at compile time if the table specified
     /// by `E` does not allow percent-encoding.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>push_byte(<span class="kw-2">&amp;mut </span><span class="self">self</span>, x: u8) {
+    </span><span class="kw">pub fn </span>encode_byte(<span class="kw-2">&amp;mut </span><span class="self">self</span>, x: u8) {
+        <span class="kw">let _ </span>= <span class="self">Self</span>::ASSERT_ALLOWS_ENC;
+
         E::TABLE.encode(x, <span class="kw-2">&amp;mut </span><span class="self">self</span>.buf)
     }
 
     <span class="doccomment">/// Appends an `EStr` slice onto the end of this `EString`.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>push_encoded(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>EStr&lt;E&gt;) {
+    </span><span class="kw">pub fn </span>push_estr(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>EStr&lt;E&gt;) {
         <span class="self">self</span>.buf.push_str(s.as_str())
     }
 
