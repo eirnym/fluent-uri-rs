@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["Fragment","Path","PathSegment","Query","RegName","Userinfo"],"trait":["Encoder"]};

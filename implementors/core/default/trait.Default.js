@@ -1,3 +1,0 @@
-(function() {var implementors = {
-"fluent_uri":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a> for &amp;<a class=\"struct\" href=\"fluent_uri/enc/struct.EStr.html\" title=\"struct fluent_uri::enc::EStr\">EStr</a>"],["impl&lt;T: Storage&gt; <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/default/trait.Default.html\" title=\"trait core::default::Default\">Default</a> for <a class=\"struct\" href=\"fluent_uri/struct.Uri.html\" title=\"struct fluent_uri::Uri\">Uri</a>&lt;T&gt;"]]
-};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

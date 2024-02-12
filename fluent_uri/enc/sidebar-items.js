@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["Decode","DecodeInPlace"],"struct":["EStr","Split","SplitView"]};
