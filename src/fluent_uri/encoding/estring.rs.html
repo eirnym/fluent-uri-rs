@@ -274,74 +274,7 @@
 <a href="#272" id="272">272</a>
 <a href="#273" id="273">273</a>
 <a href="#274" id="274">274</a>
-<a href="#275" id="275">275</a>
-<a href="#276" id="276">276</a>
-<a href="#277" id="277">277</a>
-<a href="#278" id="278">278</a>
-<a href="#279" id="279">279</a>
-<a href="#280" id="280">280</a>
-<a href="#281" id="281">281</a>
-<a href="#282" id="282">282</a>
-<a href="#283" id="283">283</a>
-<a href="#284" id="284">284</a>
-<a href="#285" id="285">285</a>
-<a href="#286" id="286">286</a>
-<a href="#287" id="287">287</a>
-<a href="#288" id="288">288</a>
-<a href="#289" id="289">289</a>
-<a href="#290" id="290">290</a>
-<a href="#291" id="291">291</a>
-<a href="#292" id="292">292</a>
-<a href="#293" id="293">293</a>
-<a href="#294" id="294">294</a>
-<a href="#295" id="295">295</a>
-<a href="#296" id="296">296</a>
-<a href="#297" id="297">297</a>
-<a href="#298" id="298">298</a>
-<a href="#299" id="299">299</a>
-<a href="#300" id="300">300</a>
-<a href="#301" id="301">301</a>
-<a href="#302" id="302">302</a>
-<a href="#303" id="303">303</a>
-<a href="#304" id="304">304</a>
-<a href="#305" id="305">305</a>
-<a href="#306" id="306">306</a>
-<a href="#307" id="307">307</a>
-<a href="#308" id="308">308</a>
-<a href="#309" id="309">309</a>
-<a href="#310" id="310">310</a>
-<a href="#311" id="311">311</a>
-<a href="#312" id="312">312</a>
-<a href="#313" id="313">313</a>
-<a href="#314" id="314">314</a>
-<a href="#315" id="315">315</a>
-<a href="#316" id="316">316</a>
-<a href="#317" id="317">317</a>
-<a href="#318" id="318">318</a>
-<a href="#319" id="319">319</a>
-<a href="#320" id="320">320</a>
-<a href="#321" id="321">321</a>
-<a href="#322" id="322">322</a>
-<a href="#323" id="323">323</a>
-<a href="#324" id="324">324</a>
-<a href="#325" id="325">325</a>
-<a href="#326" id="326">326</a>
-<a href="#327" id="327">327</a>
-<a href="#328" id="328">328</a>
-<a href="#329" id="329">329</a>
-<a href="#330" id="330">330</a>
-<a href="#331" id="331">331</a>
-<a href="#332" id="332">332</a>
-<a href="#333" id="333">333</a>
-<a href="#334" id="334">334</a>
-<a href="#335" id="335">335</a>
-<a href="#336" id="336">336</a>
-<a href="#337" id="337">337</a>
-<a href="#338" id="338">338</a>
-<a href="#339" id="339">339</a>
-<a href="#340" id="340">340</a>
-<a href="#341" id="341">341</a>
-</pre></div><pre class="rust"><code><span class="kw">use super</span>::{encoder::Encoder, EStr};
+</pre></div><pre class="rust"><code><span class="kw">use super</span>::{encoder::Encoder, Assert, EStr};
 <span class="kw">use </span>alloc::{borrow::ToOwned, string::String};
 <span class="kw">use </span>core::{borrow::Borrow, cmp::Ordering, hash, marker::PhantomData, ops::Deref};
 
@@ -368,11 +301,11 @@
 /// let mut buf = EString::&lt;Query&gt;::new();
 /// for (k, v) in pairs {
 ///     if !buf.is_empty() {
-///         buf.encode_byte(b'&amp;');
+///         buf.push_byte(b'&amp;');
 ///     }
-///     buf.encode_with::&lt;Data&gt;(k);
-///     buf.encode_byte(b'=');
-///     buf.encode_with::&lt;Data&gt;(v);
+///     buf.encode::&lt;Data&gt;(k);
+///     buf.push_byte(b'=');
+///     buf.encode::&lt;Data&gt;(v);
 /// }
 ///
 /// assert_eq!(buf, "name=%E5%BC%A0%E4%B8%89&amp;speech=%C2%A1Ol%C3%A9%21");
@@ -393,11 +326,6 @@
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; EString&lt;E&gt; {
-    <span class="kw">const </span>ASSERT_ALLOWS_ENC: () = <span class="macro">assert!</span>(
-        E::TABLE.allows_enc(),
-        <span class="string">"table does not allow percent-encoding"
-    </span>);
-
     <span class="attr">#[inline]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>new_validated(buf: String) -&gt; <span class="self">Self </span>{
         EString {
@@ -430,66 +358,41 @@
         <span class="self">self
     </span>}
 
-    <span class="doccomment">/// Encodes a byte sequence and appends the result onto the end of this `EString`.
-    ///
-    /// # Panics
-    ///
-    /// Panics at compile time if the table specified
-    /// by `E` does not allow percent-encoding.
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>encode&lt;S: AsRef&lt;[u8]&gt; + <span class="question-mark">?</span>Sized&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>S) {
-        <span class="kw">let _ </span>= <span class="self">Self</span>::ASSERT_ALLOWS_ENC;
-
-        <span class="kw">for </span><span class="kw-2">&amp;</span>x <span class="kw">in </span>s.as_ref() {
-            E::TABLE.encode(x, <span class="kw-2">&amp;mut </span><span class="self">self</span>.buf)
-        }
-    }
-
     <span class="doccomment">/// Encodes a byte sequence with a sub-encoder and appends the result onto the end of this `EString`.
     ///
-    /// A sub-encoder `SubE` of `E` is an encoder such that `SubE::TABLE` is a [subset] of `E::TABLE`.
-    ///
-    /// [subset]: super::table::Table::is_subset
-    ///
     /// # Panics
     ///
-    /// Panics at compile time if `SubE` is not a sub-encoder of `E`, or
-    /// if the table specified by `SubE` does not allow percent-encoding.
+    /// Panics at compile time if `SubE` is not a [sub-encoder](Encoder#sub-encoder) of `E`,
+    /// or if `SubE::TABLE` does not allow percent-encoding.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>encode_with&lt;SubE: Encoder&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>(<span class="kw">impl </span>AsRef&lt;[u8]&gt; + <span class="question-mark">?</span>Sized)) {
-        <span class="kw">struct </span>Assert&lt;SubE: Encoder, E: Encoder&gt; {
-            _marker: PhantomData&lt;(SubE, E)&gt;,
-        }
-        <span class="kw">impl</span>&lt;SubE: Encoder, E: Encoder&gt; Assert&lt;SubE, E&gt; {
-            <span class="kw">const </span>IS_SUB_ENCODER: () = <span class="macro">assert!</span>(
-                SubE::TABLE.is_subset(E::TABLE),
-                <span class="string">"pushing with non-sub-encoder"
-            </span>);
-        }
-        <span class="kw">let _ </span>= Assert::&lt;SubE, E&gt;::IS_SUB_ENCODER;
-        <span class="kw">let _ </span>= EString::&lt;SubE&gt;::ASSERT_ALLOWS_ENC;
+    </span><span class="kw">pub fn </span>encode&lt;SubE: Encoder&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>(<span class="kw">impl </span>AsRef&lt;[u8]&gt; + <span class="question-mark">?</span>Sized)) {
+        <span class="kw">let _ </span>= Assert::&lt;SubE, E&gt;::LEFT_IS_SUB_ENCODER_OF_RIGHT;
+        <span class="kw">let _ </span>= EStr::&lt;SubE&gt;::ASSERT_ALLOWS_ENC;
 
         <span class="kw">for </span><span class="kw-2">&amp;</span>x <span class="kw">in </span>s.as_ref() {
             SubE::TABLE.encode(x, <span class="kw-2">&amp;mut </span><span class="self">self</span>.buf)
         }
     }
 
-    <span class="doccomment">/// Encodes a byte and appends the result onto the end of this `EString`.
+    <span class="doccomment">/// Appends an unencoded byte onto the end of this `EString`.
     ///
     /// # Panics
     ///
-    /// Panics at compile time if the table specified
-    /// by `E` does not allow percent-encoding.
+    /// Panics if `E::TABLE` does not allow the byte.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>encode_byte(<span class="kw-2">&amp;mut </span><span class="self">self</span>, x: u8) {
-        <span class="kw">let _ </span>= <span class="self">Self</span>::ASSERT_ALLOWS_ENC;
-
-        E::TABLE.encode(x, <span class="kw-2">&amp;mut </span><span class="self">self</span>.buf)
+    </span><span class="kw">pub fn </span>push_byte(<span class="kw-2">&amp;mut </span><span class="self">self</span>, x: u8) {
+        <span class="macro">assert!</span>(E::TABLE.allows(x), <span class="string">"table does not allow the byte"</span>);
+        <span class="self">self</span>.buf.push(x <span class="kw">as </span>char);
     }
 
     <span class="doccomment">/// Appends an `EStr` slice onto the end of this `EString`.
+    ///
+    /// # Panics
+    ///
+    /// Panics at compile time if `SubE` is not a [sub-encoder](Encoder#sub-encoder) of `E`.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>push_estr(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>EStr&lt;E&gt;) {
+    </span><span class="kw">pub fn </span>push_estr&lt;SubE: Encoder&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>EStr&lt;SubE&gt;) {
+        <span class="kw">let _ </span>= Assert::&lt;SubE, E&gt;::LEFT_IS_SUB_ENCODER_OF_RIGHT;
         <span class="self">self</span>.buf.push_str(s.as_str())
     }
 
@@ -517,44 +420,14 @@
         <span class="self">self</span>.buf.reserve_exact(additional);
     }
 
-    <span class="doccomment">/// Invokes [`shrink_to_fit`] on the underlying `String`.
-    ///
-    /// [`shrink_to_fit`]: String::shrink_to_fit
+    <span class="doccomment">/// Truncates this `EString` to zero length and casts to another type, preserving the capacity.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>shrink_to_fit(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="self">self</span>.buf.shrink_to_fit()
-    }
-
-    <span class="doccomment">/// Invokes [`shrink_to`] on the underlying `String`.
-    ///
-    /// [`shrink_to`]: String::shrink_to
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>shrink_to(<span class="kw-2">&amp;mut </span><span class="self">self</span>, min_capacity: usize) {
-        <span class="self">self</span>.buf.shrink_to(min_capacity)
-    }
-
-    <span class="doccomment">/// Invokes [`len`] on the underlying `String`.
-    ///
-    /// [`len`]: String::len
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.buf.len()
-    }
-
-    <span class="doccomment">/// Invokes [`is_empty`] on the underlying `String`.
-    ///
-    /// [`is_empty`]: String::is_empty
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.buf.is_empty()
-    }
-
-    <span class="doccomment">/// Invokes [`clear`] on the underlying `String`.
-    ///
-    /// [`clear`]: String::clear
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>clear(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="self">self</span>.buf.clear()
+    </span><span class="kw">pub fn </span>clear&lt;F: Encoder&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; EString&lt;F&gt; {
+        <span class="self">self</span>.buf.clear();
+        EString {
+            buf: <span class="self">self</span>.buf,
+            encoder: PhantomData,
+        }
     }
 }
 
@@ -569,13 +442,6 @@
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="kw-2">&amp;</span><span class="self">self</span>.buf
-    }
-}
-
-<span class="kw">impl</span>&lt;E: Encoder&gt; AsRef&lt;[u8]&gt; <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="self">self</span>.buf.as_bytes()
     }
 }
 

@@ -381,6 +381,30 @@
 <a href="#379" id="379">379</a>
 <a href="#380" id="380">380</a>
 <a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Utilities for percent-encoding.
 
 </span><span class="kw">pub mod </span>encoder;
@@ -409,6 +433,15 @@
     inner: str,
 }
 
+<span class="kw">struct </span>Assert&lt;L: Encoder, R: Encoder&gt; {
+    _marker: PhantomData&lt;(L, R)&gt;,
+}
+
+<span class="kw">impl</span>&lt;L: Encoder, R: Encoder&gt; Assert&lt;L, R&gt; {
+    <span class="kw">const </span>LEFT_IS_SUB_ENCODER_OF_RIGHT: () =
+        <span class="macro">assert!</span>(L::TABLE.is_subset(R::TABLE), <span class="string">"not a sub-encoder"</span>);
+}
+
 <span class="kw">impl</span>&lt;E: Encoder&gt; EStr&lt;E&gt; {
     <span class="kw">const </span>ASSERT_ALLOWS_ENC: () = <span class="macro">assert!</span>(
         E::TABLE.allows_enc(),
@@ -424,14 +457,14 @@
     ///
     /// Only use this function when you have a percent-encoded string at hand.
     /// You may otherwise encode and concatenate strings to an [`EString`]
-    /// which derefs to [`EStr`].
+    /// which derefs to `EStr`.
     ///
     /// # Panics
     ///
     /// Panics if the string is not properly encoded with `E`.
     </span><span class="kw">pub const fn </span>new(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
         <span class="macro">assert!</span>(E::TABLE.validate(s.as_bytes()), <span class="string">"improperly encoded string"</span>);
-        <span class="kw">return </span><span class="self">Self</span>::new_validated(s);
+        <span class="self">Self</span>::new_validated(s)
     }
 
     <span class="doccomment">/// Yields the underlying string slice.
@@ -440,14 +473,36 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>.inner
     }
 
+    <span class="doccomment">/// Returns `true` if the `EStr` slice is empty.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.inner.is_empty()
+    }
+
+    <span class="doccomment">/// Returns the length of the `EStr` slice in bytes.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.inner.len()
+    }
+
+    <span class="doccomment">/// Upcasts the `EStr` slice to associate with the given super-encoder.
+    ///
+    /// # Panics
+    ///
+    /// Panics at compile time if `E` is not a [sub-encoder](Encoder#sub-encoder) of `SuperE`.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>upcast&lt;SuperE: Encoder&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>EStr&lt;SuperE&gt; {
+        <span class="kw">let _ </span>= Assert::&lt;E, SuperE&gt;::LEFT_IS_SUB_ENCODER_OF_RIGHT;
+        EStr::new_validated(<span class="self">self</span>.as_str())
+    }
+
     <span class="doccomment">/// Decodes the `EStr` slice.
     ///
     /// This method allocates only when there is any percent-encoded octet in the slice.
     ///
     /// # Panics
     ///
-    /// Panics at compile time if the table specified
-    /// by `E` does not allow percent-encoding.
+    /// Panics at compile time if `E::TABLE` does not allow percent-encoding.
     ///
     /// # Examples
     ///
@@ -543,13 +598,6 @@
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="kw-2">&amp;</span><span class="self">self</span>.inner
-    }
-}
-
-<span class="kw">impl</span>&lt;E: Encoder&gt; AsRef&lt;[u8]&gt; <span class="kw">for </span>EStr&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u8] {
-        <span class="self">self</span>.inner.as_bytes()
     }
 }
 

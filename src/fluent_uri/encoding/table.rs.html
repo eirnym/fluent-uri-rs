@@ -231,6 +231,9 @@
 <a href="#229" id="229">229</a>
 <a href="#230" id="230">230</a>
 <a href="#231" id="231">231</a>
+<a href="#232" id="232">232</a>
+<a href="#233" id="233">233</a>
+<a href="#234" id="234">234</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Byte pattern tables from RFC 3986.
 //!
 //! The predefined table constants in this module are documented with
@@ -267,11 +270,14 @@
     ///
     /// # Panics
     ///
-    /// Panics if any of the bytes equals `b'%'`.
+    /// Panics if any of the bytes is not ASCII or equals `b'%'`.
     </span><span class="kw">pub const fn </span>gen(<span class="kw-2">mut </span>bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; Table {
         <span class="kw">let </span><span class="kw-2">mut </span>arr = [<span class="number">0</span>; <span class="number">256</span>];
         <span class="kw">while let </span>[cur, rem @ ..] = bytes {
-            <span class="macro">assert!</span>(<span class="kw-2">*</span>cur != <span class="string">b'%'</span>, <span class="string">"cannot allow unencoded %"</span>);
+            <span class="macro">assert!</span>(
+                cur.is_ascii() &amp;&amp; <span class="kw-2">*</span>cur != <span class="string">b'%'</span>,
+                <span class="string">"cannot allow non-ASCII byte or %"
+            </span>);
             arr[<span class="kw-2">*</span>cur <span class="kw">as </span>usize] = <span class="number">1</span>;
             bytes = rem;
         }
