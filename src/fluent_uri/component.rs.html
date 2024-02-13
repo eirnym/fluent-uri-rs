@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/component.rs`."><title>component.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fluent_uri" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (1a648b397 2024-02-11)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/component.rs`."><title>component.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fluent_uri" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (b381d3ab2 2024-02-12)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
             <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
     <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../fluent_uri/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
@@ -521,11 +521,11 @@
     ///
     /// let uri = Uri::parse("ftp://user@[::1]/")?;
     /// let authority = uri.authority().unwrap();
-    /// assert_eq!(authority.host_as_str(), "[::1]");
+    /// assert_eq!(authority.host(), "[::1]");
     /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>host_as_str(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
+    </span><span class="kw">pub fn </span>host(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
         <span class="kw">let </span>(start, end) = <span class="self">self</span>.host_bounds();
         <span class="self">self</span>.uri.slice(start, end)
     }
@@ -539,7 +539,7 @@
     <span class="doccomment">/// Returns the parsed [host] subcomponent.
     ///
     /// [host]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2
-    </span><span class="kw">pub fn </span>host(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; Host&lt;<span class="lifetime">'o</span>&gt; {
+    </span><span class="kw">pub fn </span>host_parsed(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; Host&lt;<span class="lifetime">'o</span>&gt; {
         <span class="attr">#[cfg(feature = <span class="string">"std"</span>)]
         </span><span class="kw">match </span><span class="self">self</span>.meta().host_meta {
             HostMeta::Ipv4(addr) =&gt; Host::Ipv4(addr),
@@ -552,7 +552,7 @@
                 zone_id: <span class="prelude-val">Some</span>(<span class="self">self</span>.zone_id()),
             },
             HostMeta::IpvFuture =&gt; Host::IpvFuture {},
-            HostMeta::RegName =&gt; Host::RegName(EStr::new_validated(<span class="self">self</span>.host_as_str())),
+            HostMeta::RegName =&gt; Host::RegName(EStr::new_validated(<span class="self">self</span>.host())),
         }
         <span class="attr">#[cfg(not(feature = <span class="string">"std"</span>))]
         </span><span class="kw">match </span><span class="self">self</span>.meta().host_meta {
@@ -562,7 +562,7 @@
                 zone_id: <span class="prelude-val">Some</span>(<span class="self">self</span>.zone_id()),
             },
             HostMeta::IpvFuture =&gt; Host::IpvFuture {},
-            HostMeta::RegName =&gt; Host::RegName(EStr::new_validated(<span class="self">self</span>.host_as_str())),
+            HostMeta::RegName =&gt; Host::RegName(EStr::new_validated(<span class="self">self</span>.host())),
         }
     }
 
@@ -622,7 +622,7 @@
             .transpose()<span class="question-mark">?
             </span>.unwrap_or(default_port);
 
-        <span class="kw">match </span><span class="self">self</span>.host() {
+        <span class="kw">match </span><span class="self">self</span>.host_parsed() {
             Host::Ipv4(addr) =&gt; <span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[(addr, port).into()].into_iter()),
             Host::Ipv6 { addr, zone_id } =&gt; {
                 <span class="kw">let </span>scope_id = <span class="kw">if let </span><span class="prelude-val">Some</span>(zone_id) = zone_id {
@@ -651,7 +651,7 @@
     }
 }
 
-<span class="doccomment">/// The [host] component of URI reference.
+<span class="doccomment">/// The parsed [host] component of URI reference.
 ///
 /// [host]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2
 </span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq, Eq)]
