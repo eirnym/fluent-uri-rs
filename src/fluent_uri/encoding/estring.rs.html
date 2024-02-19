@@ -249,35 +249,6 @@
 <a href="#247" id="247">247</a>
 <a href="#248" id="248">248</a>
 <a href="#249" id="249">249</a>
-<a href="#250" id="250">250</a>
-<a href="#251" id="251">251</a>
-<a href="#252" id="252">252</a>
-<a href="#253" id="253">253</a>
-<a href="#254" id="254">254</a>
-<a href="#255" id="255">255</a>
-<a href="#256" id="256">256</a>
-<a href="#257" id="257">257</a>
-<a href="#258" id="258">258</a>
-<a href="#259" id="259">259</a>
-<a href="#260" id="260">260</a>
-<a href="#261" id="261">261</a>
-<a href="#262" id="262">262</a>
-<a href="#263" id="263">263</a>
-<a href="#264" id="264">264</a>
-<a href="#265" id="265">265</a>
-<a href="#266" id="266">266</a>
-<a href="#267" id="267">267</a>
-<a href="#268" id="268">268</a>
-<a href="#269" id="269">269</a>
-<a href="#270" id="270">270</a>
-<a href="#271" id="271">271</a>
-<a href="#272" id="272">272</a>
-<a href="#273" id="273">273</a>
-<a href="#274" id="274">274</a>
-<a href="#275" id="275">275</a>
-<a href="#276" id="276">276</a>
-<a href="#277" id="277">277</a>
-<a href="#278" id="278">278</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::{encoder::Encoder, Assert, EStr};
 <span class="kw">use </span>alloc::{borrow::ToOwned, string::String};
 <span class="kw">use </span>core::{borrow::Borrow, cmp::Ordering, hash, marker::PhantomData, ops::Deref};
@@ -323,15 +294,13 @@
 <span class="kw">impl</span>&lt;E: Encoder&gt; Deref <span class="kw">for </span>EString&lt;E&gt; {
     <span class="kw">type </span>Target = EStr&lt;E&gt;;
 
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>EStr&lt;E&gt; {
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>EStr&lt;E&gt; {
         EStr::new_validated(<span class="kw-2">&amp;</span><span class="self">self</span>.buf)
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>new_validated(buf: String) -&gt; <span class="self">Self </span>{
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>new_validated(buf: String) -&gt; <span class="self">Self </span>{
         EString {
             buf,
             encoder: PhantomData,
@@ -339,25 +308,21 @@
     }
 
     <span class="doccomment">/// Creates a new empty `EString`.
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub const fn </span>new() -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::new_validated(String::new())
     }
 
     <span class="doccomment">/// Creates a new empty `EString` with a particular capacity.
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>with_capacity(capacity: usize) -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::new_validated(String::with_capacity(capacity))
     }
 
     <span class="doccomment">/// Consumes this `EString` and yields the underlying `String`.
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>into_string(<span class="self">self</span>) -&gt; String {
         <span class="self">self</span>.buf
     }
 
     <span class="doccomment">/// Coerces to an `EStr` slice.
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>as_estr(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>EStr&lt;E&gt; {
         <span class="self">self
     </span>}
@@ -370,7 +335,6 @@
     /// or if `SubE::TABLE` does not [allow percent-encoding].
     ///
     /// [allow percent-encoding]: super::table::Table::allows_enc
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>encode&lt;SubE: Encoder&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>(<span class="kw">impl </span>AsRef&lt;[u8]&gt; + <span class="question-mark">?</span>Sized)) {
         <span class="kw">let _ </span>= Assert::&lt;SubE, E&gt;::LEFT_IS_SUB_ENCODER_OF_RIGHT;
         <span class="kw">let _ </span>= EStr::&lt;SubE&gt;::ASSERT_ALLOWS_ENC;
@@ -387,7 +351,6 @@
     /// Panics if `E::TABLE` does not [allow] the byte.
     ///
     /// [allow]: super::table::Table::allows
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>push_byte(<span class="kw-2">&amp;mut </span><span class="self">self</span>, x: u8) {
         <span class="macro">assert!</span>(E::TABLE.allows(x), <span class="string">"table does not allow the byte"</span>);
         <span class="self">self</span>.buf.push(x <span class="kw">as </span>char);
@@ -398,7 +361,6 @@
     /// # Panics
     ///
     /// Panics at compile time if `SubE` is not a [sub-encoder](Encoder#sub-encoders) of `E`.
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>push_estr&lt;SubE: Encoder&gt;(<span class="kw-2">&amp;mut </span><span class="self">self</span>, s: <span class="kw-2">&amp;</span>EStr&lt;SubE&gt;) {
         <span class="kw">let _ </span>= Assert::&lt;SubE, E&gt;::LEFT_IS_SUB_ENCODER_OF_RIGHT;
         <span class="self">self</span>.buf.push_str(s.as_str())
@@ -407,7 +369,6 @@
     <span class="doccomment">/// Invokes [`capacity`] on the underlying `String`.
     ///
     /// [`capacity`]: String::capacity
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>capacity(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.buf.capacity()
     }
@@ -415,7 +376,6 @@
     <span class="doccomment">/// Invokes [`reserve`] on the underlying `String`.
     ///
     /// [`reserve`]: String::reserve
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>reserve(<span class="kw-2">&amp;mut </span><span class="self">self</span>, additional: usize) {
         <span class="self">self</span>.buf.reserve(additional);
     }
@@ -423,13 +383,11 @@
     <span class="doccomment">/// Invokes [`reserve_exact`] on the underlying `String`.
     ///
     /// [`reserve_exact`]: String::reserve_exact
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>reserve_exact(<span class="kw-2">&amp;mut </span><span class="self">self</span>, additional: usize) {
         <span class="self">self</span>.buf.reserve_exact(additional);
     }
 
     <span class="doccomment">/// Truncates this `EString` to zero length and casts to another type, preserving the capacity.
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>clear&lt;F: Encoder&gt;(<span class="kw-2">mut </span><span class="self">self</span>) -&gt; EString&lt;F&gt; {
         <span class="self">self</span>.buf.clear();
         EString {
@@ -440,92 +398,79 @@
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; AsRef&lt;EStr&lt;E&gt;&gt; <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>EStr&lt;E&gt; {
+    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>EStr&lt;E&gt; {
         <span class="self">self
     </span>}
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; AsRef&lt;str&gt; <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="kw-2">&amp;</span><span class="self">self</span>.buf
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; Borrow&lt;EStr&lt;E&gt;&gt; <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>EStr&lt;E&gt; {
+    <span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>EStr&lt;E&gt; {
         <span class="self">self
     </span>}
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; From&lt;<span class="kw-2">&amp;</span>EStr&lt;E&gt;&gt; <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>from(value: <span class="kw-2">&amp;</span>EStr&lt;E&gt;) -&gt; <span class="self">Self </span>{
+    <span class="kw">fn </span>from(value: <span class="kw-2">&amp;</span>EStr&lt;E&gt;) -&gt; <span class="self">Self </span>{
         value.to_owned()
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder, F: Encoder&gt; PartialEq&lt;EString&lt;F&gt;&gt; <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EString&lt;F&gt;) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EString&lt;F&gt;) -&gt; bool {
         <span class="self">self</span>.as_str() == other.as_str()
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder, F: Encoder&gt; PartialEq&lt;EStr&lt;F&gt;&gt; <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EStr&lt;F&gt;) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EStr&lt;F&gt;) -&gt; bool {
         <span class="self">self</span>.as_str() == other.as_str()
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder, F: Encoder&gt; PartialEq&lt;EString&lt;E&gt;&gt; <span class="kw">for </span>EStr&lt;F&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EString&lt;E&gt;) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EString&lt;E&gt;) -&gt; bool {
         <span class="self">self</span>.as_str() == other.as_str()
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder, F: Encoder&gt; PartialEq&lt;<span class="kw-2">&amp;</span>EStr&lt;F&gt;&gt; <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: &amp;&amp;EStr&lt;F&gt;) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: &amp;&amp;EStr&lt;F&gt;) -&gt; bool {
         <span class="self">self</span>.as_str() == other.as_str()
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder, F: Encoder&gt; PartialEq&lt;EString&lt;E&gt;&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>EStr&lt;F&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EString&lt;E&gt;) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EString&lt;E&gt;) -&gt; bool {
         <span class="self">self</span>.as_str() == other.as_str()
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; PartialEq&lt;str&gt; <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>str) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>str) -&gt; bool {
         <span class="self">self</span>.as_str() == other
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; PartialEq&lt;EString&lt;E&gt;&gt; <span class="kw">for </span>str {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EString&lt;E&gt;) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EString&lt;E&gt;) -&gt; bool {
         <span class="self">self </span>== other.as_str()
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; PartialEq&lt;<span class="kw-2">&amp;</span>str&gt; <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: &amp;&amp;str) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: &amp;&amp;str) -&gt; bool {
         <span class="self">self</span>.as_str() == <span class="kw-2">*</span>other
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; PartialEq&lt;EString&lt;E&gt;&gt; <span class="kw">for </span><span class="kw-2">&amp;</span>str {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EString&lt;E&gt;) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EString&lt;E&gt;) -&gt; bool {
         <span class="kw-2">*</span><span class="self">self </span>== other.as_str()
     }
 }
@@ -533,15 +478,13 @@
 <span class="kw">impl</span>&lt;E: Encoder&gt; Eq <span class="kw">for </span>EString&lt;E&gt; {}
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; hash::Hash <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>hash&lt;H: hash::Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) {
+    <span class="kw">fn </span>hash&lt;H: hash::Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) {
         <span class="self">self</span>.buf.hash(state)
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; PartialOrd <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Ordering&gt; {
+    <span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Ordering&gt; {
         <span class="prelude-val">Some</span>(<span class="self">self</span>.cmp(other))
     }
 }
@@ -551,8 +494,7 @@
 /// `EString`s are ordered [lexicographically](Ord#lexicographical-comparison) by their byte values.
 /// Normalization is **not** performed prior to ordering.
 </span><span class="kw">impl</span>&lt;E: Encoder&gt; Ord <span class="kw">for </span>EString&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; Ordering {
+    <span class="kw">fn </span>cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; Ordering {
         <span class="self">self</span>.inner.cmp(<span class="kw-2">&amp;</span>other.inner)
     }
 }

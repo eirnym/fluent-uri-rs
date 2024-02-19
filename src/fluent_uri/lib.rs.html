@@ -356,24 +356,6 @@
 <a href="#354" id="354">354</a>
 <a href="#355" id="355">355</a>
 <a href="#356" id="356">356</a>
-<a href="#357" id="357">357</a>
-<a href="#358" id="358">358</a>
-<a href="#359" id="359">359</a>
-<a href="#360" id="360">360</a>
-<a href="#361" id="361">361</a>
-<a href="#362" id="362">362</a>
-<a href="#363" id="363">363</a>
-<a href="#364" id="364">364</a>
-<a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a>
-<a href="#367" id="367">367</a>
-<a href="#368" id="368">368</a>
-<a href="#369" id="369">369</a>
-<a href="#370" id="370">370</a>
-<a href="#371" id="371">371</a>
-<a href="#372" id="372">372</a>
-<a href="#373" id="373">373</a>
-<a href="#374" id="374">374</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(clippy::let_unit_value)]
 #![warn(missing_debug_implementations, missing_docs, rust_2018_idioms)]
 #![forbid(unsafe_code)]
@@ -499,8 +481,7 @@
     /// # Panics
     ///
     /// Panics if the input length is greater than [`u32::MAX`].
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>parse&lt;I&gt;(input: I) -&gt; <span class="prelude-ty">Result</span>&lt;Uri&lt;I::Data&gt;, I::Err&gt;
+    </span><span class="kw">pub fn </span>parse&lt;I&gt;(input: I) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, I::Err&gt;
     <span class="kw">where
         </span>I: ToUri&lt;Data = T&gt;,
     {
@@ -544,27 +525,23 @@
 }
 
 <span class="kw">impl</span>&lt;T: Data&gt; Uri&lt;T&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+    <span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
         <span class="self">self</span>.as_str().len() <span class="kw">as _
     </span>}
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'i</span>, <span class="lifetime">'o</span>, T: DataHelper&lt;<span class="lifetime">'i</span>, <span class="lifetime">'o</span>&gt;&gt; Uri&lt;T&gt; {
     <span class="doccomment">/// Returns the value of the URI reference as a string slice.
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
         <span class="self">self</span>.data.as_str()
     }
 
     <span class="doccomment">/// Returns a string slice of the `Uri` between the given indexes.
-    </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>slice(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>, start: u32, end: u32) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
         <span class="kw-2">&amp;</span><span class="self">self</span>.as_str()[start <span class="kw">as </span>usize..end <span class="kw">as </span>usize]
     }
 
     <span class="doccomment">/// Returns an `EStr` slice of the `Uri` between the given indexes.
-    </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>eslice&lt;E: Encoder&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>, start: u32, end: u32) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>EStr&lt;E&gt; {
         EStr::new_validated(<span class="self">self</span>.slice(start, end))
     }
@@ -572,7 +549,6 @@
     <span class="doccomment">/// Returns the [scheme] component.
     ///
     /// [scheme]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.1
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>scheme(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'o </span>Scheme&gt; {
         <span class="self">self</span>.scheme_end
             .map(|i| Scheme::new_validated(<span class="self">self</span>.slice(<span class="number">0</span>, i.get())))
@@ -581,7 +557,6 @@
     <span class="doccomment">/// Returns the [authority] component.
     ///
     /// [authority]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>authority(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Authority&lt;T&gt;&gt; {
         <span class="kw">if </span><span class="self">self</span>.auth_meta.is_some() {
             <span class="prelude-val">Some</span>(Authority::new(<span class="self">self</span>))
@@ -596,7 +571,6 @@
     ///
     /// [path]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.3
     /// [extension methods]: EStr#impl-EStr&lt;Path&gt;
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>path(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>EStr&lt;Path&gt; {
         <span class="self">self</span>.eslice(<span class="self">self</span>.path_bounds.<span class="number">0</span>, <span class="self">self</span>.path_bounds.<span class="number">1</span>)
     }
@@ -604,14 +578,12 @@
     <span class="doccomment">/// Returns the [query] component.
     ///
     /// [query]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.4
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>query(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'o </span>EStr&lt;Query&gt;&gt; {
         <span class="self">self</span>.query_end
             .map(|i| <span class="self">self</span>.eslice(<span class="self">self</span>.path_bounds.<span class="number">1 </span>+ <span class="number">1</span>, i.get()))
     }
 
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>fragment_start(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
+    <span class="kw">fn </span>fragment_start(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
         <span class="kw">let </span>query_or_path_end = <span class="self">self
             </span>.query_end
             .map(|i| i.get())
@@ -622,7 +594,6 @@
     <span class="doccomment">/// Returns the [fragment] component.
     ///
     /// [fragment]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.5
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>fragment(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'o </span>EStr&lt;Fragment&gt;&gt; {
         <span class="self">self</span>.fragment_start().map(|i| <span class="self">self</span>.eslice(i, <span class="self">self</span>.len()))
     }
@@ -645,7 +616,6 @@
     /// assert!(!uri.is_relative());
     /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
     /// ```
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>is_relative(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.scheme_end.is_none()
     }
@@ -670,14 +640,14 @@
     /// assert!(!uri.is_absolute());
     /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
     /// ```
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>is_absolute(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.scheme_end.is_some() &amp;&amp; <span class="self">self</span>.fragment_start().is_none()
     }
 }
 
-<span class="kw">impl</span>&lt;T: Data + Default&gt; Default <span class="kw">for </span>Uri&lt;T&gt; {
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+<span class="kw">impl</span>&lt;T: Data&gt; Default <span class="kw">for </span>Uri&lt;T&gt; {
+    <span class="doccomment">/// Creates an empty URI reference.
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         Uri {
             data: T::default(),
             meta: Meta::default(),
@@ -686,8 +656,7 @@
 }
 
 <span class="kw">impl</span>&lt;T: Data, U: Data&gt; PartialEq&lt;Uri&lt;U&gt;&gt; <span class="kw">for </span>Uri&lt;T&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Uri&lt;U&gt;) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Uri&lt;U&gt;) -&gt; bool {
         <span class="self">self</span>.as_str() == other.as_str()
     }
 }
@@ -695,15 +664,13 @@
 <span class="kw">impl</span>&lt;T: Data&gt; Eq <span class="kw">for </span>Uri&lt;T&gt; {}
 
 <span class="kw">impl</span>&lt;T: Data&gt; hash::Hash <span class="kw">for </span>Uri&lt;T&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>hash&lt;H: hash::Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) {
+    <span class="kw">fn </span>hash&lt;H: hash::Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) {
         <span class="self">self</span>.as_str().hash(state)
     }
 }
 
 <span class="kw">impl</span>&lt;T: Data&gt; PartialOrd <span class="kw">for </span>Uri&lt;T&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Ordering&gt; {
+    <span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Ordering&gt; {
         <span class="prelude-val">Some</span>(<span class="self">self</span>.as_str().cmp(other.as_str()))
     }
 }
@@ -713,22 +680,19 @@
 /// `Uri`s are ordered [lexicographically](Ord#lexicographical-comparison) by their byte values.
 /// Normalization is **not** performed prior to ordering.
 </span><span class="kw">impl</span>&lt;T: Data&gt; Ord <span class="kw">for </span>Uri&lt;T&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; Ordering {
+    <span class="kw">fn </span>cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; Ordering {
         <span class="self">self</span>.as_str().cmp(other.as_str())
     }
 }
 
 <span class="kw">impl</span>&lt;T: Data&gt; AsRef&lt;str&gt; <span class="kw">for </span>Uri&lt;T&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="self">self</span>.as_str()
     }
 }
 
 <span class="kw">impl</span>&lt;T: Data&gt; Borrow&lt;str&gt; <span class="kw">for </span>Uri&lt;T&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+    <span class="kw">fn </span>borrow(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="self">self</span>.as_str()
     }
 }

@@ -340,15 +340,6 @@
 <a href="#338" id="338">338</a>
 <a href="#339" id="339">339</a>
 <a href="#340" id="340">340</a>
-<a href="#341" id="341">341</a>
-<a href="#342" id="342">342</a>
-<a href="#343" id="343">343</a>
-<a href="#344" id="344">344</a>
-<a href="#345" id="345">345</a>
-<a href="#346" id="346">346</a>
-<a href="#347" id="347">347</a>
-<a href="#348" id="348">348</a>
-<a href="#349" id="349">349</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Components of URI reference.
 
 </span><span class="kw">use crate</span>::{
@@ -436,26 +427,21 @@
     <span class="doccomment">/// Converts from `&amp;Uri&lt;T&gt;` to `&amp;Authority&lt;T&gt;`,
     /// assuming that authority is present.
     </span><span class="attr">#[ref_cast_custom]
-    #[inline]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(uri: <span class="kw-2">&amp;</span>Uri&lt;T&gt;) -&gt; <span class="kw-2">&amp;</span>Authority&lt;T&gt;;
 
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>meta(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>AuthMeta {
+    <span class="kw">fn </span>meta(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>AuthMeta {
         <span class="self">self</span>.uri.auth_meta.as_ref().unwrap()
     }
 
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>start(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+    <span class="kw">fn </span>start(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
         <span class="self">self</span>.meta().start
     }
 
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>end(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
+    <span class="kw">fn </span>end(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u32 {
         <span class="self">self</span>.uri.path_bounds.<span class="number">0
     </span>}
 
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>host_bounds(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (u32, u32) {
+    <span class="kw">fn </span>host_bounds(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (u32, u32) {
         <span class="self">self</span>.meta().host_bounds
     }
 
@@ -471,7 +457,6 @@
     /// assert_eq!(authority.as_str(), "user@[fe80::abcd]:6780");
     /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
     /// ```
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
         <span class="self">self</span>.uri.slice(<span class="self">self</span>.start(), <span class="self">self</span>.end())
     }
@@ -490,7 +475,6 @@
     /// assert_eq!(authority.userinfo().unwrap(), "user");
     /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
     /// ```
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>userinfo(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'o </span>EStr&lt;Userinfo&gt;&gt; {
         <span class="kw">let </span>(start, host_start) = (<span class="self">self</span>.start(), <span class="self">self</span>.host_bounds().<span class="number">0</span>);
         (start != host_start).then(|| <span class="self">self</span>.uri.eslice(start, host_start - <span class="number">1</span>))
@@ -512,7 +496,6 @@
     /// assert_eq!(authority.host(), "[::1]");
     /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
     /// ```
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>host(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
         <span class="kw">let </span>(start, end) = <span class="self">self</span>.host_bounds();
         <span class="self">self</span>.uri.slice(start, end)
@@ -594,7 +577,6 @@
     /// assert_eq!(authority.port(), Some("66666"));
     /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
     /// ```
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>port(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'o </span>str&gt; {
         <span class="kw">let </span>(host_end, end) = (<span class="self">self</span>.host_bounds().<span class="number">1</span>, <span class="self">self</span>.end());
         (host_end != end).then(|| <span class="self">self</span>.uri.slice(host_end + <span class="number">1</span>, end))

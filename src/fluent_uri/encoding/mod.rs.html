@@ -381,27 +381,6 @@
 <a href="#379" id="379">379</a>
 <a href="#380" id="380">380</a>
 <a href="#381" id="381">381</a>
-<a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a>
-<a href="#384" id="384">384</a>
-<a href="#385" id="385">385</a>
-<a href="#386" id="386">386</a>
-<a href="#387" id="387">387</a>
-<a href="#388" id="388">388</a>
-<a href="#389" id="389">389</a>
-<a href="#390" id="390">390</a>
-<a href="#391" id="391">391</a>
-<a href="#392" id="392">392</a>
-<a href="#393" id="393">393</a>
-<a href="#394" id="394">394</a>
-<a href="#395" id="395">395</a>
-<a href="#396" id="396">396</a>
-<a href="#397" id="397">397</a>
-<a href="#398" id="398">398</a>
-<a href="#399" id="399">399</a>
-<a href="#400" id="400">400</a>
-<a href="#401" id="401">401</a>
-<a href="#402" id="402">402</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Utilities for percent-encoding.
 
 </span><span class="kw">pub mod </span>encoder;
@@ -445,7 +424,6 @@
 
     <span class="doccomment">/// Converts a string slice to an `EStr` slice assuming validity.
     </span><span class="attr">#[ref_cast_custom]
-    #[inline]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const fn </span>new_validated(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>;
 
     <span class="doccomment">/// Converts a string slice to an `EStr` slice.
@@ -463,19 +441,16 @@
     }
 
     <span class="doccomment">/// Yields the underlying string slice.
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="kw-2">&amp;</span><span class="self">self</span>.inner
     }
 
     <span class="doccomment">/// Checks whether the `EStr` slice is empty.
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.inner.is_empty()
     }
 
     <span class="doccomment">/// Returns the length of the `EStr` slice in bytes.
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.inner.len()
     }
@@ -486,7 +461,6 @@
     ///
     /// Panics at compile time if `E` is not a [sub-encoder](Encoder#sub-encoders) of `SuperE`.
     </span><span class="attr">#[cfg(fluent_uri_unstable)]
-    #[inline]
     </span><span class="kw">pub fn </span>upcast&lt;SuperE: Encoder&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>EStr&lt;SuperE&gt; {
         <span class="kw">let _ </span>= Assert::&lt;E, SuperE&gt;::LEFT_IS_SUB_ENCODER_OF_RIGHT;
         EStr::new_validated(<span class="self">self</span>.as_str())
@@ -512,7 +486,6 @@
     /// assert_eq!(dec.into_string()?, "¡Hola!");
     /// # Ok::&lt;_, std::string::FromUtf8Error&gt;(())
     /// ```
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>decode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Decode&lt;<span class="lifetime">'_</span>&gt; {
         <span class="kw">let _ </span>= <span class="self">Self</span>::ASSERT_ALLOWS_ENC;
 
@@ -539,7 +512,6 @@
     /// assert!(EStr::&lt;Path&gt;::new(",").split(',').eq(["", ""]));
     /// assert!(EStr::&lt;Path&gt;::new("").split(',').eq([""]));
     /// ```
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>split(<span class="kw-2">&amp;</span><span class="self">self</span>, delim: char) -&gt; Split&lt;<span class="lifetime">'_</span>, E&gt; {
         <span class="macro">assert!</span>(
             delim.is_ascii() &amp;&amp; table::RESERVED.allows(delim <span class="kw">as </span>u8),
@@ -574,7 +546,6 @@
     ///
     /// assert_eq!(EStr::&lt;Path&gt;::new("foo").split_once(';'), None);
     /// ```
-    </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>split_once(<span class="kw-2">&amp;</span><span class="self">self</span>, delim: char) -&gt; <span class="prelude-ty">Option</span>&lt;(<span class="kw-2">&amp;</span><span class="self">Self</span>, <span class="kw-2">&amp;</span><span class="self">Self</span>)&gt; {
         <span class="macro">assert!</span>(
             delim.is_ascii() &amp;&amp; table::RESERVED.allows(delim <span class="kw">as </span>u8),
@@ -587,36 +558,31 @@
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; AsRef&lt;<span class="self">Self</span>&gt; <span class="kw">for </span>EStr&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
+    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self </span>{
         <span class="self">self
     </span>}
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; AsRef&lt;str&gt; <span class="kw">for </span>EStr&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
         <span class="kw-2">&amp;</span><span class="self">self</span>.inner
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder, F: Encoder&gt; PartialEq&lt;EStr&lt;F&gt;&gt; <span class="kw">for </span>EStr&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EStr&lt;F&gt;) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EStr&lt;F&gt;) -&gt; bool {
         <span class="self">self</span>.inner == other.inner
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; PartialEq&lt;str&gt; <span class="kw">for </span>EStr&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>str) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>str) -&gt; bool {
         <span class="kw-2">&amp;</span><span class="self">self</span>.inner == other
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; PartialEq&lt;EStr&lt;E&gt;&gt; <span class="kw">for </span>str {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EStr&lt;E&gt;) -&gt; bool {
+    <span class="kw">fn </span>eq(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>EStr&lt;E&gt;) -&gt; bool {
         <span class="self">self </span>== <span class="kw-2">&amp;</span>other.inner
     }
 }
@@ -624,15 +590,13 @@
 <span class="kw">impl</span>&lt;E: Encoder&gt; Eq <span class="kw">for </span>EStr&lt;E&gt; {}
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; hash::Hash <span class="kw">for </span>EStr&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>hash&lt;H: hash::Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) {
+    <span class="kw">fn </span>hash&lt;H: hash::Hasher&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, state: <span class="kw-2">&amp;mut </span>H) {
         <span class="self">self</span>.inner.hash(state)
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; PartialOrd <span class="kw">for </span>EStr&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Ordering&gt; {
+    <span class="kw">fn </span>partial_cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Ordering&gt; {
         <span class="prelude-val">Some</span>(<span class="self">self</span>.cmp(other))
     }
 }
@@ -642,15 +606,13 @@
 /// `EStr` slices are ordered [lexicographically](Ord#lexicographical-comparison) by their byte values.
 /// Normalization is **not** performed prior to ordering.
 </span><span class="kw">impl</span>&lt;E: Encoder&gt; Ord <span class="kw">for </span>EStr&lt;E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; Ordering {
+    <span class="kw">fn </span>cmp(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; Ordering {
         <span class="self">self</span>.inner.cmp(<span class="kw-2">&amp;</span>other.inner)
     }
 }
 
 <span class="kw">impl</span>&lt;E: Encoder&gt; Default <span class="kw">for </span><span class="kw-2">&amp;</span>EStr&lt;E&gt; {
     <span class="doccomment">/// Creates an empty `EStr` slice.
-    </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         EStr::new_validated(<span class="string">""</span>)
     }
@@ -659,13 +621,11 @@
 <span class="kw">impl</span>&lt;E: Encoder&gt; ToOwned <span class="kw">for </span>EStr&lt;E&gt; {
     <span class="kw">type </span>Owned = EString&lt;E&gt;;
 
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>to_owned(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; EString&lt;E&gt; {
+    <span class="kw">fn </span>to_owned(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; EString&lt;E&gt; {
         EString::new_validated(<span class="self">self</span>.inner.to_owned())
     }
 
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>clone_into(<span class="kw-2">&amp;</span><span class="self">self</span>, target: <span class="kw-2">&amp;mut </span>EString&lt;E&gt;) {
+    <span class="kw">fn </span>clone_into(<span class="kw-2">&amp;</span><span class="self">self</span>, target: <span class="kw-2">&amp;mut </span>EString&lt;E&gt;) {
         <span class="self">self</span>.inner.clone_into(<span class="kw-2">&amp;mut </span>target.buf)
     }
 }
@@ -790,15 +750,13 @@
 <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, E: Encoder&gt; Iterator <span class="kw">for </span>Split&lt;<span class="lifetime">'a</span>, E&gt; {
     <span class="kw">type </span>Item = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>EStr&lt;E&gt;;
 
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>EStr&lt;E&gt;&gt; {
+    <span class="kw">fn </span>next(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>EStr&lt;E&gt;&gt; {
         <span class="self">self</span>.inner.next().map(EStr::new_validated)
     }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>, E: Encoder&gt; DoubleEndedIterator <span class="kw">for </span>Split&lt;<span class="lifetime">'a</span>, E&gt; {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>EStr&lt;E&gt;&gt; {
+    <span class="kw">fn </span>next_back(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>EStr&lt;E&gt;&gt; {
         <span class="self">self</span>.inner.next_back().map(EStr::new_validated)
     }
 }
