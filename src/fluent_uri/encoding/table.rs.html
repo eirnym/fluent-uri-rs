@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/encoding/table.rs`."><title>table.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="fluent_uri" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (ee9c7c940 2024-02-14)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/encoding/table.rs`."><title>table.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e935ef01ae1c1829.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="fluent_uri" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (2bf78d12d 2024-02-18)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-c37d3936c59ababd.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
             <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
     <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../fluent_uri/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
@@ -230,16 +230,12 @@
 <a href="#228" id="228">228</a>
 <a href="#229" id="229">229</a>
 <a href="#230" id="230">230</a>
-<a href="#231" id="231">231</a>
-<a href="#232" id="232">232</a>
-<a href="#233" id="233">233</a>
-<a href="#234" id="234">234</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Byte pattern tables from RFC 3986.
 //!
 //! The predefined table constants in this module are documented with
-//! the ABNF notation of [RFC 2234].
+//! the ABNF notation of [RFC 5234].
 //!
-//! [RFC 2234]: https://datatracker.ietf.org/doc/html/rfc2234/
+//! [RFC 5234]: https://datatracker.ietf.org/doc/html/rfc5234/
 
 </span><span class="kw">use </span>alloc::string::String;
 
@@ -325,7 +321,7 @@
         <span class="self">self
     </span>}
 
-    <span class="doccomment">/// Returns `true` if the table is a subset of another, i.e., `other`
+    <span class="doccomment">/// Checks whether the table is a subset of another, i.e., `other`
     /// allows at least all the byte patterns allowed by `self`.
     </span><span class="kw">pub const fn </span>is_subset(<span class="kw-2">&amp;</span><span class="self">self</span>, other: <span class="kw-2">&amp;</span>Table) -&gt; bool {
         <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
@@ -354,13 +350,13 @@
         <span class="self">self</span>.arr[x <span class="kw">as </span>usize]
     }
 
-    <span class="doccomment">/// Returns `true` if the given unencoded byte is allowed by the table.
+    <span class="doccomment">/// Checks whether the given unencoded byte is allowed by the table.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub const fn </span>allows(<span class="kw-2">&amp;</span><span class="self">self</span>, x: u8) -&gt; bool {
         <span class="self">self</span>.get(x) != <span class="number">0
     </span>}
 
-    <span class="doccomment">/// Returns `true` if percent-encoded octets are allowed by the table.
+    <span class="doccomment">/// Checks whether percent-encoded octets are allowed by the table.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub const fn </span>allows_enc(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.allows_enc
@@ -416,56 +412,52 @@
     Table::gen(bytes)
 }
 
-<span class="doccomment">/// ALPHA = A-Z / a-z
+<span class="doccomment">/// `ALPHA = %x41-5A / %x61-7A`
 </span><span class="kw">pub const </span>ALPHA: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>gen(<span class="string">b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"</span>);
 
-<span class="doccomment">/// DIGIT = 0-9
+<span class="doccomment">/// `DIGIT = %x30-39`
 </span><span class="kw">pub const </span>DIGIT: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>gen(<span class="string">b"0123456789"</span>);
 
-<span class="doccomment">/// HEXDIG = DIGIT / "A" / "B" / "C" / "D" / "E" / "F"
-///                / "a" / "b" / "c" / "d" / "e" / "f"
+<span class="doccomment">/// `HEXDIG = DIGIT / "A" / "B" / "C" / "D" / "E" / "F"`
 </span><span class="kw">pub const </span>HEXDIG: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>DIGIT.or(<span class="kw-2">&amp;</span>gen(<span class="string">b"ABCDEFabcdef"</span>));
 
-<span class="doccomment">/// reserved = gen-delims / sub-delims
-</span><span class="kw">pub const </span>RESERVED: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>GEN_DELIMS.or(SUB_DELIMS);
-
-<span class="doccomment">/// gen-delims = ":" / "/" / "?" / "#" / "[" / "]" / "@"
-</span><span class="kw">pub const </span>GEN_DELIMS: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>gen(<span class="string">b":/?#[]@"</span>);
-
-<span class="doccomment">/// sub-delims = "!" / "$" / "&amp;" / "'" / "(" / ")"
-///            / "*" / "+" / "," / ";" / "="
-</span><span class="kw">pub const </span>SUB_DELIMS: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>gen(<span class="string">b"!$&amp;'()*+,;="</span>);
-
-<span class="doccomment">/// unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"
-</span><span class="kw">pub const </span>UNRESERVED: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>ALPHA.or(DIGIT).or(<span class="kw-2">&amp;</span>gen(<span class="string">b"-._~"</span>));
-
-<span class="doccomment">/// pchar = unreserved / pct-encoded / sub-delims / ":" / "@"
-</span><span class="kw">pub const </span>PCHAR: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).or(<span class="kw-2">&amp;</span>gen(<span class="string">b":@"</span>)).enc();
-
-<span class="doccomment">/// segment-nz-nc = 1*( unreserved / pct-encoded / sub-delims / "@" )
-</span><span class="kw">pub const </span>SEGMENT_NC: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).or(<span class="kw-2">&amp;</span>gen(<span class="string">b"@"</span>)).enc();
-
-<span class="doccomment">/// scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )
+<span class="doccomment">/// `scheme = ALPHA *( ALPHA / DIGIT / "+" / "-" / "." )`
 </span><span class="kw">pub const </span>SCHEME: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>ALPHA.or(DIGIT).or(<span class="kw-2">&amp;</span>gen(<span class="string">b"+-."</span>));
 
-<span class="doccomment">/// userinfo = *( unreserved / pct-encoded / sub-delims / ":" )
+<span class="doccomment">/// `userinfo = *( unreserved / pct-encoded / sub-delims / ":" )`
 </span><span class="kw">pub const </span>USERINFO: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).or(<span class="kw-2">&amp;</span>gen(<span class="string">b":"</span>)).enc();
 
-<span class="doccomment">/// IPvFuture = "v" 1\*HEXDIG "." 1\*( unreserved / sub-delims / ":" )
+<span class="doccomment">/// `IPvFuture = "v" 1*HEXDIG "." 1*( unreserved / sub-delims / ":" )`
 </span><span class="kw">pub const </span>IPV_FUTURE: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).or(<span class="kw-2">&amp;</span>gen(<span class="string">b":"</span>));
 
-<span class="doccomment">/// reg-name = *( unreserved / pct-encoded / sub-delims )
+<span class="doccomment">/// `reg-name = *( unreserved / pct-encoded / sub-delims )`
 </span><span class="kw">pub const </span>REG_NAME: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).enc();
 
-<span class="doccomment">/// path = *( pchar / "/" )
+<span class="doccomment">/// `path = *( pchar / "/" )`
 </span><span class="kw">pub const </span>PATH: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>PCHAR.or(<span class="kw-2">&amp;</span>gen(<span class="string">b"/"</span>));
 
-<span class="doccomment">/// query = *( pchar / "/" / "?" )
+<span class="doccomment">/// `segment-nz-nc = 1*( unreserved / pct-encoded / sub-delims / "@" )`
+</span><span class="kw">pub const </span>SEGMENT_NZ_NC: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).or(<span class="kw-2">&amp;</span>gen(<span class="string">b"@"</span>)).enc();
+
+<span class="doccomment">/// `pchar = unreserved / pct-encoded / sub-delims / ":" / "@"`
+</span><span class="kw">pub const </span>PCHAR: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>UNRESERVED.or(SUB_DELIMS).or(<span class="kw-2">&amp;</span>gen(<span class="string">b":@"</span>)).enc();
+
+<span class="doccomment">/// `query = *( pchar / "/" / "?" )`
 </span><span class="kw">pub const </span>QUERY: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>PCHAR.or(<span class="kw-2">&amp;</span>gen(<span class="string">b"/?"</span>));
 
-<span class="doccomment">/// fragment = *( pchar / "/" / "?" )
+<span class="doccomment">/// `fragment = *( pchar / "/" / "?" )`
 </span><span class="kw">pub const </span>FRAGMENT: <span class="kw-2">&amp;</span>Table = QUERY;
 
-<span class="doccomment">/// ZoneID = 1*( unreserved )
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>ZONE_ID: <span class="kw-2">&amp;</span>Table = UNRESERVED;
+<span class="doccomment">/// `unreserved = ALPHA / DIGIT / "-" / "." / "_" / "~"`
+</span><span class="kw">pub const </span>UNRESERVED: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>ALPHA.or(DIGIT).or(<span class="kw-2">&amp;</span>gen(<span class="string">b"-._~"</span>));
+
+<span class="doccomment">/// `reserved = gen-delims / sub-delims`
+</span><span class="kw">pub const </span>RESERVED: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>GEN_DELIMS.or(SUB_DELIMS);
+
+<span class="doccomment">/// `gen-delims = ":" / "/" / "?" / "#" / "[" / "]" / "@"`
+</span><span class="kw">pub const </span>GEN_DELIMS: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>gen(<span class="string">b":/?#[]@"</span>);
+
+<span class="doccomment">/// `sub-delims = "!" / "$" / "&amp;" / "'" / "(" / ")"
+///             / "*" / "+" / "," / ";" / "="`
+</span><span class="kw">pub const </span>SUB_DELIMS: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>gen(<span class="string">b"!$&amp;'()*+,;="</span>);
 </code></pre></div></section></main></body></html>

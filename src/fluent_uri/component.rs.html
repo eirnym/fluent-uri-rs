@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/component.rs`."><title>component.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fluent_uri" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (ee9c7c940 2024-02-14)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/component.rs`."><title>component.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e935ef01ae1c1829.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fluent_uri" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (2bf78d12d 2024-02-18)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-c37d3936c59ababd.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
             <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
     <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../fluent_uri/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
@@ -349,69 +349,6 @@
 <a href="#347" id="347">347</a>
 <a href="#348" id="348">348</a>
 <a href="#349" id="349">349</a>
-<a href="#350" id="350">350</a>
-<a href="#351" id="351">351</a>
-<a href="#352" id="352">352</a>
-<a href="#353" id="353">353</a>
-<a href="#354" id="354">354</a>
-<a href="#355" id="355">355</a>
-<a href="#356" id="356">356</a>
-<a href="#357" id="357">357</a>
-<a href="#358" id="358">358</a>
-<a href="#359" id="359">359</a>
-<a href="#360" id="360">360</a>
-<a href="#361" id="361">361</a>
-<a href="#362" id="362">362</a>
-<a href="#363" id="363">363</a>
-<a href="#364" id="364">364</a>
-<a href="#365" id="365">365</a>
-<a href="#366" id="366">366</a>
-<a href="#367" id="367">367</a>
-<a href="#368" id="368">368</a>
-<a href="#369" id="369">369</a>
-<a href="#370" id="370">370</a>
-<a href="#371" id="371">371</a>
-<a href="#372" id="372">372</a>
-<a href="#373" id="373">373</a>
-<a href="#374" id="374">374</a>
-<a href="#375" id="375">375</a>
-<a href="#376" id="376">376</a>
-<a href="#377" id="377">377</a>
-<a href="#378" id="378">378</a>
-<a href="#379" id="379">379</a>
-<a href="#380" id="380">380</a>
-<a href="#381" id="381">381</a>
-<a href="#382" id="382">382</a>
-<a href="#383" id="383">383</a>
-<a href="#384" id="384">384</a>
-<a href="#385" id="385">385</a>
-<a href="#386" id="386">386</a>
-<a href="#387" id="387">387</a>
-<a href="#388" id="388">388</a>
-<a href="#389" id="389">389</a>
-<a href="#390" id="390">390</a>
-<a href="#391" id="391">391</a>
-<a href="#392" id="392">392</a>
-<a href="#393" id="393">393</a>
-<a href="#394" id="394">394</a>
-<a href="#395" id="395">395</a>
-<a href="#396" id="396">396</a>
-<a href="#397" id="397">397</a>
-<a href="#398" id="398">398</a>
-<a href="#399" id="399">399</a>
-<a href="#400" id="400">400</a>
-<a href="#401" id="401">401</a>
-<a href="#402" id="402">402</a>
-<a href="#403" id="403">403</a>
-<a href="#404" id="404">404</a>
-<a href="#405" id="405">405</a>
-<a href="#406" id="406">406</a>
-<a href="#407" id="407">407</a>
-<a href="#408" id="408">408</a>
-<a href="#409" id="409">409</a>
-<a href="#410" id="410">410</a>
-<a href="#411" id="411">411</a>
-<a href="#412" id="412">412</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Components of URI reference.
 
 </span><span class="kw">use crate</span>::{
@@ -419,7 +356,7 @@
         encoder::{RegName, Userinfo},
         table, EStr,
     },
-    internal::{AuthMeta, HostMeta, Storage, StorageHelper},
+    internal::{AuthMeta, DataHelper, HostMeta},
     Uri,
 };
 <span class="kw">use </span>core::num::ParseIntError;
@@ -428,7 +365,7 @@
 <span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
 </span><span class="kw">use </span>std::{
     io,
-    net::{Ipv4Addr, Ipv6Addr, SocketAddr, SocketAddrV6, ToSocketAddrs},
+    net::{Ipv4Addr, Ipv6Addr, SocketAddr, ToSocketAddrs},
 };
 
 <span class="doccomment">/// The [scheme] component of URI reference.
@@ -476,7 +413,6 @@
     ///
     /// let uri = Uri::parse("http://example.com/")?;
     /// assert_eq!(uri.scheme().unwrap().as_str(), "http");
-    ///
     /// let uri = Uri::parse("HTTP://EXAMPLE.COM/")?;
     /// assert_eq!(uri.scheme().unwrap().as_str(), "HTTP");
     /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
@@ -492,11 +428,11 @@
 /// [authority]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2
 </span><span class="attr">#[derive(RefCastCustom)]
 #[repr(transparent)]
-</span><span class="kw">pub struct </span>Authority&lt;T: Storage&gt; {
+</span><span class="kw">pub struct </span>Authority&lt;T&gt; {
     uri: Uri&lt;T&gt;,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'i</span>, <span class="lifetime">'o</span>, T: StorageHelper&lt;<span class="lifetime">'i</span>, <span class="lifetime">'o</span>&gt;&gt; Authority&lt;T&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'i</span>, <span class="lifetime">'o</span>, T: DataHelper&lt;<span class="lifetime">'i</span>, <span class="lifetime">'o</span>&gt;&gt; Authority&lt;T&gt; {
     <span class="doccomment">/// Converts from `&amp;Uri&lt;T&gt;` to `&amp;Authority&lt;T&gt;`,
     /// assuming that authority is present.
     </span><span class="attr">#[ref_cast_custom]
@@ -582,13 +518,6 @@
         <span class="self">self</span>.uri.slice(start, end)
     }
 
-    <span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
-    </span><span class="kw">fn </span>zone_id(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
-        <span class="kw">let </span>(start, end) = <span class="self">self</span>.host_bounds();
-        <span class="kw">let </span>addr = <span class="self">self</span>.uri.slice(start + <span class="number">1</span>, end - <span class="number">1</span>);
-        addr.rsplit_once(<span class="string">'%'</span>).unwrap().<span class="number">1
-    </span>}
-
     <span class="doccomment">/// Returns the parsed [host] subcomponent.
     ///
     /// [host]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2
@@ -605,23 +534,7 @@
     ///
     /// let uri = Uri::parse("//[::1]")?;
     /// let authority = uri.authority().unwrap();
-    /// assert_eq!(
-    ///     authority.host_parsed(),
-    ///     Host::Ipv6 {
-    ///         addr: Ipv6Addr::LOCALHOST,
-    ///         zone_id: None,
-    ///     }
-    /// );
-    ///
-    /// let uri = Uri::parse("//[fe80::1%eth0]")?;
-    /// let authority = uri.authority().unwrap();
-    /// assert_eq!(
-    ///     authority.host_parsed(),
-    ///     Host::Ipv6 {
-    ///         addr: Ipv6Addr::new(0xfe80, 0, 0, 0, 0, 0, 0, 1),
-    ///         zone_id: Some("eth0"),
-    ///     }
-    /// );
+    /// assert_eq!(authority.host_parsed(), Host::Ipv6(Ipv6Addr::LOCALHOST));
     ///
     /// let uri = Uri::parse("//[v1.addr]")?;
     /// let authority = uri.authority().unwrap();
@@ -635,24 +548,17 @@
     /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
     /// ```
     </span><span class="kw">pub fn </span>host_parsed(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; Host&lt;<span class="lifetime">'o</span>&gt; {
-        <span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
-        </span><span class="kw">match </span><span class="self">self</span>.meta().host_meta {
-            HostMeta::Ipv4(addr) =&gt; Host::Ipv4(addr),
-            HostMeta::Ipv6(addr) =&gt; Host::Ipv6 {
-                addr,
-                zone_id: <span class="prelude-val">None</span>,
-            },
-            HostMeta::Ipv6Zoned(addr) =&gt; Host::Ipv6 {
-                addr,
-                zone_id: <span class="prelude-val">Some</span>(<span class="self">self</span>.zone_id()),
-            },
-            HostMeta::IpvFuture =&gt; Host::IpvFuture {},
-            HostMeta::RegName =&gt; Host::RegName(EStr::new_validated(<span class="self">self</span>.host())),
-        }
-        <span class="attr">#[cfg(not(feature = <span class="string">"net"</span>))]
-        </span><span class="kw">match </span><span class="self">self</span>.meta().host_meta {
-            HostMeta::Ipv4() =&gt; Host::Ipv4(),
-            HostMeta::Ipv6() | HostMeta::Ipv6Zoned() =&gt; Host::Ipv6 {},
+        <span class="kw">match </span><span class="self">self</span>.meta().host_meta {
+            <span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
+            </span>HostMeta::Ipv4(addr) =&gt; Host::Ipv4(addr),
+            <span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
+            </span>HostMeta::Ipv6(addr) =&gt; Host::Ipv6(addr),
+
+            <span class="attr">#[cfg(not(feature = <span class="string">"net"</span>))]
+            </span>HostMeta::Ipv4() =&gt; Host::Ipv4(),
+            <span class="attr">#[cfg(not(feature = <span class="string">"net"</span>))]
+            </span>HostMeta::Ipv6() =&gt; Host::Ipv6(),
+
             HostMeta::IpvFuture =&gt; Host::IpvFuture {},
             HostMeta::RegName =&gt; Host::RegName(EStr::new_validated(<span class="self">self</span>.host())),
         }
@@ -697,8 +603,8 @@
     <span class="doccomment">/// Converts the [port] subcomponent to `u16`.
     ///
     /// Leading zeros are ignored.
-    /// Returns `Ok(None)` if the port component is not present or is empty.
-    /// Returns `Err` if the port component cannot be parsed into `u16`.
+    /// Returns `Ok(None)` if the port is not present or is empty.
+    /// Returns `Err` if the port cannot be parsed into `u16`.
     ///
     /// [port]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.3
     ///
@@ -738,14 +644,10 @@
     /// A registered name is **not** normalized prior to resolution and is resolved
     /// with [`ToSocketAddrs`] as is.
     ///
-    /// An IPv6 zone identifier is resolved first as a 32-bit unsigned integer
-    /// ignoring leading zeros, and then as a network interface name
-    /// on Unix platforms with `if_nametoindex`.
-    ///
     /// # Errors
     ///
-    /// Returns `Err` if the resolution of a registered name or
-    /// IPv6 zone identifier fails.
+    /// Returns `Err` if the port cannot be parsed into `u16`
+    /// or if the resolution of a registered name fails.
     </span><span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
     </span><span class="kw">pub fn </span>to_socket_addrs(
         <span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>,
@@ -758,26 +660,7 @@
 
         <span class="kw">match </span><span class="self">self</span>.host_parsed() {
             Host::Ipv4(addr) =&gt; <span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[(addr, port).into()].into_iter()),
-            Host::Ipv6 { addr, zone_id } =&gt; {
-                <span class="kw">let </span>scope_id = <span class="kw">if let </span><span class="prelude-val">Some</span>(zone_id) = zone_id {
-                    <span class="comment">// It is fine to use `u32::from_str` here although it allows a leading '+',
-                    // because '+' is not an unreserved character.
-                    </span><span class="kw">if let </span><span class="prelude-val">Ok</span>(scope_id) = zone_id.parse::&lt;u32&gt;() {
-                        scope_id
-                    } <span class="kw">else </span>{
-                        <span class="attr">#[cfg(not(unix))]
-                        </span><span class="kw">return </span><span class="prelude-val">Err</span>(io::Error::new(
-                            io::ErrorKind::InvalidInput,
-                            <span class="string">"invalid zone identifier value"</span>,
-                        ));
-                        <span class="attr">#[cfg(unix)]
-                        </span>nix::net::if_::if_nametoindex(zone_id)<span class="question-mark">?
-                    </span>}
-                } <span class="kw">else </span>{
-                    <span class="number">0
-                </span>};
-                <span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[SocketAddrV6::new(addr, port, <span class="number">0</span>, scope_id).into()].into_iter())
-            }
+            Host::Ipv6(addr) =&gt; <span class="prelude-val">Ok</span>(<span class="macro">vec!</span>[(addr, port).into()].into_iter()),
             Host::IpvFuture {} =&gt; <span class="prelude-val">Err</span>(io::Error::new(
                 io::ErrorKind::InvalidInput,
                 <span class="string">"address mechanism not supported"</span>,
@@ -799,22 +682,13 @@
         </span><span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
         </span>Ipv4Addr,
     ),
-    <span class="doccomment">/// An IPv6 host.
+    <span class="doccomment">/// An IPv4 address.
     </span><span class="attr">#[cfg_attr(not(feature = <span class="string">"net"</span>), non_exhaustive)]
-    </span>Ipv6 {
+    </span>Ipv6(
         <span class="doccomment">/// The address.
         </span><span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
-        </span>addr: Ipv6Addr,
-        <span class="doccomment">/// An optional non-empty zone identifier containing only [unreserved] characters.
-        ///
-        /// This is a [crate-specific syntax extension][ext].
-        /// If this is not desirable, set this field to `None`.
-        ///
-        /// [unreserved]: https://datatracker.ietf.org/doc/html/rfc3986/#section-2.3
-        /// [ext]: crate#crate-specific-syntax-extension
-        </span><span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
-        </span>zone_id: <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str&gt;,
-    },
+        </span>Ipv6Addr,
+    ),
     <span class="doccomment">/// An IP address of future version.
     ///
     /// This variant is marked as non-exhaustive because the API design
