@@ -406,10 +406,6 @@
 <a href="#404" id="404">404</a>
 <a href="#405" id="405">405</a>
 <a href="#406" id="406">406</a>
-<a href="#407" id="407">407</a>
-<a href="#408" id="408">408</a>
-<a href="#409" id="409">409</a>
-<a href="#410" id="410">410</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! Utilities for percent-encoding.
 
 </span><span class="kw">pub mod </span>encoder;
@@ -425,7 +421,7 @@
     vec::Vec,
 };
 <span class="kw">use </span>core::{cmp::Ordering, hash, iter::FusedIterator, marker::PhantomData, str};
-<span class="kw">use </span>encoder::{Encoder, Path, PathSegment};
+<span class="kw">use </span>encoder::{Encoder, Path};
 <span class="kw">use </span>ref_cast::{ref_cast_custom, RefCastCustom};
 
 <span class="doccomment">/// Percent-encoded string slices.
@@ -728,18 +724,14 @@
     /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
     /// ```
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Split&lt;<span class="lifetime">'_</span>, PathSegment&gt; {
+    </span><span class="kw">pub fn </span>segments(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Split&lt;<span class="lifetime">'_</span>, Path&gt; {
         <span class="kw">let </span>path_stripped = <span class="self">self</span>.inner.strip_prefix(<span class="string">'/'</span>).unwrap_or(<span class="kw-2">&amp;</span><span class="self">self</span>.inner);
 
-        <span class="kw">let </span><span class="kw-2">mut </span>split = path_stripped.split(<span class="string">'/'</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>split = EStr::new_validated(path_stripped).split(<span class="string">'/'</span>);
         <span class="kw">if </span><span class="self">self</span>.inner.is_empty() {
             split.next();
         }
-
-        Split {
-            inner: split,
-            encoder: PhantomData,
-        }
+        split
     }
 }
 

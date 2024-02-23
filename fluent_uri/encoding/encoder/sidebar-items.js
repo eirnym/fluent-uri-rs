@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["Fragment","Path","PathSegment","Query","RegName","Userinfo"],"trait":["Encoder"]};
+window.SIDEBAR_ITEMS = {"struct":["Fragment","Path","Query","RegName","Userinfo"],"trait":["Encoder"]};
