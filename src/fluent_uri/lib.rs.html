@@ -361,6 +361,9 @@
 <a href="#359" id="359">359</a>
 <a href="#360" id="360">360</a>
 <a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(clippy::let_unit_value)]
 #![warn(missing_debug_implementations, missing_docs, rust_2018_idioms)]
 #![forbid(unsafe_code)]
@@ -464,10 +467,13 @@
 /// See the documentation of [`Builder`] for examples of building a `Uri` from its components.
 </span><span class="attr">#[derive(Clone, Copy)]
 </span><span class="kw">pub struct </span>Uri&lt;T&gt; {
-    <span class="doccomment">/// Stores the value of the URI reference.
+    <span class="doccomment">/// Value of the URI reference.
     </span>val: T,
     <span class="doccomment">/// Metadata of the URI reference.
-    /// Guaranteed identical to parser output with `data` as input.
+    /// Should be identical to parser output with `data` as input.
+    ///
+    /// FIXME: `Builder` may violate the above requirement because
+    /// it accepts a `Host::RegName` with IPv4 address in it.
     </span>meta: Meta,
 }
 
