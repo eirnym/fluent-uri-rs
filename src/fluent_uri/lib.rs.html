@@ -418,7 +418,7 @@
     encoder::{Encoder, Fragment, Path, Query},
     EStr,
 };
-<span class="kw">use </span>internal::{Meta, ToUri};
+<span class="kw">use </span>internal::{Meta, ToUri, Val};
 
 <span class="doccomment">/// A [URI reference] defined in RFC 3986.
 ///
@@ -663,7 +663,7 @@
     }
 }
 
-<span class="kw">impl</span>&lt;T: Bos&lt;str&gt; + Default&gt; Default <span class="kw">for </span>Uri&lt;T&gt; {
+<span class="kw">impl</span>&lt;T: Val&gt; Default <span class="kw">for </span>Uri&lt;T&gt; {
     <span class="doccomment">/// Creates an empty URI reference.
     </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         Uri {
