@@ -1,1 +1,1 @@
-window.ALL_CRATES = ["fluent_uri"];
+window.ALL_CRATES = ["borrow_or_share","fluent_uri","proc_macro2","quote","ref_cast","ref_cast_impl","syn","unicode_ident"];

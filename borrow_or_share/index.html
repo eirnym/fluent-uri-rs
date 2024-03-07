@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Traits for either borrowing data or sharing references."><title>borrow_or_share - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../static.files/rustdoc-e935ef01ae1c1829.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="../static.files/" data-current-crate="borrow_or_share" data-themes="" data-resource-suffix="" data-rustdoc-version="1.78.0-nightly (7d3702e47 2024-03-06)" data-channel="nightly" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../static.files/storage-4c98445ec4002617.js"></script><script defer src="../crates.js"></script><script defer src="../static.files/main-12cf3b4f4f9dc36d.js"></script><noscript><link rel="stylesheet" href="../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../borrow_or_share/index.html">borrow_or_share</a><span class="version">0.1.0</span></h2></div><div class="sidebar-elems"><ul class="block">
+            <li><a id="all-types" href="all.html">All Items</a></li></ul><section><ul class="block"><li><a href="#traits">Traits</a></li></ul></section></div></nav><div class="sidebar-resizer"></div>
+    <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../borrow_or_share/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="#">borrow_or_share</a><button id="copy-path" title="Copy item path to clipboard"><img src="../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../src/borrow_or_share/lib.rs.html#1-218">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Traits for either borrowing data or sharing references.</p>
+<h2 id="walkthrough"><a class="doc-anchor" href="#walkthrough">§</a>Walkthrough</h2>
+<p>Suppose that you have a struct <code>Text&lt;T&gt;</code> where <code>T</code> may be <code>String</code> or <code>&amp;str</code>.
+You want to implement a generic method <code>as_str</code> on <code>Text</code> which returns
+a longest-living reference to the inner string.
+This is when <a href="trait.BorrowOrShare.html" title="trait borrow_or_share::BorrowOrShare"><code>BorrowOrShare</code></a> comes in handy:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>borrow_or_share::BorrowOrShare;
+
+<span class="kw">struct </span>Text&lt;T&gt;(T);
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'i</span>, <span class="lifetime">'o</span>, T: BorrowOrShare&lt;<span class="lifetime">'i</span>, <span class="lifetime">'o</span>, str&gt;&gt; Text&lt;T&gt; {
+    <span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
+        <span class="self">self</span>.<span class="number">0</span>.borrow_or_share()
+    }
+}
+
+<span class="comment">// The returned reference is borrowed from `*t` and lives as long as `t`.
+</span><span class="kw">fn </span>owned_as_str(t: <span class="kw-2">&amp;</span>Text&lt;String&gt;) -&gt; <span class="kw-2">&amp;</span>str {
+    t.as_str()
+}
+
+<span class="comment">// The returned reference is copied from `t.0` and lives longer than `t`.
+</span><span class="kw">fn </span>borrowed_as_str(t: Text&lt;<span class="kw-2">&amp;</span>str&gt;) -&gt; <span class="kw-2">&amp;</span>str {
+    t.as_str()
+}</code></pre></div>
+<p>The <a href="trait.BorrowOrShare.html" title="trait borrow_or_share::BorrowOrShare"><code>BorrowOrShare</code></a> trait takes two lifetime parameters <code>'i</code>, <code>'o</code>,
+and a type parameter <code>T</code>. Its <a href="trait.BorrowOrShare.html#tymethod.borrow_or_share" title="method borrow_or_share::BorrowOrShare::borrow_or_share"><code>borrow_or_share</code></a> method takes <code>&amp;'i self</code>
+and returns <code>&amp;'o T</code>. You can use the trait to write your own “data-borrowing or
+reference-sharing” functions, like the <code>as_str</code> method in the above example.</p>
+<p>The lifetime parameters on <a href="trait.BorrowOrShare.html" title="trait borrow_or_share::BorrowOrShare"><code>BorrowOrShare</code></a> can be quite restrictive when
+reference-sharing behavior is not needed, such as in an <a href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef"><code>AsRef</code></a> implementation.
+In such cases, <a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos</code></a> should be used instead:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>borrow_or_share::{BorrowOrShare, Bos};
+
+<span class="kw">struct </span>Text&lt;T&gt;(T);
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'i</span>, <span class="lifetime">'o</span>, T: BorrowOrShare&lt;<span class="lifetime">'i</span>, <span class="lifetime">'o</span>, str&gt;&gt; Text&lt;T&gt; {
+    <span class="kw">fn </span>as_str(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
+        <span class="self">self</span>.<span class="number">0</span>.borrow_or_share()
+    }
+}
+
+<span class="kw">impl</span>&lt;T: Bos&lt;str&gt;&gt; AsRef&lt;str&gt; <span class="kw">for </span>Text&lt;T&gt; {
+    <span class="kw">fn </span>as_ref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
+        <span class="self">self</span>.as_str()
+    }
+}</code></pre></div>
+<p>In the above example, the <code>as_str</code> method is also available on <code>Text&lt;T&gt;</code>
+where <code>T: Bos&lt;str&gt;</code>, because <a href="trait.BorrowOrShare.html" title="trait borrow_or_share::BorrowOrShare"><code>BorrowOrShare</code></a> is implemented for
+all types that implement <a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos</code></a>. It also works the other way round
+because <a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos</code></a> is a supertrait of <a href="trait.BorrowOrShare.html" title="trait borrow_or_share::BorrowOrShare"><code>BorrowOrShare</code></a>.</p>
+<p>Note that <a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos&lt;T&gt;</code></a> is also <a href="trait.Bos.html#foreign-impls" title="trait borrow_or_share::Bos">implemented for other types</a> such as <code>T</code>,
+<code>&amp;mut T</code>, <a href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box"><code>Box&lt;T&gt;</code></a>, and <a href="https://doc.rust-lang.org/nightly/alloc/rc/struct.Rc.html" title="struct alloc::rc::Rc"><code>Rc&lt;T&gt;</code></a>.
+Consider adding extra trait bounds, preferably on a function that
+constructs your type, if this is not desirable.</p>
+<p>You can also implement <a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos</code></a> for your own type, for example:</p>
+
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>borrow_or_share::Bos;
+
+<span class="kw">struct </span>Text&lt;<span class="lifetime">'a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">'a </span>str);
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Bos&lt;str&gt; <span class="kw">for </span>Text&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">type </span>Ref&lt;<span class="lifetime">'this</span>&gt; = <span class="kw-2">&amp;</span><span class="lifetime">'a </span>str <span class="kw">where </span><span class="self">Self</span>: <span class="lifetime">'this</span>;
+     
+    <span class="kw">fn </span>borrow_or_share(this: <span class="kw-2">&amp;</span><span class="self">Self</span>) -&gt; <span class="self">Self</span>::Ref&lt;<span class="lifetime">'_</span>&gt; {
+        this.<span class="number">0
+    </span>}
+}</code></pre></div>
+<h2 id="relation-between-bos-borrow-and-asref"><a class="doc-anchor" href="#relation-between-bos-borrow-and-asref">§</a>Relation between <a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos</code></a>, <a href="https://doc.rust-lang.org/nightly/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow"><code>Borrow</code></a>, and <a href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef"><code>AsRef</code></a></h2>
+<p><a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos</code></a> is similar to <a href="https://doc.rust-lang.org/nightly/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow"><code>Borrow</code></a> and <a href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef"><code>AsRef</code></a>, but different in a few aspects:</p>
+<ul>
+<li>The implementation of <a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos</code></a> for <code>&amp;T</code> copies the reference with lifetime unchanged
+instead of borrowing from it.</li>
+<li><a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos</code></a> does not have extra requirements on <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.Eq.html" title="trait core::cmp::Eq"><code>Eq</code></a>, <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html" title="trait core::cmp::Ord"><code>Ord</code></a>, and <a href="https://doc.rust-lang.org/nightly/core/hash/trait.Hash.html" title="trait core::hash::Hash"><code>Hash</code></a>
+implementations as <a href="https://doc.rust-lang.org/nightly/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow"><code>Borrow</code></a> does.</li>
+<li>Despite being safe to implement, <a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos</code></a> is not meant to be eagerly implemented as <a href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef"><code>AsRef</code></a> is.
+This crate only provides implementations of <a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos</code></a> for types that currently implement <a href="https://doc.rust-lang.org/nightly/core/borrow/trait.Borrow.html" title="trait core::borrow::Borrow"><code>Borrow</code></a>
+in the standard library. If this is too restrictive, feel free to copy the code pattern
+from this crate as you wish.</li>
+</ul>
+<h2 id="crate-features"><a class="doc-anchor" href="#crate-features">§</a>Crate features</h2>
+<ul>
+<li><code>std</code> (default): Enables <a href="trait.Bos.html" title="trait borrow_or_share::Bos"><code>Bos</code></a> implementations
+for <a href="std::ffi::OsString"><code>OsString</code></a> and <a href="std::path::PathBuf"><code>PathBuf</code></a>.</li>
+</ul>
+</div></details><h2 id="traits" class="section-header">Traits<a href="#traits" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="trait.BorrowOrShare.html" title="trait borrow_or_share::BorrowOrShare">BorrowOrShare</a></div><div class="desc docblock-short">A helper trait for writing “data-borrowing or reference-sharing” functions.</div></li><li><div class="item-name"><a class="trait" href="trait.Bos.html" title="trait borrow_or_share::Bos">Bos</a></div><div class="desc docblock-short">A trait for either borrowing data or sharing references.</div></li></ul></section></div></main></body></html>

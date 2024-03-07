@@ -561,19 +561,49 @@
 <a href="#559" id="559">559</a>
 <a href="#560" id="560">560</a>
 <a href="#561" id="561">561</a>
+<a href="#562" id="562">562</a>
+<a href="#563" id="563">563</a>
+<a href="#564" id="564">564</a>
+<a href="#565" id="565">565</a>
+<a href="#566" id="566">566</a>
+<a href="#567" id="567">567</a>
+<a href="#568" id="568">568</a>
+<a href="#569" id="569">569</a>
+<a href="#570" id="570">570</a>
+<a href="#571" id="571">571</a>
+<a href="#572" id="572">572</a>
+<a href="#573" id="573">573</a>
+<a href="#574" id="574">574</a>
+<a href="#575" id="575">575</a>
+<a href="#576" id="576">576</a>
+<a href="#577" id="577">577</a>
+<a href="#578" id="578">578</a>
+<a href="#579" id="579">579</a>
+<a href="#580" id="580">580</a>
+<a href="#581" id="581">581</a>
+<a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
 </pre></div><pre class="rust"><code><span class="kw">use crate</span>::{
     encoding::{imp::OCTET_TABLE_LO, table::<span class="kw-2">*</span>},
     internal::{AuthMeta, HostMeta, Meta},
     ParseError,
 };
-<span class="kw">use </span>core::{num::NonZeroU32, str};
+<span class="kw">use </span>core::{
+    num::NonZeroU32,
+    ops::{Deref, DerefMut},
+    str,
+};
 
 <span class="kw">type </span><span class="prelude-ty">Result</span>&lt;T&gt; = core::result::Result&lt;T, ParseError&gt;;
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>parse(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;Meta&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>parser = Parser {
-        bytes,
-        pos: <span class="number">0</span>,
+        reader: Reader::new(bytes),
         mark: <span class="number">0</span>,
         out: Meta::default(),
     };
@@ -611,10 +641,28 @@
 /// - All output indexes are within bounds and correctly ordered.
 /// - All URI components defined by output indexes are validated.
 </span><span class="kw">struct </span>Parser&lt;<span class="lifetime">'a</span>&gt; {
-    bytes: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8],
-    pos: usize,
+    reader: Reader&lt;<span class="lifetime">'a</span>&gt;,
     mark: usize,
     out: Meta,
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Reader&lt;<span class="lifetime">'a</span>&gt; {
+    bytes: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8],
+    pos: usize,
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Deref <span class="kw">for </span>Parser&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">type </span>Target = Reader&lt;<span class="lifetime">'a</span>&gt;;
+
+    <span class="kw">fn </span>deref(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="self">Self</span>::Target {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.reader
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; DerefMut <span class="kw">for </span>Parser&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>deref_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span><span class="self">Self</span>::Target {
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>.reader
+    }
 }
 
 <span class="kw">enum </span>PathKind {
@@ -634,12 +682,16 @@
     </span>SingleColon,
 }
 
-<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Parser&lt;<span class="lifetime">'a</span>&gt; {
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Reader&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(bytes: <span class="kw-2">&amp;</span><span class="lifetime">'a </span>[u8]) -&gt; <span class="self">Self </span>{
+        Reader { bytes, pos: <span class="number">0 </span>}
+    }
+
     <span class="kw">fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.bytes.len()
     }
 
-    <span class="kw">fn </span>has_remaining(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>has_remaining(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.pos &lt; <span class="self">self</span>.len()
     }
 
@@ -656,16 +708,6 @@
         <span class="comment">// INVARIANT: `pos` is non-decreasing.
         </span><span class="self">self</span>.pos += n;
         <span class="macro">debug_assert!</span>(<span class="self">self</span>.pos &lt;= <span class="self">self</span>.len());
-    }
-
-    <span class="kw">fn </span>mark(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="comment">// INVARIANT: `mark` is non-decreasing as `pos` is.
-        // `mark &lt;= pos` is preserved.
-        </span><span class="self">self</span>.mark = <span class="self">self</span>.pos;
-    }
-
-    <span class="kw">fn </span>marked_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.pos - <span class="self">self</span>.mark
     }
 
     <span class="comment">// Returns `true` iff any byte is read.
@@ -731,6 +773,188 @@
         </span>} <span class="kw">else </span>{
             <span class="bool-val">false
         </span>}
+    }
+
+    <span class="kw">fn </span>read_v6(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;[u16; <span class="number">8</span>]&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>segs = [<span class="number">0</span>; <span class="number">8</span>];
+        <span class="kw">let </span><span class="kw-2">mut </span>ellipsis_i = <span class="number">8</span>;
+
+        <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+        <span class="kw">while </span>i &lt; <span class="number">8 </span>{
+            <span class="kw">match </span><span class="self">self</span>.read_v6_segment() {
+                <span class="prelude-val">Some</span>(Seg::Normal(seg, colon)) =&gt; {
+                    <span class="kw">if </span>colon == (i == <span class="number">0 </span>|| i == ellipsis_i) {
+                        <span class="comment">// Preceding colon, triple colons, or no colon.
+                        </span><span class="kw">return </span><span class="prelude-val">None</span>;
+                    }
+                    segs[i] = seg;
+                    i += <span class="number">1</span>;
+                }
+                <span class="prelude-val">Some</span>(Seg::Ellipsis) =&gt; {
+                    <span class="kw">if </span>ellipsis_i != <span class="number">8 </span>{
+                        <span class="comment">// Multiple ellipses.
+                        </span><span class="kw">return </span><span class="prelude-val">None</span>;
+                    }
+                    ellipsis_i = i;
+                }
+                <span class="prelude-val">Some</span>(Seg::MaybeV4(colon)) =&gt; {
+                    <span class="kw">if </span>i &gt; <span class="number">6 </span>|| colon == (i == ellipsis_i) {
+                        <span class="comment">// Not enough space, triple colons, or no colon.
+                        </span><span class="kw">return </span><span class="prelude-val">None</span>;
+                    }
+                    <span class="kw">let </span>octets = <span class="self">self</span>.read_v4()<span class="question-mark">?</span>.to_be_bytes();
+                    segs[i] = u16::from_be_bytes([octets[<span class="number">0</span>], octets[<span class="number">1</span>]]);
+                    segs[i + <span class="number">1</span>] = u16::from_be_bytes([octets[<span class="number">2</span>], octets[<span class="number">3</span>]]);
+                    i += <span class="number">2</span>;
+                    <span class="kw">break</span>;
+                }
+                <span class="prelude-val">Some</span>(Seg::SingleColon) =&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
+                <span class="prelude-val">None </span>=&gt; <span class="kw">break</span>,
+            }
+        }
+
+        <span class="kw">if </span>ellipsis_i == <span class="number">8 </span>{
+            <span class="comment">// No ellipsis.
+            </span><span class="kw">if </span>i != <span class="number">8 </span>{
+                <span class="comment">// Too short.
+                </span><span class="kw">return </span><span class="prelude-val">None</span>;
+            }
+        } <span class="kw">else if </span>i == <span class="number">8 </span>{
+            <span class="comment">// Eliding nothing.
+            </span><span class="kw">return </span><span class="prelude-val">None</span>;
+        } <span class="kw">else </span>{
+            <span class="comment">// Shift the segments after the ellipsis to the right.
+            </span><span class="kw">for </span>j <span class="kw">in </span>(ellipsis_i..i).rev() {
+                segs[<span class="number">8 </span>- (i - j)] = segs[j];
+                segs[j] = <span class="number">0</span>;
+            }
+        }
+
+        <span class="prelude-val">Some</span>(segs)
+    }
+
+    <span class="kw">fn </span>read_v6_segment(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Seg&gt; {
+        <span class="kw">let </span>colon = <span class="self">self</span>.read_str(<span class="string">":"</span>);
+        <span class="kw">if </span>!<span class="self">self</span>.has_remaining() {
+            <span class="kw">return if </span>colon { <span class="prelude-val">Some</span>(Seg::SingleColon) } <span class="kw">else </span>{ <span class="prelude-val">None </span>};
+        }
+
+        <span class="kw">let </span>first = <span class="self">self</span>.peek(<span class="number">0</span>).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>x = <span class="kw">match </span>OCTET_TABLE_LO[first <span class="kw">as </span>usize] {
+            v <span class="kw">if </span>v &lt; <span class="number">128 </span>=&gt; v <span class="kw">as </span>u16,
+            <span class="kw">_ </span>=&gt; {
+                <span class="kw">return if </span>colon {
+                    <span class="kw">if </span>first == <span class="string">b':' </span>{
+                        <span class="comment">// INVARIANT: Skipping ":" is fine.
+                        </span><span class="self">self</span>.skip(<span class="number">1</span>);
+                        <span class="prelude-val">Some</span>(Seg::Ellipsis)
+                    } <span class="kw">else </span>{
+                        <span class="prelude-val">Some</span>(Seg::SingleColon)
+                    }
+                } <span class="kw">else </span>{
+                    <span class="prelude-val">None
+                </span>};
+            }
+        };
+        <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">1</span>;
+
+        <span class="kw">while </span>i &lt; <span class="number">4 </span>{
+            <span class="kw">if let </span><span class="prelude-val">Some</span>(b) = <span class="self">self</span>.peek(i) {
+                <span class="kw">match </span>OCTET_TABLE_LO[b <span class="kw">as </span>usize] {
+                    v <span class="kw">if </span>v &lt; <span class="number">128 </span>=&gt; {
+                        x = (x &lt;&lt; <span class="number">4</span>) | v <span class="kw">as </span>u16;
+                        i += <span class="number">1</span>;
+                        <span class="kw">continue</span>;
+                    }
+                    <span class="kw">_ if </span>b == <span class="string">b'.' </span>=&gt; <span class="kw">return </span><span class="prelude-val">Some</span>(Seg::MaybeV4(colon)),
+                    <span class="kw">_ </span>=&gt; <span class="kw">break</span>,
+                }
+            } <span class="kw">else </span>{
+                <span class="comment">// INVARIANT: Skipping `i` hexadecimal digits is fine.
+                </span><span class="self">self</span>.skip(i);
+                <span class="kw">return </span><span class="prelude-val">None</span>;
+            }
+        }
+        <span class="comment">// INVARIANT: Skipping `i` hexadecimal digits is fine.
+        </span><span class="self">self</span>.skip(i);
+        <span class="prelude-val">Some</span>(Seg::Normal(x, colon))
+    }
+
+    <span class="comment">// The marked length must be zero when this method is called.
+    </span><span class="kw">fn </span>read_v4_or_reg_name(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;HostMeta&gt; {
+        <span class="kw">let </span>v4 = <span class="self">self</span>.read_v4();
+        <span class="kw">let </span>v4_end = <span class="self">self</span>.pos;
+        <span class="self">self</span>.read(REG_NAME)<span class="question-mark">?</span>;
+
+        <span class="prelude-val">Ok</span>(<span class="kw">match </span>v4 {
+            <span class="prelude-val">Some</span>(_addr) <span class="kw">if </span><span class="self">self</span>.pos == v4_end =&gt; HostMeta::Ipv4(
+                <span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
+                </span>_addr.into(),
+            ),
+            <span class="kw">_ </span>=&gt; HostMeta::RegName,
+        })
+    }
+
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>read_v4(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>addr = <span class="self">self</span>.read_v4_octet()<span class="question-mark">? </span>&lt;&lt; <span class="number">24</span>;
+        <span class="kw">for </span>i <span class="kw">in </span>(<span class="number">0</span>..<span class="number">3</span>).rev() {
+            <span class="kw">if </span>!<span class="self">self</span>.read_str(<span class="string">"."</span>) {
+                <span class="kw">return </span><span class="prelude-val">None</span>;
+            }
+            addr |= <span class="self">self</span>.read_v4_octet()<span class="question-mark">? </span>&lt;&lt; (i * <span class="number">8</span>);
+        }
+        <span class="prelude-val">Some</span>(addr)
+    }
+
+    <span class="kw">fn </span>read_v4_octet(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>res = <span class="self">self</span>.peek_digit(<span class="number">0</span>)<span class="question-mark">?</span>;
+        <span class="kw">if </span>res == <span class="number">0 </span>{
+            <span class="comment">// INVARIANT: Skipping "0" is fine.
+            </span><span class="self">self</span>.skip(<span class="number">1</span>);
+            <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="number">0</span>);
+        }
+
+        <span class="kw">for </span>i <span class="kw">in </span><span class="number">1</span>..<span class="number">3 </span>{
+            <span class="kw">match </span><span class="self">self</span>.peek_digit(i) {
+                <span class="prelude-val">Some</span>(x) =&gt; res = res * <span class="number">10 </span>+ x,
+                <span class="prelude-val">None </span>=&gt; {
+                    <span class="comment">// INVARIANT: Skipping `i` digits is fine.
+                    </span><span class="self">self</span>.skip(i);
+                    <span class="kw">return </span><span class="prelude-val">Some</span>(res);
+                }
+            }
+        }
+        <span class="comment">// INVARIANT: Skipping 3 digits is fine.
+        </span><span class="self">self</span>.skip(<span class="number">3</span>);
+
+        (res &lt;= u8::MAX <span class="kw">as </span>u32).then_some(res)
+    }
+
+    <span class="kw">fn </span>peek_digit(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
+        <span class="self">self</span>.peek(i).and_then(|x| (x <span class="kw">as </span>char).to_digit(<span class="number">10</span>))
+    }
+
+    <span class="kw">fn </span>read_port(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="self">self</span>.read_str(<span class="string">":"</span>).then(|| {
+            <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
+            <span class="kw">while </span><span class="self">self</span>.peek_digit(i).is_some() {
+                i += <span class="number">1</span>;
+            }
+            <span class="comment">// INVARIANT: Skipping `i` digits is fine.
+            </span><span class="self">self</span>.skip(i);
+        });
+    }
+}
+
+<span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Parser&lt;<span class="lifetime">'a</span>&gt; {
+    <span class="kw">fn </span>mark(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="comment">// INVARIANT: `mark` is non-decreasing as `pos` is.
+        // `mark &lt;= pos` is preserved.
+        </span><span class="self">self</span>.mark = <span class="self">self</span>.pos;
+    }
+
+    <span class="kw">fn </span>marked_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+        <span class="self">self</span>.pos - <span class="self">self</span>.mark
     }
 
     <span class="kw">fn </span>parse_from_scheme(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
@@ -895,176 +1119,6 @@
             <span class="macro">err!</span>(<span class="self">self</span>.mark, InvalidIpLiteral);
         }
         <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(meta))
-    }
-
-    <span class="kw">fn </span>read_v6(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;[u16; <span class="number">8</span>]&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>segs = [<span class="number">0</span>; <span class="number">8</span>];
-        <span class="kw">let </span><span class="kw-2">mut </span>ellipsis_i = <span class="number">8</span>;
-
-        <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
-        <span class="kw">while </span>i &lt; <span class="number">8 </span>{
-            <span class="kw">match </span><span class="self">self</span>.read_v6_segment() {
-                <span class="prelude-val">Some</span>(Seg::Normal(seg, colon)) =&gt; {
-                    <span class="kw">if </span>colon == (i == <span class="number">0 </span>|| i == ellipsis_i) {
-                        <span class="comment">// Preceding colon, triple colons, or no colon.
-                        </span><span class="kw">return </span><span class="prelude-val">None</span>;
-                    }
-                    segs[i] = seg;
-                    i += <span class="number">1</span>;
-                }
-                <span class="prelude-val">Some</span>(Seg::Ellipsis) =&gt; {
-                    <span class="kw">if </span>ellipsis_i != <span class="number">8 </span>{
-                        <span class="comment">// Multiple ellipses.
-                        </span><span class="kw">return </span><span class="prelude-val">None</span>;
-                    }
-                    ellipsis_i = i;
-                }
-                <span class="prelude-val">Some</span>(Seg::MaybeV4(colon)) =&gt; {
-                    <span class="kw">if </span>i &gt; <span class="number">6 </span>|| colon == (i == ellipsis_i) {
-                        <span class="comment">// Not enough space, triple colons, or no colon.
-                        </span><span class="kw">return </span><span class="prelude-val">None</span>;
-                    }
-                    <span class="kw">let </span>octets = <span class="self">self</span>.read_v4()<span class="question-mark">?</span>.to_be_bytes();
-                    segs[i] = u16::from_be_bytes([octets[<span class="number">0</span>], octets[<span class="number">1</span>]]);
-                    segs[i + <span class="number">1</span>] = u16::from_be_bytes([octets[<span class="number">2</span>], octets[<span class="number">3</span>]]);
-                    i += <span class="number">2</span>;
-                    <span class="kw">break</span>;
-                }
-                <span class="prelude-val">Some</span>(Seg::SingleColon) =&gt; <span class="kw">return </span><span class="prelude-val">None</span>,
-                <span class="prelude-val">None </span>=&gt; <span class="kw">break</span>,
-            }
-        }
-
-        <span class="kw">if </span>ellipsis_i == <span class="number">8 </span>{
-            <span class="comment">// No ellipsis.
-            </span><span class="kw">if </span>i != <span class="number">8 </span>{
-                <span class="comment">// Too short.
-                </span><span class="kw">return </span><span class="prelude-val">None</span>;
-            }
-        } <span class="kw">else if </span>i == <span class="number">8 </span>{
-            <span class="comment">// Eliding nothing.
-            </span><span class="kw">return </span><span class="prelude-val">None</span>;
-        } <span class="kw">else </span>{
-            <span class="comment">// Shift the segments after the ellipsis to the right.
-            </span><span class="kw">for </span>j <span class="kw">in </span>(ellipsis_i..i).rev() {
-                segs[<span class="number">8 </span>- (i - j)] = segs[j];
-                segs[j] = <span class="number">0</span>;
-            }
-        }
-
-        <span class="prelude-val">Some</span>(segs)
-    }
-
-    <span class="kw">fn </span>read_v6_segment(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Seg&gt; {
-        <span class="kw">let </span>colon = <span class="self">self</span>.read_str(<span class="string">":"</span>);
-        <span class="kw">if </span>!<span class="self">self</span>.has_remaining() {
-            <span class="kw">return if </span>colon { <span class="prelude-val">Some</span>(Seg::SingleColon) } <span class="kw">else </span>{ <span class="prelude-val">None </span>};
-        }
-
-        <span class="kw">let </span>first = <span class="self">self</span>.peek(<span class="number">0</span>).unwrap();
-        <span class="kw">let </span><span class="kw-2">mut </span>x = <span class="kw">match </span>OCTET_TABLE_LO[first <span class="kw">as </span>usize] {
-            v <span class="kw">if </span>v &lt; <span class="number">128 </span>=&gt; v <span class="kw">as </span>u16,
-            <span class="kw">_ </span>=&gt; {
-                <span class="kw">return if </span>colon {
-                    <span class="kw">if </span>first == <span class="string">b':' </span>{
-                        <span class="comment">// INVARIANT: Skipping ":" is fine.
-                        </span><span class="self">self</span>.skip(<span class="number">1</span>);
-                        <span class="prelude-val">Some</span>(Seg::Ellipsis)
-                    } <span class="kw">else </span>{
-                        <span class="prelude-val">Some</span>(Seg::SingleColon)
-                    }
-                } <span class="kw">else </span>{
-                    <span class="prelude-val">None
-                </span>};
-            }
-        };
-        <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">1</span>;
-
-        <span class="kw">while </span>i &lt; <span class="number">4 </span>{
-            <span class="kw">if let </span><span class="prelude-val">Some</span>(b) = <span class="self">self</span>.peek(i) {
-                <span class="kw">match </span>OCTET_TABLE_LO[b <span class="kw">as </span>usize] {
-                    v <span class="kw">if </span>v &lt; <span class="number">128 </span>=&gt; {
-                        x = (x &lt;&lt; <span class="number">4</span>) | v <span class="kw">as </span>u16;
-                        i += <span class="number">1</span>;
-                        <span class="kw">continue</span>;
-                    }
-                    <span class="kw">_ if </span>b == <span class="string">b'.' </span>=&gt; <span class="kw">return </span><span class="prelude-val">Some</span>(Seg::MaybeV4(colon)),
-                    <span class="kw">_ </span>=&gt; <span class="kw">break</span>,
-                }
-            } <span class="kw">else </span>{
-                <span class="comment">// INVARIANT: Skipping `i` hexadecimal digits is fine.
-                </span><span class="self">self</span>.skip(i);
-                <span class="kw">return </span><span class="prelude-val">None</span>;
-            }
-        }
-        <span class="comment">// INVARIANT: Skipping `i` hexadecimal digits is fine.
-        </span><span class="self">self</span>.skip(i);
-        <span class="prelude-val">Some</span>(Seg::Normal(x, colon))
-    }
-
-    <span class="comment">// The marked length must be zero when this method is called.
-    </span><span class="kw">fn </span>read_v4_or_reg_name(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;HostMeta&gt; {
-        <span class="kw">let </span>v4 = <span class="self">self</span>.read_v4();
-        <span class="kw">let </span>v4_end = <span class="self">self</span>.pos;
-        <span class="self">self</span>.read(REG_NAME)<span class="question-mark">?</span>;
-
-        <span class="prelude-val">Ok</span>(<span class="kw">match </span>v4 {
-            <span class="prelude-val">Some</span>(_addr) <span class="kw">if </span><span class="self">self</span>.pos == v4_end =&gt; HostMeta::Ipv4(
-                <span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
-                </span>_addr.into(),
-            ),
-            <span class="kw">_ </span>=&gt; HostMeta::RegName,
-        })
-    }
-
-    <span class="kw">fn </span>read_v4(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>addr = <span class="self">self</span>.read_v4_octet()<span class="question-mark">? </span>&lt;&lt; <span class="number">24</span>;
-        <span class="kw">for </span>i <span class="kw">in </span>(<span class="number">0</span>..<span class="number">3</span>).rev() {
-            <span class="kw">if </span>!<span class="self">self</span>.read_str(<span class="string">"."</span>) {
-                <span class="kw">return </span><span class="prelude-val">None</span>;
-            }
-            addr |= <span class="self">self</span>.read_v4_octet()<span class="question-mark">? </span>&lt;&lt; (i * <span class="number">8</span>);
-        }
-        <span class="prelude-val">Some</span>(addr)
-    }
-
-    <span class="kw">fn </span>read_v4_octet(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>res = <span class="self">self</span>.peek_digit(<span class="number">0</span>)<span class="question-mark">?</span>;
-        <span class="kw">if </span>res == <span class="number">0 </span>{
-            <span class="comment">// INVARIANT: Skipping "0" is fine.
-            </span><span class="self">self</span>.skip(<span class="number">1</span>);
-            <span class="kw">return </span><span class="prelude-val">Some</span>(<span class="number">0</span>);
-        }
-
-        <span class="kw">for </span>i <span class="kw">in </span><span class="number">1</span>..<span class="number">3 </span>{
-            <span class="kw">match </span><span class="self">self</span>.peek_digit(i) {
-                <span class="prelude-val">Some</span>(x) =&gt; res = res * <span class="number">10 </span>+ x,
-                <span class="prelude-val">None </span>=&gt; {
-                    <span class="comment">// INVARIANT: Skipping `i` digits is fine.
-                    </span><span class="self">self</span>.skip(i);
-                    <span class="kw">return </span><span class="prelude-val">Some</span>(res);
-                }
-            }
-        }
-        <span class="comment">// INVARIANT: Skipping 3 digits is fine.
-        </span><span class="self">self</span>.skip(<span class="number">3</span>);
-
-        (res &lt;= u8::MAX <span class="kw">as </span>u32).then_some(res)
-    }
-
-    <span class="kw">fn </span>peek_digit(<span class="kw-2">&amp;</span><span class="self">self</span>, i: usize) -&gt; <span class="prelude-ty">Option</span>&lt;u32&gt; {
-        <span class="self">self</span>.peek(i).and_then(|x| (x <span class="kw">as </span>char).to_digit(<span class="number">10</span>))
-    }
-
-    <span class="kw">fn </span>read_port(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="self">self</span>.read_str(<span class="string">":"</span>).then(|| {
-            <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="number">0</span>;
-            <span class="kw">while </span><span class="self">self</span>.peek_digit(i).is_some() {
-                i += <span class="number">1</span>;
-            }
-            <span class="comment">// INVARIANT: Skipping `i` digits is fine.
-            </span><span class="self">self</span>.skip(i);
-        });
     }
 
     <span class="kw">fn </span>read_ipv_future(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
