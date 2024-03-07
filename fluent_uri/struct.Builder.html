@@ -6,7 +6,7 @@
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>fluent_uri::{component::{Host, Scheme}, encoding::EStr, Uri};
 
-<span class="kw">let </span>uri = Uri::builder()
+<span class="kw">let </span>uri: Uri&lt;String&gt; = Uri::builder()
     .scheme(Scheme::new(<span class="string">"foo"</span>))
     .authority(|b| {
         b.userinfo(EStr::new(<span class="string">"user"</span>))
@@ -96,7 +96,7 @@ the resulting <a href="struct.Uri.html" title="struct fluent_uri::Uri"><code>Uri
     self,
     addr: A,
     default_port: <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.u16.html">u16</a>
-) -&gt; <a class="struct" href="struct.Builder.html" title="struct fluent_uri::Builder">Builder</a>&lt;PortEnd&gt;</h4></section></summary><div class="docblock"><p>Sets the <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2">host</a> and the <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.3">port</a> subcomponent of authority to the given socket address.</p>
+) -&gt; <a class="struct" href="struct.Builder.html" title="struct fluent_uri::Builder">Builder</a>&lt;PortEnd&gt;</h4></section><span class="item-info"><div class="stab portability">Available on <strong>crate feature <code>net</code></strong> only.</div></span></summary><div class="docblock"><p>Sets the <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2">host</a> and the <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.3">port</a> subcomponent of authority to the given socket address.</p>
 <p>The port component is omitted when it equals the default value.</p>
 <h5 id="examples-2"><a class="doc-anchor" href="#examples-2">§</a>Examples</h5>
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>fluent_uri::{encoding::EStr, Uri};

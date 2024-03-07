@@ -6,7 +6,7 @@
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>fluent_uri::Uri;
 
-<span class="comment">// Drop a temporary `Uri` while keeping the reference to the path.
+<span class="comment">// Keep a reference to the path after dropping the `Uri`.
 </span><span class="kw">let </span>path = Uri::parse(<span class="string">"foo:bar"</span>)<span class="question-mark">?</span>.path();
 <span class="macro">assert_eq!</span>(path, <span class="string">"bar"</span>);</code></pre></div>
 <h2 id="examples"><a class="doc-anchor" href="#examples">§</a>Examples</h2>

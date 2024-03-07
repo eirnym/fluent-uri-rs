@@ -247,6 +247,17 @@
 <a href="#245" id="245">245</a>
 <a href="#246" id="246">246</a>
 <a href="#247" id="247">247</a>
+<a href="#248" id="248">248</a>
+<a href="#249" id="249">249</a>
+<a href="#250" id="250">250</a>
+<a href="#251" id="251">251</a>
+<a href="#252" id="252">252</a>
+<a href="#253" id="253">253</a>
+<a href="#254" id="254">254</a>
+<a href="#255" id="255">255</a>
+<a href="#256" id="256">256</a>
+<a href="#257" id="257">257</a>
+<a href="#258" id="258">258</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::{encoder::Encoder, Assert, EStr};
 <span class="kw">use </span>alloc::{borrow::ToOwned, string::String};
 <span class="kw">use </span>core::{borrow::Borrow, cmp::Ordering, hash, marker::PhantomData, ops::Deref};
@@ -255,13 +266,16 @@
 ///
 /// # Examples
 ///
-/// Encode key-value pairs to a query string.
+/// Encode key-value pairs to a query string and use it to build a [`Uri`].
 ///
 /// ```
-/// use fluent_uri::encoding::{
-///     encoder::{Encoder, Query},
-///     table::{self, Table},
-///     EString,
+/// use fluent_uri::{
+///     encoding::{
+///         encoder::{Encoder, Query},
+///         table::{self, Table},
+///         EStr, EString,
+///     },
+///     Uri,
 /// };
 ///
 /// struct Data;
@@ -282,7 +296,15 @@
 /// }
 ///
 /// assert_eq!(buf, "name=%E5%BC%A0%E4%B8%89&amp;speech=%C2%A1Ol%C3%A9%21");
+///
+/// let uri = Uri::builder()
+///     .path(EStr::new(""))
+///     .query(&amp;buf)
+///     .build();
+/// assert_eq!(uri.as_str(), "?name=%E5%BC%A0%E4%B8%89&amp;speech=%C2%A1Ol%C3%A9%21");
 /// ```
+///
+/// [`Uri`]: crate::Uri
 </span><span class="attr">#[derive(Clone, Default)]
 </span><span class="kw">pub struct </span>EString&lt;E: Encoder&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) buf: String,
