@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/encoding/estring.rs`."><title>estring.rs - source</title><script> if (window.location.protocol !== "file:") document.write(`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">`)</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e935ef01ae1c1829.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="fluent_uri" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0-nightly (2f090c30d 2024-03-23)" data-channel="nightly" data-search-js="search-42d8da7a6b9792c2.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-12cf3b4f4f9dc36d.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/encoding/estring.rs`."><title>estring.rs - source</title><script> if (window.location.protocol !== "file:") document.write(`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">`)</script><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e935ef01ae1c1829.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="fluent_uri" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0-nightly (c9f8f3438 2024-03-27)" data-channel="nightly" data-search-js="search-42d8da7a6b9792c2.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../static.files/storage-4c98445ec4002617.js"></script><script defer src="../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-12cf3b4f4f9dc36d.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
             <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
     <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../fluent_uri/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
@@ -258,6 +258,32 @@
 <a href="#256" id="256">256</a>
 <a href="#257" id="257">257</a>
 <a href="#258" id="258">258</a>
+<a href="#259" id="259">259</a>
+<a href="#260" id="260">260</a>
+<a href="#261" id="261">261</a>
+<a href="#262" id="262">262</a>
+<a href="#263" id="263">263</a>
+<a href="#264" id="264">264</a>
+<a href="#265" id="265">265</a>
+<a href="#266" id="266">266</a>
+<a href="#267" id="267">267</a>
+<a href="#268" id="268">268</a>
+<a href="#269" id="269">269</a>
+<a href="#270" id="270">270</a>
+<a href="#271" id="271">271</a>
+<a href="#272" id="272">272</a>
+<a href="#273" id="273">273</a>
+<a href="#274" id="274">274</a>
+<a href="#275" id="275">275</a>
+<a href="#276" id="276">276</a>
+<a href="#277" id="277">277</a>
+<a href="#278" id="278">278</a>
+<a href="#279" id="279">279</a>
+<a href="#280" id="280">280</a>
+<a href="#281" id="281">281</a>
+<a href="#282" id="282">282</a>
+<a href="#283" id="283">283</a>
+<a href="#284" id="284">284</a>
 </pre></div><pre class="rust"><code><span class="kw">use super</span>::{encoder::Encoder, Assert, EStr};
 <span class="kw">use </span>alloc::{borrow::ToOwned, string::String};
 <span class="kw">use </span>core::{borrow::Borrow, cmp::Ordering, hash, marker::PhantomData, ops::Deref};
@@ -267,22 +293,18 @@
 /// # Examples
 ///
 /// Encode key-value pairs to a query string and use it to build a [`Uri`].
+/// 
+/// [`Uri`]: crate::Uri
 ///
 /// ```
 /// use fluent_uri::{
 ///     encoding::{
-///         encoder::{Encoder, Query},
-///         table::{self, Table},
+///         encoder::{Encoder, MinData, Query},
+///         table::Table,
 ///         EStr, EString,
 ///     },
 ///     Uri,
 /// };
-///
-/// struct Data;
-///
-/// impl Encoder for Data {
-///     const TABLE: &amp;'static Table = &amp;table::UNRESERVED.enc();
-/// }
 ///
 /// let pairs = [("name", "张三"), ("speech", "¡Olé!")];
 /// let mut buf = EString::&lt;Query&gt;::new();
@@ -290,9 +312,18 @@
 ///     if !buf.is_empty() {
 ///         buf.push_byte(b'&amp;');
 ///     }
-///     buf.encode::&lt;Data&gt;(k);
+///
+///     // WARNING: Be careful not to confuse data with delimiters! Use `MinData`
+///     // to encode data contained in a URI unless you know what you're doing!
+///     //
+///     // `MinData` preserves only unreserved characters and encodes the others,
+///     // which is always safe to use but may be wasteful of memory because
+///     // usually not all reserved characters are used as delimiters and you can
+///     // choose to preserve some of them. See below for an example of creating
+///     // a custom encoder based on an existing one.
+///     buf.encode::&lt;MinData&gt;(k);
 ///     buf.push_byte(b'=');
-///     buf.encode::&lt;Data&gt;(v);
+///     buf.encode::&lt;MinData&gt;(v);
 /// }
 ///
 /// assert_eq!(buf, "name=%E5%BC%A0%E4%B8%89&amp;speech=%C2%A1Ol%C3%A9%21");
@@ -303,8 +334,29 @@
 ///     .build();
 /// assert_eq!(uri.as_str(), "?name=%E5%BC%A0%E4%B8%89&amp;speech=%C2%A1Ol%C3%A9%21");
 /// ```
+/// 
+/// Encode a path whose segments may contain the slash (`'/'`) character
+/// by using a custom encoder:
 ///
-/// [`Uri`]: crate::Uri
+/// ```
+/// use fluent_uri::encoding::{
+///     encoder::{Encoder, Path},
+///     table::Table,
+///     EString,
+/// };
+///
+/// struct PathSegment;
+///
+/// impl Encoder for PathSegment {
+///     const TABLE: &amp;'static Table = &amp;Path::TABLE.sub(&amp;Table::gen(b"/"));
+/// }
+///
+/// let mut path = EString::&lt;Path&gt;::new();
+/// path.push_byte(b'/');
+/// path.encode::&lt;PathSegment&gt;("foo/bar");
+///
+/// assert_eq!(path, "/foo%2Fbar");
+/// ```
 </span><span class="attr">#[derive(Clone, Default)]
 </span><span class="kw">pub struct </span>EString&lt;E: Encoder&gt; {
     <span class="kw">pub</span>(<span class="kw">crate</span>) buf: String,
