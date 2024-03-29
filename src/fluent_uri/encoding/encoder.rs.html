@@ -128,10 +128,10 @@
     <span class="kw">const </span>TABLE: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>Table = FRAGMENT;
 }
 
-<span class="doccomment">/// A minimum encoder suitable for encoding any data without conflicting with delimiters.
-</span><span class="kw">pub struct </span>MinData(());
+<span class="doccomment">/// An encoder suitable for encoding any data without conflicting with delimiters.
+</span><span class="kw">pub struct </span>Data(());
 
-<span class="kw">impl </span>Encoder <span class="kw">for </span>MinData {
+<span class="kw">impl </span>Encoder <span class="kw">for </span>Data {
     <span class="kw">const </span>TABLE: <span class="kw-2">&amp;</span><span class="lifetime">'static </span>Table = <span class="kw-2">&amp;</span>UNRESERVED.enc();
 }
 </code></pre></div></section></main></body></html>
