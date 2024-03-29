@@ -363,6 +363,7 @@
 <a href="#361" id="361">361</a>
 <a href="#362" id="362">362</a>
 <a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(clippy::let_unit_value)]
 #![warn(missing_debug_implementations, missing_docs, rust_2018_idioms)]
 #![forbid(unsafe_code)]
@@ -427,7 +428,8 @@
 ///
 /// Two variants of `Uri` are available: `Uri&lt;&amp;str&gt;` (borrowed) and `Uri&lt;String&gt;` (owned).
 ///
-/// `Uri&lt;&amp;'a str&gt;` outputs references with lifetime `'a` where possible:
+/// `Uri&lt;&amp;'a str&gt;` outputs references with lifetime `'a` where possible
+/// (thanks to [`borrow-or-share`](borrow_or_share)):
 ///
 /// ```
 /// use fluent_uri::Uri;
