@@ -492,7 +492,6 @@
 <a href="#490" id="490">490</a>
 <a href="#491" id="491">491</a>
 <a href="#492" id="492">492</a>
-<a href="#493" id="493">493</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(missing_debug_implementations)]
 
 </span><span class="kw">mod </span>state;
@@ -645,7 +644,6 @@
         <span class="kw">let </span>auth_meta = <span class="self">self</span>.meta.auth_meta.as_mut().unwrap();
         auth_meta.host_bounds.<span class="number">0 </span>= <span class="self">self</span>.buf.len() <span class="kw">as _</span>;
 
-        <span class="kw">let </span>addr = addr.into();
         <span class="kw">match </span>addr {
             IpAddr::V4(addr) =&gt; {
                 <span class="macro">write!</span>(<span class="self">self</span>.buf, <span class="string">"{}"</span>, addr).unwrap();
