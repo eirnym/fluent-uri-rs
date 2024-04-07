@@ -107,7 +107,7 @@
 <span class="kw">use </span>core::{num::NonZeroU32, ops, str};
 
 <span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
-</span><span class="kw">use </span>core::net::{Ipv4Addr, Ipv6Addr};
+</span><span class="kw">use </span><span class="kw">crate</span>::net::{Ipv4Addr, Ipv6Addr};
 
 <span class="kw">pub trait </span>Val: Default {}
 

@@ -437,6 +437,7 @@
 <a href="#435" id="435">435</a>
 <a href="#436" id="436">436</a>
 <a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
 </pre></div><pre class="rust"><code><span class="attr">#![allow(missing_debug_implementations)]
 
 </span><span class="kw">mod </span>state;
@@ -738,9 +739,6 @@
     }
 }
 
-<span class="attr">#[cfg(doc)]
-</span><span class="kw">use </span>core::net::{IpAddr, Ipv4Addr, Ipv6Addr};
-
 <span class="kw">impl</span>&lt;S: To&lt;HostEnd&gt;&gt; Builder&lt;S&gt; {
     <span class="doccomment">/// Sets the [host] subcomponent of authority.
     ///
@@ -756,6 +754,10 @@
     /// the resulting [`Uri`] will output a [`Host::Ipv4`] variant instead.
     ///
     /// [host]: https://datatracker.ietf.org/doc/html/rfc3986/#section-3.2.2
+    /// [`Ipv4Addr`]: std::net::Ipv4Addr
+    /// [`IpAddr::V4`]: std::net::IpAddr::V4
+    /// [`Ipv6Addr`]: std::net::Ipv6Addr
+    /// [`IpAddr::V6`]: std::net::IpAddr::V6
     ///
     /// # Examples
     ///

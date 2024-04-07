@@ -415,7 +415,7 @@
 <span class="kw">use </span>ref_cast::{ref_cast_custom, RefCastCustom};
 
 <span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
-</span><span class="kw">use </span>core::net::{IpAddr, Ipv4Addr, Ipv6Addr};
+</span><span class="kw">use </span><span class="kw">crate</span>::net::{IpAddr, Ipv4Addr, Ipv6Addr};
 
 <span class="attr">#[cfg(all(feature = <span class="string">"net"</span>, feature = <span class="string">"std"</span>))]
 </span><span class="kw">use </span>std::{
