@@ -43,8 +43,8 @@ foo(uri);
 <li><code>Result&lt;Uri&lt;&amp;str&gt;, ParseError&gt;</code> for <code>I = &amp;str</code>;</li>
 <li><code>Result&lt;Uri&lt;String&gt;, ParseError&lt;String&gt;&gt;</code> for <code>I = String</code>.</li>
 </ul>
-<p>Returns <code>Ok</code> if and only if the string matches the <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-4.1"><code>URI-reference</code></a>
-ABNF rule from RFC 3986.</p>
+<p>When not panicking, returns <code>Ok</code> if and only if the string matches
+the <a href="https://datatracker.ietf.org/doc/html/rfc3986/#section-4.1"><code>URI-reference</code></a> ABNF rule from RFC 3986.</p>
 <p>You may recover an input <a href="https://doc.rust-lang.org/nightly/alloc/string/struct.String.html" title="struct alloc::string::String"><code>String</code></a> by calling <a href="struct.ParseError.html#method.into_input" title="method fluent_uri::ParseError::into_input"><code>ParseError::into_input</code></a>.</p>
 <h5 id="panics"><a class="doc-anchor" href="#panics">§</a>Panics</h5>
 <p>Panics if the input length is greater than <a href="https://doc.rust-lang.org/nightly/std/primitive.u32.html#associatedconstant.MAX" title="associated constant u32::MAX"><code>u32::MAX</code></a>.</p>

@@ -503,8 +503,8 @@
     /// - `Result&lt;Uri&lt;&amp;str&gt;, ParseError&gt;` for `I = &amp;str`;
     /// - `Result&lt;Uri&lt;String&gt;, ParseError&lt;String&gt;&gt;` for `I = String`.
     ///
-    /// Returns `Ok` if and only if the string matches the [`URI-reference`]
-    /// ABNF rule from RFC 3986.
+    /// When not panicking, returns `Ok` if and only if the string matches
+    /// the [`URI-reference`] ABNF rule from RFC 3986.
     ///
     /// You may recover an input [`String`] by calling [`ParseError::into_input`].
     ///
