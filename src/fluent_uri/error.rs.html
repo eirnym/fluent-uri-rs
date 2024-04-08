@@ -68,12 +68,12 @@
     </span>InvalidOctet,
     <span class="doccomment">/// Unexpected character that is not allowed by the URI syntax.
     ///
-    /// The error index points to the character.
+    /// The error index points to the first byte of the character.
     </span>UnexpectedChar,
-    <span class="doccomment">/// Invalid IP literal address.
+    <span class="doccomment">/// Invalid IPv6 address.
     ///
-    /// The error index points to the preceding left square bracket "[".
-    </span>InvalidIpLiteral,
+    /// The error index points to the first byte of the address.
+    </span>InvalidIpv6Addr,
 }
 
 <span class="doccomment">/// An error occurred when parsing URI references.

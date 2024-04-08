@@ -576,18 +576,6 @@
 <a href="#574" id="574">574</a>
 <a href="#575" id="575">575</a>
 <a href="#576" id="576">576</a>
-<a href="#577" id="577">577</a>
-<a href="#578" id="578">578</a>
-<a href="#579" id="579">579</a>
-<a href="#580" id="580">580</a>
-<a href="#581" id="581">581</a>
-<a href="#582" id="582">582</a>
-<a href="#583" id="583">583</a>
-<a href="#584" id="584">584</a>
-<a href="#585" id="585">585</a>
-<a href="#586" id="586">586</a>
-<a href="#587" id="587">587</a>
-<a href="#588" id="588">588</a>
 </pre></div><pre class="rust"><code><span class="kw">use crate</span>::{
     encoding::{imp::OCTET_TABLE_LO, table::<span class="kw-2">*</span>},
     internal::{AuthMeta, HostMeta, Meta},
@@ -604,7 +592,6 @@
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>parse(bytes: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;Meta&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>parser = Parser {
         reader: Reader::new(bytes),
-        mark: <span class="number">0</span>,
         out: Meta::default(),
     };
     parser.parse_from_scheme()<span class="question-mark">?</span>;
@@ -626,13 +613,12 @@
 ///
 /// # Invariants
 ///
-/// `mark &lt;= pos &lt;= len`, where `pos` and `mark` are non-decreasing
-/// and `bytes[..pos]` is ASCII.
+/// `pos &lt;= len`, `pos` is non-decreasing and `bytes[..pos]` is ASCII.
 ///
 /// # Preconditions and guarantees
 ///
 /// Before parsing, ensure that `len` is no larger than `u32::MAX`
-/// and that `pos`, `mark` and `out` are default initialized.
+/// and that `pos` and `out` are default initialized.
 ///
 /// Start and finish parsing by calling `parse_from_scheme`.
 /// The following are guaranteed when parsing succeeds:
@@ -642,7 +628,6 @@
 /// - All URI components defined by output indexes are validated.
 </span><span class="kw">struct </span>Parser&lt;<span class="lifetime">'a</span>&gt; {
     reader: Reader&lt;<span class="lifetime">'a</span>&gt;,
-    mark: usize,
     out: Meta,
 }
 
@@ -880,8 +865,7 @@
         <span class="prelude-val">Some</span>(Seg::Normal(x, colon))
     }
 
-    <span class="comment">// The marked length must be zero when this method is called.
-    </span><span class="kw">fn </span>read_v4_or_reg_name(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;HostMeta&gt; {
+    <span class="kw">fn </span>read_v4_or_reg_name(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;HostMeta&gt; {
         <span class="kw">let </span>v4 = <span class="self">self</span>.read_v4();
         <span class="kw">let </span>v4_end = <span class="self">self</span>.pos;
         <span class="self">self</span>.read(REG_NAME)<span class="question-mark">?</span>;
@@ -944,19 +928,52 @@
             </span><span class="self">self</span>.skip(i);
         });
     }
+
+    <span class="kw">fn </span>read_host(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;HostMeta&gt; {
+        <span class="kw">match </span><span class="self">self</span>.read_ip_literal()<span class="question-mark">? </span>{
+            <span class="prelude-val">Some</span>(host) =&gt; <span class="prelude-val">Ok</span>(host),
+            <span class="prelude-val">None </span>=&gt; <span class="self">self</span>.read_v4_or_reg_name(),
+        }
+    }
+
+    <span class="kw">fn </span>read_ip_literal(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;HostMeta&gt;&gt; {
+        <span class="kw">if </span>!<span class="self">self</span>.read_str(<span class="string">"["</span>) {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
+        }
+
+        <span class="kw">let </span>start = <span class="self">self</span>.pos;
+
+        <span class="kw">let </span>meta = <span class="kw">if let </span><span class="prelude-val">Some</span>(_addr) = <span class="self">self</span>.read_v6() {
+            HostMeta::Ipv6(
+                <span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
+                </span>_addr.into(),
+            )
+        } <span class="kw">else if </span><span class="self">self</span>.pos == start {
+            <span class="self">self</span>.read_ipv_future()<span class="question-mark">?</span>;
+            HostMeta::IpvFuture
+        } <span class="kw">else </span>{
+            <span class="macro">err!</span>(start, InvalidIpv6Addr);
+        };
+
+        <span class="kw">if </span>!<span class="self">self</span>.read_str(<span class="string">"]"</span>) {
+            <span class="macro">err!</span>(<span class="self">self</span>.pos, UnexpectedChar);
+        }
+        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(meta))
+    }
+
+    <span class="kw">fn </span>read_ipv_future(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">if </span><span class="macro">matches!</span>(<span class="self">self</span>.peek(<span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="string">b'v' </span>| <span class="string">b'V'</span>)) {
+            <span class="comment">// INVARIANT: Skipping "v" or "V" is fine.
+            </span><span class="self">self</span>.skip(<span class="number">1</span>);
+            <span class="kw">if </span><span class="self">self</span>.read(HEXDIG)<span class="question-mark">? </span>&amp;&amp; <span class="self">self</span>.read_str(<span class="string">"."</span>) &amp;&amp; <span class="self">self</span>.read(IPV_FUTURE)<span class="question-mark">? </span>{
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(());
+            }
+        }
+        <span class="macro">err!</span>(<span class="self">self</span>.pos, UnexpectedChar);
+    }
 }
 
 <span class="kw">impl</span>&lt;<span class="lifetime">'a</span>&gt; Parser&lt;<span class="lifetime">'a</span>&gt; {
-    <span class="kw">fn </span>mark(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="comment">// INVARIANT: `mark` is non-decreasing as `pos` is.
-        // `mark &lt;= pos` is preserved.
-        </span><span class="self">self</span>.mark = <span class="self">self</span>.pos;
-    }
-
-    <span class="kw">fn </span>marked_len(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.pos - <span class="self">self</span>.mark
-    }
-
     <span class="kw">fn </span>parse_from_scheme(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
         <span class="comment">// Mark initially set to 0.
         </span><span class="self">self</span>.read(SCHEME)<span class="question-mark">?</span>;
@@ -976,7 +993,7 @@
             } <span class="kw">else </span>{
                 <span class="self">self</span>.parse_from_path(PathKind::General)
             };
-        } <span class="kw">else if </span><span class="self">self</span>.marked_len() == <span class="number">0 </span>{
+        } <span class="kw">else if </span><span class="self">self</span>.pos == <span class="number">0 </span>{
             <span class="comment">// Nothing read.
             </span><span class="kw">if </span><span class="self">self</span>.read_str(<span class="string">"//"</span>) {
                 <span class="kw">return </span><span class="self">self</span>.parse_from_authority();
@@ -990,13 +1007,15 @@
         <span class="kw">let </span>host;
         <span class="kw">let </span>start = <span class="self">self</span>.pos;
 
-        <span class="comment">// This table contains userinfo, reg-name, ":", and port.
+        <span class="comment">// This table contains userinfo, reg-name, ":", and port
+        // and is equivalent to `USERINFO`.
         </span><span class="kw">const </span>TABLE: <span class="kw-2">&amp;</span>Table = <span class="kw-2">&amp;</span>USERINFO.shl(<span class="number">1</span>).or(<span class="kw-2">&amp;</span>Table::gen(<span class="string">b":"</span>));
 
         <span class="comment">// The number of colons read.
         </span><span class="kw">let </span><span class="kw-2">mut </span>colon_cnt = <span class="number">0</span>;
 
-        <span class="self">self</span>.mark();
+        <span class="kw">let </span>auth_start = <span class="self">self</span>.pos;
+
         <span class="self">self</span>.read_enc(TABLE, |v| {
             colon_cnt += (v &amp; <span class="number">1</span>) <span class="kw">as </span>u32;
         })<span class="question-mark">?</span>;
@@ -1006,15 +1025,15 @@
             // INVARIANT: Skipping "@" is fine.
             </span><span class="self">self</span>.skip(<span class="number">1</span>);
 
-            <span class="self">self</span>.mark();
-
+            <span class="kw">let </span>host_start = <span class="self">self</span>.pos;
             <span class="kw">let </span>meta = <span class="self">self</span>.read_host()<span class="question-mark">?</span>;
-            host = (<span class="self">self</span>.mark, <span class="self">self</span>.pos, meta);
+            host = (host_start, <span class="self">self</span>.pos, meta);
+
             <span class="self">self</span>.read_port();
-        } <span class="kw">else if </span><span class="self">self</span>.marked_len() == <span class="number">0 </span>{
+        } <span class="kw">else if </span><span class="self">self</span>.pos == auth_start {
             <span class="comment">// Nothing read. We're now at the start of an IP literal or the path.
             </span><span class="kw">if let </span><span class="prelude-val">Some</span>(meta) = <span class="self">self</span>.read_ip_literal()<span class="question-mark">? </span>{
-                host = (<span class="self">self</span>.mark, <span class="self">self</span>.pos, meta);
+                host = (auth_start, <span class="self">self</span>.pos, meta);
                 <span class="self">self</span>.read_port();
             } <span class="kw">else </span>{
                 <span class="comment">// Empty authority.
@@ -1044,7 +1063,7 @@
                 }
                 <span class="comment">// Multiple colons.
                 </span><span class="kw">_ </span>=&gt; {
-                    <span class="kw">let </span><span class="kw-2">mut </span>i = <span class="self">self</span>.mark;
+                    <span class="kw">let </span><span class="kw-2">mut </span>i = auth_start;
                     <span class="kw">loop </span>{
                         <span class="comment">// There must be a colon in the way.
                         </span><span class="kw">let </span>x = <span class="self">self</span>.get(i);
@@ -1061,9 +1080,9 @@
 
             <span class="comment">// The entire host is already read so the index is within bounds.
             </span><span class="self">self</span>.bytes = <span class="kw-2">&amp;</span><span class="self">self</span>.bytes[..host_end];
-            <span class="comment">// INVARIANT: It holds that `mark &lt;= pos &lt;= len`.
+            <span class="comment">// INVARIANT: It holds that `auth_start &lt;= pos &lt;= len`.
             // Here `pos` may decrease but will be restored later.
-            </span><span class="self">self</span>.pos = <span class="self">self</span>.mark;
+            </span><span class="self">self</span>.pos = auth_start;
 
             <span class="kw">let </span>v4 = <span class="self">self</span>.read_v4();
             <span class="kw">let </span>meta = <span class="kw">match </span>v4 {
@@ -1074,7 +1093,7 @@
                 <span class="kw">_ </span>=&gt; HostMeta::RegName,
             };
 
-            host = (<span class="self">self</span>.mark, host_end, meta);
+            host = (auth_start, host_end, meta);
 
             <span class="comment">// Restore the state.
             // INVARIANT: Restoring the state would not affect the invariants.
@@ -1087,49 +1106,6 @@
             host_meta: host.<span class="number">2</span>,
         });
         <span class="self">self</span>.parse_from_path(PathKind::AbEmpty)
-    }
-
-    <span class="comment">// The marked length must be zero when this method is called.
-    </span><span class="kw">fn </span>read_host(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;HostMeta&gt; {
-        <span class="kw">match </span><span class="self">self</span>.read_ip_literal()<span class="question-mark">? </span>{
-            <span class="prelude-val">Some</span>(host) =&gt; <span class="prelude-val">Ok</span>(host),
-            <span class="prelude-val">None </span>=&gt; <span class="self">self</span>.read_v4_or_reg_name(),
-        }
-    }
-
-    <span class="comment">// The marked length must be zero when this method is called.
-    </span><span class="kw">fn </span>read_ip_literal(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;HostMeta&gt;&gt; {
-        <span class="kw">if </span>!<span class="self">self</span>.read_str(<span class="string">"["</span>) {
-            <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>);
-        }
-
-        <span class="kw">let </span>meta = <span class="kw">if let </span><span class="prelude-val">Some</span>(_addr) = <span class="self">self</span>.read_v6() {
-            HostMeta::Ipv6(
-                <span class="attr">#[cfg(feature = <span class="string">"net"</span>)]
-                </span>_addr.into(),
-            )
-        } <span class="kw">else if </span><span class="self">self</span>.marked_len() == <span class="number">1 </span>{
-            <span class="self">self</span>.read_ipv_future()<span class="question-mark">?</span>;
-            HostMeta::IpvFuture
-        } <span class="kw">else </span>{
-            <span class="macro">err!</span>(<span class="self">self</span>.mark, InvalidIpLiteral);
-        };
-
-        <span class="kw">if </span>!<span class="self">self</span>.read_str(<span class="string">"]"</span>) {
-            <span class="macro">err!</span>(<span class="self">self</span>.mark, InvalidIpLiteral);
-        }
-        <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(meta))
-    }
-
-    <span class="kw">fn </span>read_ipv_future(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
-        <span class="kw">if </span><span class="macro">matches!</span>(<span class="self">self</span>.peek(<span class="number">0</span>), <span class="prelude-val">Some</span>(<span class="string">b'v' </span>| <span class="string">b'V'</span>)) {
-            <span class="comment">// INVARIANT: Skipping "v" or "V" is fine.
-            </span><span class="self">self</span>.skip(<span class="number">1</span>);
-            <span class="kw">if </span><span class="self">self</span>.read(HEXDIG)<span class="question-mark">? </span>&amp;&amp; <span class="self">self</span>.read_str(<span class="string">"."</span>) &amp;&amp; <span class="self">self</span>.read(IPV_FUTURE)<span class="question-mark">? </span>{
-                <span class="kw">return </span><span class="prelude-val">Ok</span>(());
-            }
-        }
-        <span class="macro">err!</span>(<span class="self">self</span>.mark, InvalidIpLiteral);
     }
 
     <span class="kw">fn </span>parse_from_path(<span class="kw-2">&amp;mut </span><span class="self">self</span>, kind: PathKind) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
@@ -1157,7 +1133,7 @@
                 }
 
                 <span class="self">self</span>.read(PATH)<span class="question-mark">?</span>;
-                (<span class="self">self</span>.mark <span class="kw">as _</span>, <span class="self">self</span>.pos <span class="kw">as _</span>)
+                (<span class="number">0</span>, <span class="self">self</span>.pos <span class="kw">as _</span>)
             }
         };
 

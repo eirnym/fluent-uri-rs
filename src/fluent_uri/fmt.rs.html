@@ -148,7 +148,7 @@
         <span class="kw">let </span>msg = <span class="kw">match </span><span class="self">self</span>.kind {
             ParseErrorKind::InvalidOctet =&gt; <span class="string">"invalid percent-encoded octet at index "</span>,
             ParseErrorKind::UnexpectedChar =&gt; <span class="string">"unexpected character at index "</span>,
-            ParseErrorKind::InvalidIpLiteral =&gt; <span class="string">"invalid IP literal at index "</span>,
+            ParseErrorKind::InvalidIpv6Addr =&gt; <span class="string">"invalid IPv6 address at index "</span>,
         };
         <span class="macro">write!</span>(f, <span class="string">"{}{}"</span>, msg, <span class="self">self</span>.index)
     }
