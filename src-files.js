@@ -1,6 +1,6 @@
 var srcIndex = new Map(JSON.parse('[\
 ["borrow_or_share",["",[],["lib.rs"]]],\
-["fluent_uri",["",[["builder",[],["mod.rs","state.rs"]],["encoding",[],["encoder.rs","estring.rs","imp.rs","mod.rs","table.rs"]]],["component.rs","error.rs","fmt.rs","internal.rs","lib.rs","parser.rs"]]],\
+["fluent_uri",["",[["builder",[],["mod.rs","state.rs"]],["encoding",[],["encoder.rs","estring.rs","imp.rs","mod.rs","table.rs"]]],["component.rs","error.rs","fmt.rs","internal.rs","lib.rs","parser.rs","resolver.rs"]]],\
 ["proc_macro2",["",[],["detection.rs","extra.rs","fallback.rs","lib.rs","marker.rs","parse.rs","rcvec.rs","wrapper.rs"]]],\
 ["quote",["",[],["ext.rs","format.rs","ident_fragment.rs","lib.rs","runtime.rs","spanned.rs","to_tokens.rs"]]],\
 ["ref_cast",["",[],["custom.rs","layout.rs","lib.rs","trivial.rs"]]],\

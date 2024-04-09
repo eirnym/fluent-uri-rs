@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/component.rs`."><title>component.rs - source</title><script> if (window.location.protocol !== "file:") document.write(`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">`)</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9e1300b5663a8a03.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fluent_uri" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0-nightly (9d5cdf75a 2024-04-07)" data-channel="nightly" data-search-js="search-ffac13a0df2b1870.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-c97aec732c613ca4.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/component.rs`."><title>component.rs - source</title><script> if (window.location.protocol !== "file:") document.write(`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2">`)</script><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-9e1300b5663a8a03.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="fluent_uri" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0-nightly (ab5bda1aa 2024-04-08)" data-channel="nightly" data-search-js="search-ffac13a0df2b1870.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-c97aec732c613ca4.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title">
             <h2>Files</h2></div></nav><div class="sidebar-resizer"></div>
     <main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../fluent_uri/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
@@ -483,7 +483,7 @@
     /// assert_eq!(uri.scheme().unwrap().as_str(), "http");
     /// let uri = Uri::parse("HTTP://EXAMPLE.COM/")?;
     /// assert_eq!(uri.scheme().unwrap().as_str(), "HTTP");
-    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// # Ok::&lt;_, fluent_uri::error::ParseError&gt;(())
     /// ```
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>str {
@@ -506,7 +506,7 @@
     </span><span class="attr">#[ref_cast_custom]
     </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>new(uri: <span class="kw-2">&amp;</span>Uri&lt;T&gt;) -&gt; <span class="kw-2">&amp;</span>Authority&lt;T&gt;;
 
-    <span class="kw">fn </span>meta(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>AuthMeta {
+    <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>meta(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>AuthMeta {
         <span class="self">self</span>.uri.auth_meta.as_ref().unwrap()
     }
 
@@ -532,7 +532,7 @@
     /// let uri = Uri::parse("ftp://user@[fe80::abcd]:6780/")?;
     /// let authority = uri.authority().unwrap();
     /// assert_eq!(authority.as_str(), "user@[fe80::abcd]:6780");
-    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// # Ok::&lt;_, fluent_uri::error::ParseError&gt;(())
     /// ```
     </span><span class="kw">pub fn </span>as_str(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
         <span class="self">self</span>.uri.slice(<span class="self">self</span>.start(), <span class="self">self</span>.end())
@@ -550,7 +550,7 @@
     /// let uri = Uri::parse("ftp://user@192.168.1.24/")?;
     /// let authority = uri.authority().unwrap();
     /// assert_eq!(authority.userinfo().unwrap(), "user");
-    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// # Ok::&lt;_, fluent_uri::error::ParseError&gt;(())
     /// ```
     </span><span class="kw">pub fn </span>userinfo(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'o </span>EStr&lt;Userinfo&gt;&gt; {
         <span class="kw">let </span>(start, host_start) = (<span class="self">self</span>.start(), <span class="self">self</span>.host_bounds().<span class="number">0</span>);
@@ -571,7 +571,7 @@
     /// let uri = Uri::parse("ftp://user@[::1]/")?;
     /// let authority = uri.authority().unwrap();
     /// assert_eq!(authority.host(), "[::1]");
-    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// # Ok::&lt;_, fluent_uri::error::ParseError&gt;(())
     /// ```
     </span><span class="kw">pub fn </span>host(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'o </span>str {
         <span class="kw">let </span>(start, end) = <span class="self">self</span>.host_bounds();
@@ -605,7 +605,7 @@
     /// let authority = uri.authority().unwrap();
     /// assert_eq!(authority.host_parsed(), Host::RegName(EStr::new("localhost")));
     ///
-    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// # Ok::&lt;_, fluent_uri::error::ParseError&gt;(())
     /// ```
     </span><span class="kw">pub fn </span>host_parsed(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; Host&lt;<span class="lifetime">'o</span>&gt; {
         <span class="kw">match </span><span class="self">self</span>.meta().host_meta {
@@ -652,7 +652,7 @@
     /// let uri = Uri::parse("//localhost:66666/")?;
     /// let authority = uri.authority().unwrap();
     /// assert_eq!(authority.port(), Some("66666"));
-    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// # Ok::&lt;_, fluent_uri::error::ParseError&gt;(())
     /// ```
     </span><span class="kw">pub fn </span>port(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span><span class="lifetime">'o </span>str&gt; {
         <span class="kw">let </span>(host_end, end) = (<span class="self">self</span>.host_bounds().<span class="number">1</span>, <span class="self">self</span>.end());
@@ -687,7 +687,7 @@
     /// let uri = Uri::parse("//localhost:66666/")?;
     /// let authority = uri.authority().unwrap();
     /// assert!(authority.port_to_u16().is_err());
-    /// # Ok::&lt;_, fluent_uri::ParseError&gt;(())
+    /// # Ok::&lt;_, fluent_uri::error::ParseError&gt;(())
     /// ```
     </span><span class="kw">pub fn </span>port_to_u16(<span class="kw-2">&amp;</span><span class="lifetime">'i </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="prelude-ty">Option</span>&lt;u16&gt;, ParseIntError&gt; {
         <span class="self">self</span>.port()

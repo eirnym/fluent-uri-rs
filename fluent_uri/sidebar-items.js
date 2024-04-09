@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["component","encoding"],"struct":["Builder","ParseError","Uri"]};
+window.SIDEBAR_ITEMS = {"mod":["component","encoding","error"],"struct":["Builder","Uri"]};
